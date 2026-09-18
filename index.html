@@ -3,341 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C1 Speaking Activity: PR Crisis Resolution</title>
+    <title>C1 Speaking Challenge: The Eco-Fest Summit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --bg-main: #f4f7f6;
-            --bg-card: #ffffff;
-            --primary: #2c3e50;
-            --accent: #e74c3c;
-            --text-dark: #333333;
-            --text-muted: #666666;
-            --border-color: #e2e8f0;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            transition: background-color 0.3s;
-        }
-
-        @keyframes flash {
-            from { background-color: #cc0000; }
-            to { background-color: #990000; }
-        }
-
-        .timer-container {
-            text-align: center;
-        }
-
-        .timer-display {
-            font-size: 3rem;
-            font-weight: bold;
-            font-variant-numeric: tabular-nums;
-            margin-bottom: 10px;
-        }
-
-        .timer-controls button {
-            background-color: transparent;
-            color: white;
-            border: 2px solid white;
-            padding: 8px 16px;
-            margin: 0 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .timer-controls button:hover {
-            background-color: white;
-            color: var(--primary);
-        }
-
-        .mission-panel {
-            background-color: var(--bg-card);
-            border-left: 6px solid var(--primary);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .role-card {
-            background-color: var(--bg-card);
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-top: 5px solid var(--primary);
-        }
-
-        .role-title {
-            font-size: 1.4rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .scaffolding {
-            background-color: #eef2f5;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-        }
-
-        .checklist-item input[type="checkbox"] {
-            margin-top: 5px;
-            margin-right: 10px;
-            transform: scale(1.2);
-            cursor: pointer;
-        }
-
-        .teacher-panel {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        h2, h3 {
-            margin-bottom: 10px;
-        }
-
-        ul {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .phrase-btn { transition: all 0.2s ease-in-out; }
+        .phrase-btn:active { transform: scale(0.95); }
+        .modal-hidden { display: none; }
     </style>
 </head>
-<body>
+<body class="min-h-screen p-4 md:p-8 flex flex-col gap-6">
 
-    <header id="app-header">
-        <div>
-            <h1>The PR Crisis: Operation Wild Recovery</h1>
-            <p>Level: C1 | Students: 4 | Time: 15 Minutes</p>
+    <!-- Header & Master Timer -->
+    <header class="glass-panel rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-xl">
+        <div class="flex items-center gap-4">
+            <div class="bg-indigo-600 p-3 rounded-lg"><i data-lucide="mic-2" class="w-6 h-6 text-white"></i></div>
+            <div>
+                <h1 class="text-2xl font-bold text-white tracking-tight">The Eco-Fest Summit</h1>
+                <p class="text-indigo-300 text-sm font-medium">C1 Level Interactive Production • 4 Students</p>
+            </div>
         </div>
-        <div class="timer-container">
-            <div class="timer-display" id="timer-display">15:00</div>
-            <div class="timer-controls">
-                <button onclick="startTimer()">Start</button>
-                <button onclick="pauseTimer()">Pause</button>
-                <button onclick="resetTimer()">Reset</button>
+        
+        <div class="flex items-center gap-4 bg-slate-800/80 px-6 py-3 rounded-xl border border-slate-700">
+            <i data-lucide="clock" class="w-6 h-6 text-indigo-400"></i>
+            <span id="time-display" class="text-4xl font-mono font-bold text-white tracking-wider">15:00</span>
+            <div class="flex gap-2 ml-4">
+                <button onclick="toggleTimer()" id="timer-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Start</button>
+                <button onclick="resetTimer()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors">Reset</button>
             </div>
         </div>
     </header>
 
-    <div class="mission-panel">
-        <h2>🔥 Group Mission & Instructions</h2>
-        <p><strong>Context:</strong> A massive scandal has destroyed the reputation of "The Sonic Waves", a globally successful band. You are their PR Management Team. To fix their image, you must launch an "Eco-Recovery Campaign" before the press conference starts in 15 minutes.</p>
-        <p><strong>The Final Outcome:</strong> You must reach a <strong>unanimous decision</strong> on ONE complete campaign package. If you fail to agree, the band will be dropped by their label.</p>
-        <br>
-        <h3>Phase Breakdown:</h3>
-        <ul>
-            <li><strong>Phase 1: Pitching (4 min)</strong> - Each manager proposes their strategy using their role's specific angles.</li>
-            <li><strong>Phase 2: The Negotiation (7 min)</strong> - Debate, dissect, and compromise. Critique other managers' ideas constructively.</li>
-            <li><strong>Phase 3: The Verdict (4 min)</strong> - Vote and finalize the exact Animal Category, Nature Activity, and Charity Auction strategy.</li>
-        </ul>
+    <!-- Main Content Grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
+        
+        <!-- Left Column: Mission & Roles -->
+        <div class="lg:col-span-2 flex flex-col gap-6">
+            
+            <!-- Mission Breakdown -->
+            <section class="glass-panel rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold flex items-center gap-2 text-white">
+                        <i data-lucide="crosshair" class="w-5 h-5 text-emerald-400"></i> Mission Stages
+                    </h2>
+                    <button onclick="toggleModal('dossier-modal')" class="text-sm bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors">
+                        <i data-lucide="grid" class="w-4 h-4"></i> View Objectives Dossier
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                    <div class="bg-slate-800/50 p-3 rounded-lg border-l-4 border-emerald-500">
+                        <span class="text-emerald-400 font-bold block mb-1">0:00 - 3:00</span>
+                        <p class="text-slate-300">Phase 1: Pitch your department's core vision.</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border-l-4 border-amber-500">
+                        <span class="text-amber-400 font-bold block mb-1">3:00 - 9:00</span>
+                        <p class="text-slate-300">Phase 2: Negotiate the budget and integrate ideas.</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border-l-4 border-rose-500">
+                        <span class="text-rose-400 font-bold block mb-1">9:00 - 13:00</span>
+                        <p class="text-slate-300">Phase 3: Crisis! A major sponsor pulls out. Adapt.</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-3 rounded-lg border-l-4 border-indigo-500">
+                        <span class="text-indigo-400 font-bold block mb-1">13:00 - 15:00</span>
+                        <p class="text-slate-300">Phase 4: Unanimous vote on the final festival plan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Role Cards -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Role A -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 hover:border-indigo-500 transition-colors">
+                    <h3 class="text-lg font-bold text-indigo-400 flex items-center gap-2 mb-2">
+                        <i data-lucide="user" class="w-5 h-5"></i> Student A: The Music Director
+                    </h3>
+                    <p class="text-sm text-slate-300 mb-3">Focus: Secure top-tier artists based on music success stories and general trends.</p>
+                    <ul class="text-sm space-y-1 text-slate-400 list-disc pl-4">
+                        <li>Discuss habits of successful bands.</li>
+                        <li>Propose headline acts.</li>
+                    </ul>
+                </div>
+                <!-- Role B -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 hover:border-emerald-500 transition-colors">
+                    <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2 mb-2">
+                        <i data-lucide="user" class="w-5 h-5"></i> Student B: The Finance Lead
+                    </h3>
+                    <p class="text-sm text-slate-300 mb-3">Focus: Bargain shopping, budget cuts, and managing financial logistics.</p>
+                    <ul class="text-sm space-y-1 text-slate-400 list-disc pl-4">
+                        <li>Advocate for budget-friendly vendor deals.</li>
+                        <li>Use direct/indirect objects perfectly ("Send the sponsor an invoice").</li>
+                    </ul>
+                </div>
+                <!-- Role C -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 hover:border-amber-500 transition-colors">
+                    <h3 class="text-lg font-bold text-amber-400 flex items-center gap-2 mb-2">
+                        <i data-lucide="user" class="w-5 h-5"></i> Student C: Head of Conservation
+                    </h3>
+                    <p class="text-sm text-slate-300 mb-3">Focus: Ensuring the festival protects local animal species and their habitats.</p>
+                    <ul class="text-sm space-y-1 text-slate-400 list-disc pl-4">
+                        <li>Classify local fauna at risk.</li>
+                        <li>Establish strict environmental rules.</li>
+                    </ul>
+                </div>
+                <!-- Role D -->
+                <div class="bg-slate-800 rounded-xl p-5 border border-slate-700 hover:border-rose-500 transition-colors">
+                    <h3 class="text-lg font-bold text-rose-400 flex items-center gap-2 mb-2">
+                        <i data-lucide="user" class="w-5 h-5"></i> Student D: Venue Coordinator
+                    </h3>
+                    <p class="text-sm text-slate-300 mb-3">Focus: Designing immersive nature experiences for festival attendees.</p>
+                    <ul class="text-sm space-y-1 text-slate-400 list-disc pl-4">
+                        <li>Propose outdoor activities (e.g., hiking, foraging).</li>
+                        <li>Justify the psychological benefits of nature.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Column: Scaffolding & Scratchpad -->
+        <div class="flex flex-col gap-6">
+            
+            <!-- C1 Scaffolding Toolkit -->
+            <section class="glass-panel rounded-2xl p-6 flex-1">
+                <h2 class="text-lg font-bold flex items-center gap-2 text-white mb-4">
+                    <i data-lucide="wrench" class="w-5 h-5 text-indigo-400"></i> C1 Language Toolkit
+                </h2>
+                <p class="text-xs text-slate-400 mb-4">Click any phrase to copy it to your clipboard.</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-sm font-semibold text-slate-300 mb-2 border-b border-slate-700 pb-1">Nuanced Negotiation</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50">While I take your point, we must consider...</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50">I'm afraid that's completely out of the question.</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50">Let's find a middle ground regarding...</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-slate-300 mb-2 border-b border-slate-700 pb-1">Speculation & Deduction</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-emerald-900/50 hover:bg-emerald-600 text-emerald-200 px-3 py-2 rounded-lg border border-emerald-700/50">It's highly likely that the sponsors will...</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-emerald-900/50 hover:bg-emerald-600 text-emerald-200 px-3 py-2 rounded-lg border border-emerald-700/50">If we hadn't allocated funds there, we could have...</button>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-slate-300 mb-2 border-b border-slate-700 pb-1">Direct/Indirect Object Mastery</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-amber-900/50 hover:bg-amber-600 text-amber-200 px-3 py-2 rounded-lg border border-amber-700/50">We need to offer the musicians a better deal.</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-amber-900/50 hover:bg-amber-600 text-amber-200 px-3 py-2 rounded-lg border border-amber-700/50">Provide the attendees with an unforgettable experience.</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Student Scratchpad -->
+            <section class="glass-panel rounded-2xl p-4 flex flex-col h-48">
+                <h2 class="text-sm font-bold flex items-center gap-2 text-white mb-2">
+                    <i data-lucide="edit-3" class="w-4 h-4 text-slate-400"></i> Group Scratchpad
+                </h2>
+                <textarea class="w-full flex-1 bg-slate-900/50 text-slate-300 text-sm p-3 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-500 resize-none" placeholder="Jot down your agreements, budget limits, and final decisions here..."></textarea>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Dossier Modal -->
+    <div id="dossier-modal" class="modal-hidden fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 rounded-2xl max-w-3xl w-full border border-slate-700 shadow-2xl overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center p-6 border-b border-slate-700">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2"><i data-lucide="book-open" class="text-indigo-400"></i> Syllabus Objectives Map</h2>
+                <button onclick="toggleModal('dossier-modal')" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="x"></i></button>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
+                    <h3 class="font-bold text-indigo-300 mb-1">Class 34</h3>
+                    <p class="text-sm text-slate-300">Share your ideas about music success stories, habits, and general truths in context.</p>
+                </div>
+                <div class="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
+                    <h3 class="font-bold text-indigo-300 mb-1">Class 43</h3>
+                    <p class="text-sm text-slate-300">Talk about bargain shopping and examine differences in shopping experiences (direct/indirect objects).</p>
+                </div>
+                <div class="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
+                    <h3 class="font-bold text-indigo-300 mb-1">Class 50</h3>
+                    <p class="text-sm text-slate-300">Talk about categories and features of animals.</p>
+                </div>
+                <div class="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
+                    <h3 class="font-bold text-indigo-300 mb-1">Class 53</h3>
+                    <p class="text-sm text-slate-300">Discuss ways of being in touch with nature.</p>
+                </div>
+            </div>
+            <div class="bg-slate-900 p-4 text-center text-sm text-slate-400 border-t border-slate-700">
+                Use this reference to ensure your team is hitting all communicative goals.
+            </div>
+        </div>
     </div>
 
-    <div class="grid-container">
-        <!-- Role 1 -->
-        <div class="role-card">
-            <h2 class="role-title">Role 1: The Lead Publicist</h2>
-            <p><strong>Motivation:</strong> You want a grounded, serious approach to show the band is maturing.</p>
-            <div class="scaffolding">
-                <strong>C1 Negotiation Tactics:</strong><br>
-                "Given the gravity of the situation, we have no choice but to..."<br>
-                "It boils down to projecting an image of..."
-            </div>
-            <h3>Your Target Language Checklist:</h3>
-            <label class="checklist-item">
-                <input type="checkbox"> Discuss the band's habit of intense meditation and connect it to a past music success story.
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Pitch a bargain/second-hand auction using direct/indirect objects (e.g., "We should offer <strong>the fans</strong> <em>the vintage instruments</em>").
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Argue for sponsoring <em>Apex Predators</em> (discuss specific animal features like predatory instincts and survival).
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Push for a "Wilderness Survival" activity to get the band in touch with nature.
-            </label>
-        </div>
-
-        <!-- Role 2 -->
-        <div class="role-card">
-            <h2 class="role-title">Role 2: The Brand Stylist</h2>
-            <p><strong>Motivation:</strong> You want a visually stunning campaign that will look great on magazine covers.</p>
-            <div class="scaffolding">
-                <strong>C1 Negotiation Tactics:</strong><br>
-                "From a purely aesthetic standpoint, I strongly advocate for..."<br>
-                "We can easily rebrand their controversial habit of..."
-            </div>
-            <h3>Your Target Language Checklist:</h3>
-            <label class="checklist-item">
-                <input type="checkbox"> Discuss the band's habit of constantly reinventing their fashion, tying it to a previous platinum record.
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Pitch a thrift-shop runway auction using direct/indirect objects (e.g., "Let's give <strong>local charities</strong> <em>the profits</em>").
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Argue for sponsoring <em>Tropical Avians/Birds</em> (discuss features like plumage, mating dances, and vocalizations).
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Push for a "Jungle Canopy Walk" to get the band in touch with nature.
-            </label>
-        </div>
-
-        <!-- Role 3 -->
-        <div class="role-card">
-            <h2 class="role-title">Role 3: The Financial Director</h2>
-            <p><strong>Motivation:</strong> You want the cheapest possible PR stunt that still yields maximum sympathy.</p>
-            <div class="scaffolding">
-                <strong>C1 Negotiation Tactics:</strong><br>
-                "Looking at the bottom line, it's paramount that we..."<br>
-                "We simply cannot afford to overlook the fact that..."
-            </div>
-            <h3>Your Target Language Checklist:</h3>
-            <label class="checklist-item">
-                <input type="checkbox"> Discuss the band's origin success story (starting poor) and their habit of living frugally on their first tour.
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Pitch a massive discount merchandise sale using direct/indirect objects (e.g., "Send <strong>the cheapest suppliers</strong> <em>the new designs</em>").
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Argue for sponsoring <em>Farm or Domesticated Animals</em> (discuss features like herd mentality and domestication traits).
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Push for a "Community Garden Project" to get the band in touch with nature.
-            </label>
-        </div>
-
-        <!-- Role 4 -->
-        <div class="role-card">
-            <h2 class="role-title">Role 4: The Digital Strategist</h2>
-            <p><strong>Motivation:</strong> You want a viral, adrenaline-fueled campaign that will trend instantly on social media.</p>
-            <div class="scaffolding">
-                <strong>C1 Negotiation Tactics:</strong><br>
-                "To maximize digital engagement, the narrative we need to push is..."<br>
-                "In terms of optics, it would be highly detrimental if we..."
-            </div>
-            <h3>Your Target Language Checklist:</h3>
-            <label class="checklist-item">
-                <input type="checkbox"> Discuss the band's viral internet success story and their chaotic habit of unexpected live streams.
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Pitch a digital "bargain bundle" auction using direct/indirect objects (e.g., "Email <strong>the subscribers</strong> <em>the exclusive discount codes</em>").
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Argue for sponsoring <em>Deep Sea Marine Life</em> (discuss features like bioluminescence and high pressure survival).
-            </label>
-            <label class="checklist-item">
-                <input type="checkbox"> Push for "Scuba Diving with Sharks" to get the band in touch with nature.
-            </label>
-        </div>
-    </div>
-
-    <div class="teacher-panel">
-        <h2>✅ Global Session Checklist (Teacher / Observer)</h2>
-        <p>Monitor the group and check off the overarching C1 communicative objectives as they are organically achieved:</p>
-        <label class="checklist-item">
-            <input type="checkbox"> Did they clearly narrate music success stories & habits in context? (Class 34)
-        </label>
-        <label class="checklist-item">
-            <input type="checkbox"> Did they successfully use direct and indirect object placement when discussing the bargain auction? (Class 43)
-        </label>
-        <label class="checklist-item">
-            <input type="checkbox"> Did they thoroughly classify and describe the features of their chosen animal category? (Class 50)
-        </label>
-        <label class="checklist-item">
-            <input type="checkbox"> Did they debate and agree upon a specific way to be in touch with nature? (Class 53)
-        </label>
-        <label class="checklist-item">
-            <input type="checkbox"> Did the group successfully reach a UNANIMOUS decision before the timer expired?
-        </label>
-    </div>
-
+    <!-- Logic Scripts -->
     <script>
-        let timerInterval;
-        let timeRemaining = 15 * 60; 
-        const timerDisplay = document.getElementById('timer-display');
-        const appHeader = document.getElementById('app-header');
+        // Initialize Icons
+        lucide.createIcons();
 
-        function updateTimer() {
+        // Timer Logic
+        let timerInterval;
+        let timeRemaining = 15 * 60; // 15 minutes in seconds
+        let isRunning = false;
+
+        const timeDisplay = document.getElementById('time-display');
+        const timerBtn = document.getElementById('timer-btn');
+
+        function updateDisplay() {
             const minutes = Math.floor(timeRemaining / 60);
             const seconds = timeRemaining % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
-            if (timeRemaining <= 180 && timeRemaining > 0) {
-                timerDisplay.style.color = '#ff4d4d'; 
+            // Visual alerts for milestones
+            if (timeRemaining === 12 * 60) playAlert(400); // Phase 2
+            if (timeRemaining === 6 * 60) playAlert(500);  // Phase 3
+            if (timeRemaining === 2 * 60) playAlert(600);  // Phase 4
+            if (timeRemaining === 0) {
+                stopTimer();
+                timeDisplay.classList.add('text-rose-500');
+                playAlert(800, 3);
             }
-            
-            if (timeRemaining <= 0) {
-                clearInterval(timerInterval);
-                timerDisplay.textContent = "TIME UP!";
-                appHeader.style.backgroundColor = '#cc0000';
-                appHeader.style.animation = 'flash 1s infinite alternate';
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                stopTimer();
+            } else {
+                startTimer();
             }
         }
 
         function startTimer() {
-            if (!timerInterval && timeRemaining > 0) {
-                timerInterval = setInterval(() => {
-                    timeRemaining--;
-                    updateTimer();
-                }, 1000);
-            }
+            if(timeRemaining <= 0) return;
+            isRunning = true;
+            timerBtn.textContent = "Pause";
+            timerBtn.classList.replace('bg-indigo-600', 'bg-amber-600');
+            timerBtn.classList.replace('hover:bg-indigo-500', 'hover:bg-amber-500');
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateDisplay();
+                if (timeRemaining <= 0) stopTimer();
+            }, 1000);
         }
 
-        function pauseTimer() {
+        function stopTimer() {
+            isRunning = false;
             clearInterval(timerInterval);
-            timerInterval = null;
+            timerBtn.textContent = "Resume";
+            timerBtn.classList.replace('bg-amber-600', 'bg-indigo-600');
+            timerBtn.classList.replace('hover:bg-amber-500', 'hover:bg-indigo-500');
         }
 
         function resetTimer() {
-            pauseTimer();
+            stopTimer();
             timeRemaining = 15 * 60;
-            timerDisplay.style.color = '#ffffff';
-            appHeader.style.backgroundColor = '#2c3e50';
-            appHeader.style.animation = 'none';
-            updateTimer();
+            timerBtn.textContent = "Start";
+            timeDisplay.classList.remove('text-rose-500');
+            updateDisplay();
+        }
+
+        // Web Audio API for simple Beeps
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playAlert(frequency = 440, times = 1) {
+            let count = 0;
+            function beep() {
+                if (count >= times) return;
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.value = frequency;
+                
+                oscillator.start();
+                gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.5);
+                oscillator.stop(audioCtx.currentTime + 0.5);
+                
+                count++;
+                setTimeout(beep, 600);
+            }
+            beep();
+        }
+
+        // Copy to clipboard toolkit functionality
+        function copyText(buttonElement) {
+            const textToCopy = buttonElement.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = buttonElement.innerText;
+                buttonElement.innerText = "Copied!";
+                buttonElement.classList.add('bg-indigo-500', 'text-white');
+                setTimeout(() => {
+                    buttonElement.innerText = originalText;
+                    buttonElement.classList.remove('bg-indigo-500', 'text-white');
+                }, 1500);
+            });
+        }
+
+        // Modal Toggle
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('modal-hidden');
         }
     </script>
 </body>
