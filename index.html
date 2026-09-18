@@ -3,327 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mars Colony Crew Selection - 15 Min Speaking Activity</title>
+    <title>C1 Speaking Activity: PR Crisis Resolution</title>
     <style>
         :root {
+            --bg-main: #f4f7f6;
+            --bg-card: #ffffff;
             --primary: #2c3e50;
-            --secondary: #e74c3c;
-            --bg: #ecf0f1;
-            --card-bg: #ffffff;
-            --text: #333333;
+            --accent: #e74c3c;
+            --text-dark: #333333;
+            --text-muted: #666666;
+            --border-color: #e2e8f0;
         }
-        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-        
-        /* Header & Timer */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
         header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--primary);
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        @keyframes flash {
+            from { background-color: #cc0000; }
+            to { background-color: #990000; }
+        }
+
+        .timer-container {
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 10px;
+        }
+
+        .timer-controls button {
+            background-color: transparent;
             color: white;
-            padding: 15px 30px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h1 { margin: 0; font-size: 1.5rem; }
-        .timer-container { display: flex; align-items: center; gap: 15px; }
-        #timerDisplay { font-size: 2.5rem; font-weight: bold; font-variant-numeric: tabular-nums; }
-        .btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .btn-start { background: #27ae60; color: white; }
-        .btn-pause { background: #f1c40f; color: black; }
-        .btn-reset { background: var(--secondary); color: white; }
-        .btn:hover { opacity: 0.8; }
-
-        /* Mission Panel */
-        .mission-panel {
-            background: white;
-            border-left: 5px solid var(--secondary);
-            padding: 20px;
-            margin-bottom: 20px;
+            border: 2px solid white;
+            padding: 8px 16px;
+            margin: 0 5px;
             border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
         }
-        .mission-panel h2 { margin-top: 0; color: var(--secondary); }
-        .phases { display: flex; gap: 20px; margin-top: 15px; }
-        .phase { flex: 1; background: #f8f9fa; padding: 15px; border-radius: 4px; border: 1px solid #dee2e6; }
-        .phase h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--primary); }
 
-        /* Role Cards Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .timer-controls button:hover {
+            background-color: white;
+            color: var(--primary);
         }
-        .card {
-            background: var(--card-bg);
-            border-radius: 8px;
+
+        .mission-panel {
+            background-color: var(--bg-card);
+            border-left: 6px solid var(--primary);
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .role-card {
+            background-color: var(--bg-card);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             border-top: 5px solid var(--primary);
         }
-        .card h3 { margin-top: 0; color: var(--primary); font-size: 1.3rem; border-bottom: 2px solid var(--bg); padding-bottom: 10px;}
-        .card-section { margin-bottom: 15px; }
-        .card-section h4 { margin: 0 0 5px 0; font-size: 0.95rem; color: #555; text-transform: uppercase; }
-        .card-section p { margin: 0; font-size: 0.95rem; line-height: 1.4; }
-        .scaffold { background: #fdfbf7; padding: 10px; border-radius: 4px; border: 1px dashed #ccc; font-size: 0.9rem; margin-top: 10px; }
-        .scaffold strong { color: var(--secondary); }
-        
-        /* Checklists */
-        ul.checklist { list-style: none; padding: 0; margin: 0; }
-        ul.checklist li { margin-bottom: 8px; font-size: 0.9rem; display: flex; align-items: flex-start; gap: 8px; }
-        input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
+
+        .role-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .scaffolding {
+            background-color: #eef2f5;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-top: 5px;
+            margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
 
         .teacher-panel {
-            background: #e8f4f8;
+            background-color: var(--primary);
+            color: white;
             padding: 20px;
             border-radius: 8px;
-            border: 1px solid #b6d4fe;
+            margin-top: 20px;
+        }
+
+        h2, h3 {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🚀 Mars Colony: The Final Seat</h1>
+    <header id="app-header">
+        <div>
+            <h1>The PR Crisis: Operation Wild Recovery</h1>
+            <p>Level: C1 | Students: 4 | Time: 15 Minutes</p>
+        </div>
         <div class="timer-container">
-            <div id="timerDisplay">15:00</div>
-            <button class="btn btn-start" onclick="startTimer()">Start</button>
-            <button class="btn btn-pause" onclick="pauseTimer()">Pause</button>
-            <button class="btn btn-reset" onclick="resetTimer()">Reset</button>
+            <div class="timer-display" id="timer-display">15:00</div>
+            <div class="timer-controls">
+                <button onclick="startTimer()">Start</button>
+                <button onclick="pauseTimer()">Pause</button>
+                <button onclick="resetTimer()">Reset</button>
+            </div>
         </div>
     </header>
 
     <div class="mission-panel">
-        <h2>MISSION BRIEFING</h2>
-        <p>You are the six finalists for the LAST available seat on the Mars Colony ship. The committee requires a unanimous vote to award the ticket. If you cannot agree on ONE person, the seat stays empty.</p>
-        <div class="phases">
-            <div class="phase">
-                <h3>Phase 1: The Pitch (4 Min)</h3>
-                <p>Present your personal changes, past habits, and daily routines that make you the perfect candidate.</p>
-            </div>
-            <div class="phase">
-                <h3>Phase 2: The Confrontation (7 Min)</h3>
-                <p>Reveal the rumors you heard about the others. Defend yourself against accusations.</p>
-            </div>
-            <div class="phase">
-                <h3>Phase 3: The Vote (4 Min)</h3>
-                <p>Negotiate, compromise, and cast your final unanimous vote.</p>
-            </div>
-        </div>
+        <h2>🔥 Group Mission & Instructions</h2>
+        <p><strong>Context:</strong> A massive scandal has destroyed the reputation of "The Sonic Waves", a globally successful band. You are their PR Management Team. To fix their image, you must launch an "Eco-Recovery Campaign" before the press conference starts in 15 minutes.</p>
+        <p><strong>The Final Outcome:</strong> You must reach a <strong>unanimous decision</strong> on ONE complete campaign package. If you fail to agree, the band will be dropped by their label.</p>
+        <br>
+        <h3>Phase Breakdown:</h3>
+        <ul>
+            <li><strong>Phase 1: Pitching (4 min)</strong> - Each manager proposes their strategy using their role's specific angles.</li>
+            <li><strong>Phase 2: The Negotiation (7 min)</strong> - Debate, dissect, and compromise. Critique other managers' ideas constructively.</li>
+            <li><strong>Phase 3: The Verdict (4 min)</strong> - Vote and finalize the exact Animal Category, Nature Activity, and Charity Auction strategy.</li>
+        </ul>
     </div>
 
-    <div class="grid">
+    <div class="grid-container">
         <!-- Role 1 -->
-        <div class="card">
-            <h3>1. The Ex-Pro Athlete</h3>
-            <div class="card-section">
-                <h4>Your Profile & Past</h4>
-                <p>You ruined your career by pushing too hard. However, you have completely transformed your mindset.</p>
+        <div class="role-card">
+            <h2 class="role-title">Role 1: The Lead Publicist</h2>
+            <p><strong>Motivation:</strong> You want a grounded, serious approach to show the band is maturing.</p>
+            <div class="scaffolding">
+                <strong>C1 Negotiation Tactics:</strong><br>
+                "Given the gravity of the situation, we have no choice but to..."<br>
+                "It boils down to projecting an image of..."
             </div>
-            <div class="card-section">
-                <h4>Peak Routine</h4>
-                <p>You only function well early in the morning.</p>
-            </div>
-            <div class="card-section">
-                <h4>The Rumor You Heard</h4>
-                <p>You heard <strong>The CEO (Role 3)</strong> tell someone that you are secretly hiding a permanent injury.</p>
-            </div>
-            <div class="scaffold">
-                <ul class="checklist">
-                    <li><input type="checkbox"> <strong>Past Habits:</strong> "I used to overtrain, but..."</li>
-                    <li><input type="checkbox"> <strong>Present Perfect:</strong> "I have developed a new regimen since..."</li>
-                    <li><input type="checkbox"> <strong>Reduced Time Clause:</strong> "After waking up, I always..."</li>
-                    <li><input type="checkbox"> <strong>Reported Speech:</strong> "The CEO claimed that I was..."</li>
-                </ul>
-            </div>
+            <h3>Your Target Language Checklist:</h3>
+            <label class="checklist-item">
+                <input type="checkbox"> Discuss the band's habit of intense meditation and connect it to a past music success story.
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Pitch a bargain/second-hand auction using direct/indirect objects (e.g., "We should offer <strong>the fans</strong> <em>the vintage instruments</em>").
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Argue for sponsoring <em>Apex Predators</em> (discuss specific animal features like predatory instincts and survival).
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Push for a "Wilderness Survival" activity to get the band in touch with nature.
+            </label>
         </div>
 
         <!-- Role 2 -->
-        <div class="card">
-            <h3>2. The Reformed Hacker</h3>
-            <div class="card-section">
-                <h4>Your Profile & Past</h4>
-                <p>You were a notorious cyber-criminal, but you changed your life to focus on security.</p>
+        <div class="role-card">
+            <h2 class="role-title">Role 2: The Brand Stylist</h2>
+            <p><strong>Motivation:</strong> You want a visually stunning campaign that will look great on magazine covers.</p>
+            <div class="scaffolding">
+                <strong>C1 Negotiation Tactics:</strong><br>
+                "From a purely aesthetic standpoint, I strongly advocate for..."<br>
+                "We can easily rebrand their controversial habit of..."
             </div>
-            <div class="card-section">
-                <h4>Peak Routine</h4>
-                <p>You are most productive late at night in complete silence.</p>
-            </div>
-            <div class="card-section">
-                <h4>The Rumor You Heard</h4>
-                <p>You heard <strong>The Scientist (Role 6)</strong> say that you stole digital funds last month.</p>
-            </div>
-            <div class="scaffold">
-                <ul class="checklist">
-                    <li><input type="checkbox"> <strong>Simple Past/Change:</strong> "I turned over a new leaf when I realized..."</li>
-                    <li><input type="checkbox"> <strong>Past Habits:</strong> "I would hack servers for fun, but..."</li>
-                    <li><input type="checkbox"> <strong>Reduced Time Clause:</strong> "While working in the dark, I find..."</li>
-                    <li><input type="checkbox"> <strong>Reported Speech:</strong> "I was told that the Scientist said I..."</li>
-                </ul>
-            </div>
+            <h3>Your Target Language Checklist:</h3>
+            <label class="checklist-item">
+                <input type="checkbox"> Discuss the band's habit of constantly reinventing their fashion, tying it to a previous platinum record.
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Pitch a thrift-shop runway auction using direct/indirect objects (e.g., "Let's give <strong>local charities</strong> <em>the profits</em>").
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Argue for sponsoring <em>Tropical Avians/Birds</em> (discuss features like plumage, mating dances, and vocalizations).
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Push for a "Jungle Canopy Walk" to get the band in touch with nature.
+            </label>
         </div>
 
         <!-- Role 3 -->
-        <div class="card">
-            <h3>3. The Burnout CEO</h3>
-            <div class="card-section">
-                <h4>Your Profile & Past</h4>
-                <p>You built an empire but lost your mind in the process. You stepped down to find balance.</p>
+        <div class="role-card">
+            <h2 class="role-title">Role 3: The Financial Director</h2>
+            <p><strong>Motivation:</strong> You want the cheapest possible PR stunt that still yields maximum sympathy.</p>
+            <div class="scaffolding">
+                <strong>C1 Negotiation Tactics:</strong><br>
+                "Looking at the bottom line, it's paramount that we..."<br>
+                "We simply cannot afford to overlook the fact that..."
             </div>
-            <div class="card-section">
-                <h4>Peak Routine</h4>
-                <p>You require intense micro-naps and strict schedules to function.</p>
-            </div>
-            <div class="card-section">
-                <h4>The Rumor You Heard</h4>
-                <p>You heard <strong>The Athlete (Role 1)</strong> tell the press that you are mentally unstable.</p>
-            </div>
-            <div class="scaffold">
-                <ul class="checklist">
-                    <li><input type="checkbox"> <strong>Simple Past/Change:</strong> "I stepped down because I completely burned out."</li>
-                    <li><input type="checkbox"> <strong>Present Perfect:</strong> "I have successfully rebuilt my mental health."</li>
-                    <li><input type="checkbox"> <strong>Reduced Time Clause:</strong> "Before making huge decisions, I..."</li>
-                    <li><input type="checkbox"> <strong>Reported Speech:</strong> "The Athlete allegedly told reporters that..."</li>
-                </ul>
-            </div>
+            <h3>Your Target Language Checklist:</h3>
+            <label class="checklist-item">
+                <input type="checkbox"> Discuss the band's origin success story (starting poor) and their habit of living frugally on their first tour.
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Pitch a massive discount merchandise sale using direct/indirect objects (e.g., "Send <strong>the cheapest suppliers</strong> <em>the new designs</em>").
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Argue for sponsoring <em>Farm or Domesticated Animals</em> (discuss features like herd mentality and domestication traits).
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Push for a "Community Garden Project" to get the band in touch with nature.
+            </label>
         </div>
 
         <!-- Role 4 -->
-        <div class="card">
-            <h3>4. The Former Reality Star</h3>
-            <div class="card-section">
-                <h4>Your Profile & Past</h4>
-                <p>You were famous for no reason. Now, you want to prove you have actual survival skills.</p>
+        <div class="role-card">
+            <h2 class="role-title">Role 4: The Digital Strategist</h2>
+            <p><strong>Motivation:</strong> You want a viral, adrenaline-fueled campaign that will trend instantly on social media.</p>
+            <div class="scaffolding">
+                <strong>C1 Negotiation Tactics:</strong><br>
+                "To maximize digital engagement, the narrative we need to push is..."<br>
+                "In terms of optics, it would be highly detrimental if we..."
             </div>
-            <div class="card-section">
-                <h4>Peak Routine</h4>
-                <p>You operate best when surrounded by chaos and pressure.</p>
-            </div>
-            <div class="card-section">
-                <h4>The Rumor You Heard</h4>
-                <p>You overheard <strong>The Spy (Role 5)</strong> whispering that you are only doing this for social media.</p>
-            </div>
-            <div class="scaffold">
-                <ul class="checklist">
-                    <li><input type="checkbox"> <strong>Past Habits:</strong> "I used to crave attention constantly, but..."</li>
-                    <li><input type="checkbox"> <strong>Present Perfect:</strong> "I have trained tirelessly in harsh conditions."</li>
-                    <li><input type="checkbox"> <strong>Reduced Time Clause:</strong> "Upon facing intense pressure, my mind..."</li>
-                    <li><input type="checkbox"> <strong>Reported Speech:</strong> "I overheard the Spy whispering that I was..."</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Role 5 -->
-        <div class="card">
-            <h3>5. The Retired Spy</h3>
-            <div class="card-section">
-                <h4>Your Profile & Past</h4>
-                <p>You lived in the shadows. You want to go to Mars to finally live a transparent, honest life.</p>
-            </div>
-            <div class="card-section">
-                <h4>Peak Routine</h4>
-                <p>You are highly observant and only act after analyzing everyone else.</p>
-            </div>
-            <div class="card-section">
-                <h4>The Rumor You Heard</h4>
-                <p>You heard <strong>The Reality Star (Role 4)</strong> claim that you are secretly a double agent for a rival corporation.</p>
-            </div>
-            <div class="scaffold">
-                <ul class="checklist">
-                    <li><input type="checkbox"> <strong>Simple Past/Change:</strong> "I abandoned my old life to seek truth."</li>
-                    <li><input type="checkbox"> <strong>Past Habits:</strong> "I would lie daily for my job, but now..."</li>
-                    <li><input type="checkbox"> <strong>Reduced Time Clause:</strong> "When observing others, I notice..."</li>
-                    <li><input type="checkbox"> <strong>Reported Speech:</strong> "The Reality Star explicitly stated that I was..."</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Role 6 -->
-        <div class="card">
-            <h3>6. The Mad Scientist</h3>
-            <div class="card-section">
-                <h4>Your Profile & Past</h4>
-                <p>Your experiments on Earth were banned. You need a new planet to continue your research.</p>
-            </div>
-            <div class="card-section">
-                <h4>Peak Routine</h4>
-                <p>You only sleep 3 hours a day and work best while pacing aggressively.</p>
-            </div>
-            <div class="card-section">
-                <h4>The Rumor You Heard</h4>
-                <p>You heard <strong>The Hacker (Role 2)</strong> warn people that your experiments are highly contagious.</p>
-            </div>
-            <div class="scaffold">
-                <ul class="checklist">
-                    <li><input type="checkbox"> <strong>Present Perfect:</strong> "I have made discoveries humanity isn't ready for."</li>
-                    <li><input type="checkbox"> <strong>Past Habits:</strong> "I used to follow the rules, until I realized..."</li>
-                    <li><input type="checkbox"> <strong>Reduced Time Clause:</strong> "While conducting experiments, I frequently..."</li>
-                    <li><input type="checkbox"> <strong>Reported Speech:</strong> "The Hacker warned everyone that my work was..."</li>
-                </ul>
-            </div>
+            <h3>Your Target Language Checklist:</h3>
+            <label class="checklist-item">
+                <input type="checkbox"> Discuss the band's viral internet success story and their chaotic habit of unexpected live streams.
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Pitch a digital "bargain bundle" auction using direct/indirect objects (e.g., "Email <strong>the subscribers</strong> <em>the exclusive discount codes</em>").
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Argue for sponsoring <em>Deep Sea Marine Life</em> (discuss features like bioluminescence and high pressure survival).
+            </label>
+            <label class="checklist-item">
+                <input type="checkbox"> Push for "Scuba Diving with Sharks" to get the band in touch with nature.
+            </label>
         </div>
     </div>
 
     <div class="teacher-panel">
-        <h2>Global Activity Checklist (Teacher / Observer Use)</h2>
-        <p>Ensure the group organically deploys the target objectives from CLASS OBJECTIVES.xlsx:</p>
-        <ul class="checklist">
-            <li><input type="checkbox"> <strong>Class 02:</strong> Described personal change using the Simple Past.</li>
-            <li><input type="checkbox"> <strong>Class 22:</strong> Used Reduced Time Clauses to describe routines (e.g., "While working...").</li>
-            <li><input type="checkbox"> <strong>Class 32:</strong> Successfully confronted rumors using Reported Speech structures.</li>
-            <li><input type="checkbox"> <strong>Class 38:</strong> Stated life events with accurate Present Perfect forms.</li>
-            <li><input type="checkbox"> <strong>Class 60/62:</strong> Contrasted past and present using "Used to" and "Would".</li>
-            <li><input type="checkbox"> <strong>Final Outcome:</strong> The group successfully reached a unanimous consensus before time expired.</li>
-        </ul>
+        <h2>✅ Global Session Checklist (Teacher / Observer)</h2>
+        <p>Monitor the group and check off the overarching C1 communicative objectives as they are organically achieved:</p>
+        <label class="checklist-item">
+            <input type="checkbox"> Did they clearly narrate music success stories & habits in context? (Class 34)
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"> Did they successfully use direct and indirect object placement when discussing the bargain auction? (Class 43)
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"> Did they thoroughly classify and describe the features of their chosen animal category? (Class 50)
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"> Did they debate and agree upon a specific way to be in touch with nature? (Class 53)
+        </label>
+        <label class="checklist-item">
+            <input type="checkbox"> Did the group successfully reach a UNANIMOUS decision before the timer expired?
+        </label>
     </div>
 
     <script>
-        let time = 900; // 15 minutes in seconds
-        let interval = null;
-        const display = document.getElementById('timerDisplay');
+        let timerInterval;
+        let timeRemaining = 15 * 60; 
+        const timerDisplay = document.getElementById('timer-display');
+        const appHeader = document.getElementById('app-header');
 
-        function updateDisplay() {
-            let m = Math.floor(time / 60);
-            let s = time % 60;
-            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+        function updateTimer() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
-            if (time <= 60 && time > 0) {
-                display.style.color = '#e67e22'; // Warning orange
-            } else if (time === 0) {
-                display.innerText = "TIME UP!";
-                display.style.color = 'var(--secondary)';
-            } else {
-                display.style.color = 'white';
+            if (timeRemaining <= 180 && timeRemaining > 0) {
+                timerDisplay.style.color = '#ff4d4d'; 
             }
-        }
-
-        function tick() {
-            if (time > 0) {
-                time--;
-                updateDisplay();
-            } else {
-                pauseTimer();
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                timerDisplay.textContent = "TIME UP!";
+                appHeader.style.backgroundColor = '#cc0000';
+                appHeader.style.animation = 'flash 1s infinite alternate';
             }
         }
 
         function startTimer() {
-            if (!interval && time > 0) {
-                interval = setInterval(tick, 1000);
+            if (!timerInterval && timeRemaining > 0) {
+                timerInterval = setInterval(() => {
+                    timeRemaining--;
+                    updateTimer();
+                }, 1000);
             }
         }
 
         function pauseTimer() {
-            clearInterval(interval);
-            interval = null;
+            clearInterval(timerInterval);
+            timerInterval = null;
         }
 
         function resetTimer() {
             pauseTimer();
-            time = 900;
-            updateDisplay();
+            timeRemaining = 15 * 60;
+            timerDisplay.style.color = '#ffffff';
+            appHeader.style.backgroundColor = '#2c3e50';
+            appHeader.style.animation = 'none';
+            updateTimer();
         }
     </script>
 </body>
