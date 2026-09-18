@@ -12,7 +12,6 @@
         .glass-panel { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .phrase-btn { transition: all 0.2s ease-in-out; }
         .phrase-btn:active { transform: scale(0.95); }
-        .modal-hidden { display: none; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col gap-6">
@@ -49,7 +48,7 @@
                     <h2 class="text-xl font-bold flex items-center gap-2 text-white">
                         <i data-lucide="crosshair" class="w-5 h-5 text-emerald-400"></i> Mission Stages
                     </h2>
-                    <button onclick="toggleModal('dossier-modal')" class="text-sm bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors">
+                    <button onclick="toggleModal('dossier-modal')" class="text-sm bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-md flex items-center gap-2 transition-colors cursor-pointer">
                         <i data-lucide="grid" class="w-4 h-4"></i> View Objectives Dossier
                     </button>
                 </div>
@@ -136,23 +135,23 @@
                     <div>
                         <h4 class="text-sm font-semibold text-slate-300 mb-2 border-b border-slate-700 pb-1">Nuanced Negotiation</h4>
                         <div class="flex flex-wrap gap-2">
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50">While I take your point, we must consider...</button>
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50">I'm afraid that's completely out of the question.</button>
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50">Let's find a middle ground regarding...</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50 cursor-pointer">While I take your point, we must consider...</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50 cursor-pointer">I'm afraid that's completely out of the question.</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-indigo-900/50 hover:bg-indigo-600 text-indigo-200 px-3 py-2 rounded-lg border border-indigo-700/50 cursor-pointer">Let's find a middle ground regarding...</button>
                         </div>
                     </div>
                     <div>
                         <h4 class="text-sm font-semibold text-slate-300 mb-2 border-b border-slate-700 pb-1">Speculation & Deduction</h4>
                         <div class="flex flex-wrap gap-2">
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-emerald-900/50 hover:bg-emerald-600 text-emerald-200 px-3 py-2 rounded-lg border border-emerald-700/50">It's highly likely that the sponsors will...</button>
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-emerald-900/50 hover:bg-emerald-600 text-emerald-200 px-3 py-2 rounded-lg border border-emerald-700/50">If we hadn't allocated funds there, we could have...</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-emerald-900/50 hover:bg-emerald-600 text-emerald-200 px-3 py-2 rounded-lg border border-emerald-700/50 cursor-pointer">It's highly likely that the sponsors will...</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-emerald-900/50 hover:bg-emerald-600 text-emerald-200 px-3 py-2 rounded-lg border border-emerald-700/50 cursor-pointer">If we hadn't allocated funds there, we could have...</button>
                         </div>
                     </div>
                     <div>
                         <h4 class="text-sm font-semibold text-slate-300 mb-2 border-b border-slate-700 pb-1">Direct/Indirect Object Mastery</h4>
                         <div class="flex flex-wrap gap-2">
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-amber-900/50 hover:bg-amber-600 text-amber-200 px-3 py-2 rounded-lg border border-amber-700/50">We need to offer the musicians a better deal.</button>
-                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-amber-900/50 hover:bg-amber-600 text-amber-200 px-3 py-2 rounded-lg border border-amber-700/50">Provide the attendees with an unforgettable experience.</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-amber-900/50 hover:bg-amber-600 text-amber-200 px-3 py-2 rounded-lg border border-amber-700/50 cursor-pointer">We need to offer the musicians a better deal.</button>
+                            <button onclick="copyText(this)" class="phrase-btn text-left text-xs bg-amber-900/50 hover:bg-amber-600 text-amber-200 px-3 py-2 rounded-lg border border-amber-700/50 cursor-pointer">Provide the attendees with an unforgettable experience.</button>
                         </div>
                     </div>
                 </div>
@@ -169,12 +168,16 @@
         </div>
     </main>
 
-    <!-- Dossier Modal -->
-    <div id="dossier-modal" class="modal-hidden fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-2xl max-w-3xl w-full border border-slate-700 shadow-2xl overflow-hidden flex flex-col">
+    <!-- Dossier Modal (Fixed Close Button & Backdrop Click) -->
+    <div id="dossier-modal" onclick="closeModalOnBackdrop(event, 'dossier-modal')" class="hidden fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 rounded-2xl max-w-3xl w-full border border-slate-700 shadow-2xl overflow-hidden flex flex-col" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center p-6 border-b border-slate-700">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2"><i data-lucide="book-open" class="text-indigo-400"></i> Syllabus Objectives Map</h2>
-                <button onclick="toggleModal('dossier-modal')" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="x"></i></button>
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i data-lucide="book-open" class="w-6 h-6 text-indigo-400"></i> Syllabus Objectives Map
+                </h2>
+                <button onclick="toggleModal('dossier-modal')" type="button" class="p-2 rounded-lg bg-slate-700/50 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center justify-center">
+                    <i data-lucide="x" class="w-6 h-6 pointer-events-none"></i>
+                </button>
             </div>
             <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-slate-700/50 p-4 rounded-xl border border-slate-600">
@@ -218,10 +221,9 @@
             const seconds = timeRemaining % 60;
             timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
-            // Visual alerts for milestones
-            if (timeRemaining === 12 * 60) playAlert(400); // Phase 2
-            if (timeRemaining === 6 * 60) playAlert(500);  // Phase 3
-            if (timeRemaining === 2 * 60) playAlert(600);  // Phase 4
+            if (timeRemaining === 12 * 60) playAlert(400);
+            if (timeRemaining === 6 * 60) playAlert(500);
+            if (timeRemaining === 2 * 60) playAlert(600);
             if (timeRemaining === 0) {
                 stopTimer();
                 timeDisplay.classList.add('text-rose-500');
@@ -304,10 +306,16 @@
             });
         }
 
-        // Modal Toggle
+        // Modal Controls
         function toggleModal(modalId) {
             const modal = document.getElementById(modalId);
-            modal.classList.toggle('modal-hidden');
+            modal.classList.toggle('hidden');
+        }
+
+        function closeModalOnBackdrop(event, modalId) {
+            if (event.target.id === modalId) {
+                toggleModal(modalId);
+            }
         }
     </script>
 </body>
