@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A1 Speaking Task: The Anniversary Party</title>
+    <title>Family Weekend - A1 Speaking Task</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -11,282 +11,241 @@
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
-        .flipper { transition: transform 0.6s; transform-style: preserve-3d; position: relative; width: 100%; height: 100%; }
-        .flip-container.flipped .flipper { transform: rotateY(180deg); }
-        .front, .back { backface-visibility: hidden; position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
-        .back { transform: rotateY(180deg); }
+        .transition-transform { transition: transform 0.6s; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen text-gray-800 font-sans p-4 md:p-8">
+<body class="bg-slate-50 text-slate-800 p-4 md:p-8 font-sans min-h-screen flex flex-col">
 
-    <!-- Header & Timer -->
-    <header class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center bg-white p-4 rounded-xl shadow-sm mb-6">
-        <div class="flex items-center gap-3 mb-4 md:mb-0">
-            <i data-lucide="party-popper" class="w-8 h-8 text-blue-600"></i>
-            <h1 class="text-2xl font-bold">The Anniversary Party</h1>
-        </div>
-        <div class="flex items-center gap-4">
-            <button onclick="toggleModal()" class="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition">
-                <i data-lucide="target" class="w-5 h-5"></i>
-                Objectives
-            </button>
-            <div class="flex items-center gap-2 bg-red-100 text-red-700 px-6 py-2 rounded-lg font-mono text-xl font-bold">
-                <i data-lucide="timer" class="w-6 h-6"></i>
-                <span id="timer">15:00</span>
-            </div>
-        </div>
+    <!-- Header & Objectives Button -->
+    <header class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-indigo-700 flex items-center gap-2">
+            <i data-lucide="users" class="w-8 h-8"></i> Family Weekend
+        </h1>
+        <button onclick="toggleModal('objectivesModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow flex items-center gap-2 transition">
+            <i data-lucide="info" class="w-5 h-5"></i> Objectives
+        </button>
     </header>
 
-    <!-- Main Task Card -->
-    <main class="max-w-6xl mx-auto mb-8">
-        <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-blue-600">
-            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-                <i data-lucide="clipboard-list" class="w-6 h-6 text-blue-600"></i>
-                Main Task & Scenario Overview
-            </h2>
-            <p class="text-lg mb-4">
-                You are three siblings planning your parents' anniversary party. You need to buy a gift and plan an activity. However, you all have different ideas and information about the rest of the family.
-            </p>
-            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6">
-                <h3 class="font-bold text-red-600 mb-2">Final Deliverable</h3>
-                <p>You must reach a 100% consensus on a 3-point action plan recorded in the <strong>Group Scratchpad</strong> before 0:00. The plan must include:</p>
-                <ul class="list-disc ml-6 mt-2">
-                    <li>The selected gift and how much it costs.</li>
-                    <li>The main family activity and how many people are participating.</li>
-                    <li>What other family members are doing right now to prepare.</li>
-                </ul>
-            </div>
-            <div class="flex gap-4 text-sm text-gray-600">
-                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 0-3m: Read Roles</span>
-                <span class="flex items-center gap-1"><i data-lucide="users" class="w-4 h-4"></i> 3-8m: Discuss Activities</span>
-                <span class="flex items-center gap-1"><i data-lucide="credit-card" class="w-4 h-4"></i> 8-13m: Negotiate Gifts</span>
-                <span class="flex items-center gap-1"><i data-lucide="edit-3" class="w-4 h-4"></i> 13-15m: Write Consensus</span>
-            </div>
+    <!-- 1. STANDALONE MAIN TASK CARD -->
+    <section class="bg-white rounded-xl shadow-lg p-6 mb-10 border-t-4 border-indigo-500">
+        <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+            <i data-lucide="target" class="w-6 h-6 text-indigo-500"></i> Main Task & Scenario
+        </h2>
+        <p class="text-lg mb-4">
+            You are a family. Today is Friday. You want to do a <strong>family activity</strong> this weekend. But activities cost money! Talk about your <strong>jobs</strong>, look at the <strong>prices</strong>, and choose one activity together.
+        </p>
+        <div class="bg-indigo-50 p-4 rounded-lg mb-4">
+            <h3 class="font-bold text-indigo-800 mb-2">Activities List:</h3>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Cinema:</strong> $15 per person</li>
+                <li><strong>Park & Picnic:</strong> $5 per person</li>
+                <li><strong>Museum:</strong> $10 per person</li>
+            </ul>
         </div>
-    </main>
+        <div class="mb-4">
+            <h3 class="font-bold text-slate-700">Mission Stages:</h3>
+            <ol class="list-decimal list-inside space-y-1 mt-2 text-slate-600">
+                <li>Say your job and how much money you have.</li>
+                <li>Ask your family: "What activity do you want?"</li>
+                <li>Compare prices (e.g., "The park is cheap").</li>
+                <li>Decide together and write it in the Group Scratchpad.</li>
+            </ol>
+        </div>
+        <div class="bg-yellow-100 p-3 rounded text-yellow-800 font-bold flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-5 h-5"></i>
+            Final Deliverable: Reach a consensus on 1 simple family activity and write it down below.
+        </div>
+    </section>
 
-    <!-- Role Cards Grid -->
-    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- 2. INTERACTIVE 3D FLIP ROLE CARDS GRID -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         
         <!-- Role 1 -->
-        <div class="flip-container perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flipper rounded-xl shadow-lg">
+        <div class="perspective-1000 h-80 cursor-pointer group" onclick="this.querySelector('.flipper').classList.toggle('rotate-y-180')">
+            <div class="flipper relative w-full h-full transition-transform transform-style-3d shadow-xl rounded-xl">
                 <!-- Front -->
-                <div class="front bg-white p-6 rounded-xl border border-gray-200 flex flex-col items-center justify-center text-center">
-                    <i data-lucide="user" class="w-16 h-16 text-blue-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Sibling 1: The Organizer</h3>
-                    <p class="text-gray-600 mb-6">You want everything to be perfect and have a specific gift in mind.</p>
-                    <button class="bg-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 flex items-center gap-2">
-                        <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+                <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center">
+                    <i data-lucide="briefcase" class="w-12 h-12 text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Player 1: The Doctor</h3>
+                    <p class="text-slate-500 mb-4">You work in a hospital.</p>
+                    <button class="mt-auto bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i> Tap to Flip
                     </button>
                 </div>
                 <!-- Back -->
-                <div class="back bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="text-lg font-bold text-blue-800 mb-2">Secret Motives</h3>
-                        <ul class="list-disc ml-5 text-sm mb-4 space-y-1">
-                            <li>You want to buy <strong>this watch</strong>. It costs <strong>$50</strong>.</li>
-                            <li>You think $50 is a good price.</li>
-                            <li>You know that <strong>a lot of</strong> cousins love dancing.</li>
-                            <li>Right now: "My aunt is <strong>cooking</strong> dinner."</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-3 rounded text-xs border border-blue-100">
-                        <p class="font-bold mb-1">Checklist:</p>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Use "How much"</label>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Use "this/that/these/those"</label>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Use "a lot of"</label>
-                    </div>
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-600 text-white rounded-xl p-6 flex flex-col">
+                    <h3 class="text-xl font-bold mb-2 border-b border-blue-400 pb-2">Secret Motive</h3>
+                    <p class="text-sm mb-4">You are a doctor. You have $40. You are tired. You want a quiet and relaxing activity (Museum).</p>
+                    <h4 class="font-bold text-sm mb-1">Checklist:</h4>
+                    <ul class="text-sm list-disc list-inside space-y-1">
+                        <li>Say: "I am a doctor."</li>
+                        <li>Ask: "What is your job?"</li>
+                        <li>Compare: "The museum is cheaper than the cinema."</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- Role 2 -->
-        <div class="flip-container perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flipper rounded-xl shadow-lg">
-                <div class="front bg-white p-6 rounded-xl border border-gray-200 flex flex-col items-center justify-center text-center">
-                    <i data-lucide="user-check" class="w-16 h-16 text-green-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Sibling 2: The Budgeter</h3>
-                    <p class="text-gray-600 mb-6">You want to save money and prefer a quiet family activity.</p>
-                    <button class="bg-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 flex items-center gap-2">
-                        <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+        <div class="perspective-1000 h-80 cursor-pointer group" onclick="this.querySelector('.flipper').classList.toggle('rotate-y-180')">
+            <div class="flipper relative w-full h-full transition-transform transform-style-3d shadow-xl rounded-xl">
+                <!-- Front -->
+                <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center">
+                    <i data-lucide="utensils" class="w-12 h-12 text-orange-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Player 2: The Chef</h3>
+                    <p class="text-slate-500 mb-4">You work in a restaurant.</p>
+                    <button class="mt-auto bg-orange-100 text-orange-700 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i> Tap to Flip
                     </button>
                 </div>
-                <div class="back bg-green-50 p-6 rounded-xl border border-green-200 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="text-lg font-bold text-green-800 mb-2">Secret Motives</h3>
-                        <ul class="list-disc ml-5 text-sm mb-4 space-y-1">
-                            <li>You want to buy <strong>that photo album</strong>. It costs <strong>$20</strong>.</li>
-                            <li>You think $50 is too expensive.</li>
-                            <li>You know that <strong>nearly all</strong> relatives want to play board games.</li>
-                            <li>Right now: "My grandparents are <strong>sleeping</strong>."</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-3 rounded text-xs border border-green-100">
-                        <p class="font-bold mb-1">Checklist:</p>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Ask about prices</label>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Use "nearly all"</label>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Use present continuous</label>
-                    </div>
+                <!-- Back -->
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-orange-500 text-white rounded-xl p-6 flex flex-col">
+                    <h3 class="text-xl font-bold mb-2 border-b border-orange-300 pb-2">Secret Motive</h3>
+                    <p class="text-sm mb-4">You are a chef. You have $10. You don't have much money. You want a cheap activity (Park).</p>
+                    <h4 class="font-bold text-sm mb-1">Checklist:</h4>
+                    <ul class="text-sm list-disc list-inside space-y-1">
+                        <li>Say: "I am a chef."</li>
+                        <li>Ask: "How much is the park?"</li>
+                        <li>Compare: "The cinema is very expensive."</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- Role 3 -->
-        <div class="flip-container perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flipper rounded-xl shadow-lg">
-                <div class="front bg-white p-6 rounded-xl border border-gray-200 flex flex-col items-center justify-center text-center">
-                    <i data-lucide="users" class="w-16 h-16 text-purple-500 mb-4"></i>
-                    <h3 class="text-xl font-bold mb-2">Sibling 3: The Entertainer</h3>
-                    <p class="text-gray-600 mb-6">You want a big celebration and don't care about the price.</p>
-                    <button class="bg-gray-200 px-4 py-2 rounded-full text-sm font-semibold text-gray-700 flex items-center gap-2">
-                        <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+        <div class="perspective-1000 h-80 cursor-pointer group" onclick="this.querySelector('.flipper').classList.toggle('rotate-y-180')">
+            <div class="flipper relative w-full h-full transition-transform transform-style-3d shadow-xl rounded-xl">
+                <!-- Front -->
+                <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center">
+                    <i data-lucide="monitor" class="w-12 h-12 text-green-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Player 3: The Student</h3>
+                    <p class="text-slate-500 mb-4">You study at the university.</p>
+                    <button class="mt-auto bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i> Tap to Flip
                     </button>
                 </div>
-                <div class="back bg-purple-50 p-6 rounded-xl border border-purple-200 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="text-lg font-bold text-purple-800 mb-2">Secret Motives</h3>
-                        <ul class="list-disc ml-5 text-sm mb-4 space-y-1">
-                            <li>You want to buy <strong>those concert tickets</strong>. They cost <strong>$100</strong>.</li>
-                            <li>You think the album is boring.</li>
-                            <li>You know that <strong>few</strong> people like board games.</li>
-                            <li>Right now: "My uncles are <strong>decorating</strong> the house."</li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-3 rounded text-xs border border-purple-100">
-                        <p class="font-bold mb-1">Checklist:</p>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Give a price</label>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Use "few" / "many"</label>
-                        <label class="flex items-center gap-2"><input type="checkbox"> Report what uncles are doing</label>
-                    </div>
+                <!-- Back -->
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-green-600 text-white rounded-xl p-6 flex flex-col">
+                    <h3 class="text-xl font-bold mb-2 border-b border-green-400 pb-2">Secret Motive</h3>
+                    <p class="text-sm mb-4">You don't have a job, you are a student. You have $20. You love movies. You want to go to the cinema.</p>
+                    <h4 class="font-bold text-sm mb-1">Checklist:</h4>
+                    <ul class="text-sm list-disc list-inside space-y-1">
+                        <li>Say: "I am a student."</li>
+                        <li>Ask: "Do you like the cinema?"</li>
+                        <li>Compare: "The cinema is better than the park."</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role 4 -->
+        <div class="perspective-1000 h-80 cursor-pointer group" onclick="this.querySelector('.flipper').classList.toggle('rotate-y-180')">
+            <div class="flipper relative w-full h-full transition-transform transform-style-3d shadow-xl rounded-xl">
+                <!-- Front -->
+                <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center text-center">
+                    <i data-lucide="camera" class="w-12 h-12 text-pink-500 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Player 4: The Artist</h3>
+                    <p class="text-slate-500 mb-4">You work with photos and paint.</p>
+                    <button class="mt-auto bg-pink-100 text-pink-700 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i> Tap to Flip
+                    </button>
+                </div>
+                <!-- Back -->
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-pink-500 text-white rounded-xl p-6 flex flex-col">
+                    <h3 class="text-xl font-bold mb-2 border-b border-pink-300 pb-2">Secret Motive</h3>
+                    <p class="text-sm mb-4">You are an artist. You have $30. You like art, but you also like food. You are happy with Museum or Picnic.</p>
+                    <h4 class="font-bold text-sm mb-1">Checklist:</h4>
+                    <ul class="text-sm list-disc list-inside space-y-1">
+                        <li>Say: "I am an artist."</li>
+                        <li>Ask: "What do you want to do?"</li>
+                        <li>Compare: "The park is good, but the museum is nice too."</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Bottom Layout: Scaffolding & Scratchpad -->
-    <section class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+    <!-- 3. SCAFFOLDING TOOLKIT & 4. SCRATCHPAD -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
         
         <!-- Scaffolding Toolkit -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-                <i data-lucide="message-circle" class="w-5 h-5 text-indigo-500"></i>
-                Phrase Toolkit (Click to Copy)
-            </h3>
-            <div class="space-y-2">
-                <button onclick="copyPhrase(this)" class="w-full text-left bg-gray-50 hover:bg-indigo-50 p-3 rounded-lg border border-gray-100 transition text-sm">
-                    How much is this watch? / How much are those tickets?
-                </button>
-                <button onclick="copyPhrase(this)" class="w-full text-left bg-gray-50 hover:bg-indigo-50 p-3 rounded-lg border border-gray-100 transition text-sm">
-                    A lot of family members like... / Few people want to...
-                </button>
-                <button onclick="copyPhrase(this)" class="w-full text-left bg-gray-50 hover:bg-indigo-50 p-3 rounded-lg border border-gray-100 transition text-sm">
-                    Right now, my aunt is cooking.
-                </button>
-                <button onclick="copyPhrase(this)" class="w-full text-left bg-gray-50 hover:bg-indigo-50 p-3 rounded-lg border border-gray-100 transition text-sm">
-                    I think that is too expensive.
-                </button>
+        <div class="bg-white rounded-xl shadow p-6 border border-slate-200">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="message-square" class="w-6 h-6 text-teal-500"></i> Phrase Toolkit
+            </h2>
+            <p class="text-sm text-slate-500 mb-4">Click any phrase to copy it.</p>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">What is your job?</button>
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">I am a...</button>
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">How much is it?</button>
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">It is expensive.</button>
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">It is cheap.</button>
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">Let's go to the...</button>
+                <button onclick="copyPhrase(this)" class="bg-slate-100 hover:bg-teal-100 text-slate-700 px-3 py-2 rounded text-sm transition">I don't have money.</button>
             </div>
+            <div id="copyToast" class="hidden mt-4 text-sm text-teal-600 font-bold transition-opacity">Copied!</div>
         </div>
 
         <!-- Group Scratchpad -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col">
-            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
-                <i data-lucide="pen-tool" class="w-5 h-5 text-amber-500"></i>
-                Group Scratchpad
-            </h3>
-            <textarea class="flex-grow w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-blue-500 resize-none h-48" placeholder="1. Gift and Price:&#10;2. Family Activity:&#10;3. What family members are doing now:"></textarea>
+        <div class="bg-white rounded-xl shadow p-6 border border-slate-200 flex flex-col">
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="edit-3" class="w-6 h-6 text-indigo-500"></i> Group Scratchpad
+            </h2>
+            <p class="text-sm text-slate-500 mb-2">Write your final decision here:</p>
+            <textarea class="w-full flex-grow p-3 border border-slate-300 rounded focus:outline-none focus:border-indigo-500 resize-none" placeholder="We decide to go to..."></textarea>
         </div>
-
     </section>
 
-    <!-- Objectives Modal -->
-    <div id="objectivesModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center" onclick="closeModalOnBackdrop(event)">
-        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 relative">
-            <button onclick="toggleModal()" class="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full cursor-pointer">
-                <i data-lucide="x" class="w-6 h-6 text-gray-600"></i>
+    <!-- 5. OBJECTIVES DOSSIER MODAL -->
+    <div id="objectivesModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity" onclick="closeModalOnBackdrop(event, 'objectivesModal')">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full relative m-4">
+            <button onclick="toggleModal('objectivesModal')" class="absolute top-4 right-4 p-2 cursor-pointer text-slate-500 hover:text-slate-800">
+                <i data-lucide="x" class="w-6 h-6"></i>
             </button>
-            <h2 class="text-2xl font-bold mb-4">Unit Objectives (A1)</h2>
-            <div class="space-y-4">
-                <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
-                    <span class="text-xs font-bold text-blue-500 uppercase tracking-wider">Class 10</span>
-                    <p class="font-semibold mt-1">Ask for and give prices</p>
-                    <p class="text-sm text-gray-600">Focus: How much / Demonstratives</p>
+            <h2 class="text-2xl font-bold mb-4 text-indigo-800">Objectives Dossier</h2>
+            <div class="space-y-4 text-slate-700">
+                <div class="bg-slate-100 p-3 rounded border-l-4 border-indigo-400">
+                    <p class="text-xs font-bold text-slate-500 uppercase">Class 5 (A1)</p>
+                    <p>"Ask and answer questions about different types of jobs"</p>
                 </div>
-                <div class="p-4 bg-green-50 rounded-lg border border-green-100">
-                    <span class="text-xs font-bold text-green-500 uppercase tracking-wider">Class 20</span>
-                    <p class="font-semibold mt-1">Discuss family activities</p>
-                    <p class="text-sm text-gray-600">Focus: Quantifiers (a lot of, nearly all, all, many, not many, few, no one)</p>
+                <div class="bg-slate-100 p-3 rounded border-l-4 border-indigo-400">
+                    <p class="text-xs font-bold text-slate-500 uppercase">Class 12 (A1)</p>
+                    <p>"Validate previous knowledge, talk about prices, and discuss preferences and comparisons"</p>
                 </div>
-                <div class="p-4 bg-purple-50 rounded-lg border border-purple-100">
-                    <span class="text-xs font-bold text-purple-500 uppercase tracking-wider">Class 22</span>
-                    <p class="font-semibold mt-1">Talk about family relationships</p>
-                    <p class="text-sm text-gray-600">Focus: Present continuous + family vocabulary</p>
+                <div class="bg-slate-100 p-3 rounded border-l-4 border-indigo-400">
+                    <p class="text-xs font-bold text-slate-500 uppercase">Class 20 (A1)</p>
+                    <p>"Discuss family activities"</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script>
-        // Initialize Icons
+        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Timer Logic with Audio API
-        let timeLeft = 900; // 15 minutes
-        const timerDisplay = document.getElementById('timer');
-        let audioCtx;
-
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-        }
-
-        function playBeep(freq, duration) {
-            if (!audioCtx) return;
-            const oscillator = audioCtx.createOscillator();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            oscillator.connect(audioCtx.destination);
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + duration);
-        }
-
-        document.body.addEventListener('click', initAudio, { once: true });
-
-        setInterval(() => {
-            if (timeLeft > 0) {
-                timeLeft--;
-                const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-                const s = (timeLeft % 60).toString().padStart(2, '0');
-                timerDisplay.textContent = `${m}:${s}`;
-                
-                if (timeLeft === 300) playBeep(440, 0.5); // 5 minutes left
-                if (timeLeft === 0) playBeep(880, 1.0);   // Time up
-            }
-        }, 1000);
-
-        // Copy Phrase to Clipboard
-        function copyPhrase(buttonElement) {
-            const text = buttonElement.textContent.trim();
+        // Copy phrase function
+        function copyPhrase(button) {
+            const text = button.innerText;
             navigator.clipboard.writeText(text).then(() => {
-                const originalBg = buttonElement.className;
-                buttonElement.classList.add('bg-green-100');
+                const toast = document.getElementById('copyToast');
+                toast.classList.remove('hidden');
                 setTimeout(() => {
-                    buttonElement.classList.remove('bg-green-100');
-                }, 500);
+                    toast.classList.add('hidden');
+                }, 2000);
             });
         }
 
-        // Modal Controls
-        function toggleModal() {
-            const modal = document.getElementById('objectivesModal');
+        // Modal functions
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
             modal.classList.toggle('hidden');
         }
 
-        function closeModalOnBackdrop(e) {
-            if (e.target.id === 'objectivesModal') {
-                toggleModal();
+        function closeModalOnBackdrop(event, id) {
+            if (event.target.id === id) {
+                toggleModal(id);
             }
         }
     </script>
