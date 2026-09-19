@@ -1,325 +1,378 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Speaking Activity: Aegis Global Crisis</title>
+    <title>C1 Crisis Response Task</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* 3D Flip Card CSS */
-        .perspective-1000 {
-            perspective: 1000px;
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .transition-transform { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
+        
+        .role-card { height: 380px; cursor: pointer; }
+        .card-inner { position: relative; width: 100%; height: 100%; }
+        .card-front, .card-back {
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem; display: flex; flex-direction: column;
         }
-        .transform-style-3d {
-            transform-style: preserve-3d;
-        }
-        .backface-hidden {
-            backface-visibility: hidden;
-        }
-        .rotate-y-180 {
-            transform: rotateY(180deg);
-        }
-        .transition-transform {
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-        }
+        .card-back { transform: rotateY(180deg); overflow-y: auto; }
+        .flipped .card-inner { transform: rotateY(180deg); }
+        
+        /* Custom Scrollbar for Scratchpad */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 font-sans">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col">
 
-    <!-- Header & Timer -->
-    <header class="max-w-6xl mx-auto mb-8 bg-slate-800 p-6 rounded-xl border border-red-900/50 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-4">
-        <div>
-            <h1 class="text-3xl font-bold text-red-500 flex items-center gap-2">
-                <i data-lucide="alert-triangle" class="w-8 h-8"></i>
-                OPERATION: AEGIS BREACH
-            </h1>
-            <p class="text-slate-400 mt-1">15-Minute Executive Crisis Meeting</p>
-        </div>
-        
-        <div class="flex items-center gap-4 bg-slate-950 p-4 rounded-lg border border-slate-700">
-            <div id="timerDisplay" class="text-4xl font-mono font-bold text-red-500 w-32 text-center">15:00</div>
+    <!-- Header & Controls -->
+    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-20 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-red-400 flex items-center gap-2">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i> City Cyber Crisis
+                </h1>
+                <p class="text-sm text-slate-400">C1 Advanced Speaking Task (Classes 34, 43, 50, 53)</p>
+            </div>
+            
+            <div class="flex items-center gap-4 bg-slate-900 p-2 rounded-lg border border-slate-700">
+                <button id="startTimerBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold transition-colors flex items-center gap-2">
+                    <i data-lucide="play" class="w-5 h-5"></i> Start Task
+                </button>
+                <div class="text-3xl font-mono font-bold text-red-500 w-24 text-center" id="timerDisplay">15:00</div>
+            </div>
+            
             <div class="flex gap-2">
-                <button onclick="startTimer()" class="bg-green-600 hover:bg-green-500 p-2 rounded transition" title="Start">
-                    <i data-lucide="play" class="w-6 h-6 text-white"></i>
+                <button onclick="toggleModal('objectivesModal')" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded text-sm flex items-center gap-2 transition-colors">
+                    <i data-lucide="target" class="w-5 h-5"></i> Objectives
                 </button>
-                <button onclick="pauseTimer()" class="bg-yellow-600 hover:bg-yellow-500 p-2 rounded transition" title="Pause">
-                    <i data-lucide="pause" class="w-6 h-6 text-white"></i>
-                </button>
-                <button onclick="resetTimer()" class="bg-red-600 hover:bg-red-500 p-2 rounded transition" title="Reset">
-                    <i data-lucide="rotate-ccw" class="w-6 h-6 text-white"></i>
+                <button onclick="toggleModal('toolkitModal')" class="bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-sm flex items-center gap-2 transition-colors">
+                    <i data-lucide="message-square" class="w-5 h-5"></i> C1 Toolkit
                 </button>
             </div>
         </div>
-        
-        <button onclick="toggleModal('objectivesModal')" class="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded font-semibold transition flex items-center gap-2">
-            <i data-lucide="book-open" class="w-5 h-5"></i>
-            View Syllabus Goals
-        </button>
+        <!-- Timeline -->
+        <div class="max-w-7xl mx-auto mt-4 h-2 bg-slate-700 rounded-full overflow-hidden flex relative">
+            <div id="phaseProgress" class="h-full bg-red-500 w-0 transition-all duration-1000"></div>
+            <div class="absolute inset-0 flex justify-between px-1 text-[10px] text-slate-400 font-mono items-center pointer-events-none">
+                <span>Phase 1: Briefing (3m)</span>
+                <span>Phase 2: Negotiation (7m)</span>
+                <span>Phase 3: Consensus (5m)</span>
+            </div>
+        </div>
+        <div id="phaseText" class="text-center text-xs text-slate-400 mt-2 uppercase tracking-widest font-bold">Awaiting Start...</div>
     </header>
 
-    <!-- Mission Stages -->
-    <section class="max-w-6xl mx-auto mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm font-semibold">
-        <div id="phase1" class="bg-slate-800 p-3 rounded-lg border-b-4 border-blue-500 text-slate-300">
-            Phase 1 (15:00 - 12:00): Status Reports
-        </div>
-        <div id="phase2" class="bg-slate-800 p-3 rounded-lg border-b-4 border-slate-700 text-slate-500 transition-colors">
-            Phase 2 (12:00 - 05:00): Hostile Debate
-        </div>
-        <div id="phase3" class="bg-slate-800 p-3 rounded-lg border-b-4 border-slate-700 text-slate-500 transition-colors">
-            Phase 3 (05:00 - 00:00): 3-Point Consensus
-        </div>
-    </section>
-
-    <!-- Role Cards Grid -->
-    <main class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Main Workspace -->
+    <main class="flex-grow p-4 md:p-6 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <!-- Card 1: CEO -->
-        <div class="perspective-1000 h-96 group cursor-pointer" onclick="flipCard(this)">
-            <div class="relative w-full h-full transform-style-3d transition-transform duration-700" id="card-1">
-                <!-- Front -->
-                <div class="absolute w-full h-full backface-hidden bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center shadow-lg">
-                    <div class="bg-blue-900 p-4 rounded-full mb-4"><i data-lucide="briefcase" class="w-10 h-10 text-blue-400"></i></div>
-                    <h2 class="text-2xl font-bold text-white mb-2">The CEO</h2>
-                    <p class="text-slate-400 text-sm mb-6">Protector of the company's stock and public image.</p>
-                    <span class="text-blue-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1"><i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Tap to flip card</span>
+        <!-- Role Cards Grid -->
+        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Card 1: Mayor -->
+            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner transform-style-3d transition-transform">
+                    <div class="card-front bg-slate-800 border border-blue-500 backface-hidden">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-xl font-bold text-blue-400">The Mayor</h2>
+                            <i data-lucide="building" class="w-8 h-8 text-blue-500 opacity-50"></i>
+                        </div>
+                        <p class="text-slate-300 flex-grow">You are the elected leader of the city. Your primary concern is public order, public relations, and maintaining control during this unprecedented cyber-attack.</p>
+                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
+                    </div>
+                    <div class="card-back bg-blue-900 border border-blue-400 backface-hidden">
+                        <h3 class="font-bold text-blue-200 border-b border-blue-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
+                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
+                            <li>You face re-election in two months. A total blackout will ruin you.</li>
+                            <li>You MUST allocate at least $4M to public relations and police to maintain order.</li>
+                            <li>You secretly doubt the IT Director's competence.</li>
+                        </ul>
+                        <h3 class="font-bold text-blue-200 border-b border-blue-700 pb-1 mb-2 text-sm">Target Language</h3>
+                        <ul class="text-xs space-y-1 text-slate-300">
+                            <li>- "If we had updated the infrastructure, we wouldn't be..." (Mixed)</li>
+                            <li>- "With all due respect, my priority lies with..."</li>
+                        </ul>
+                    </div>
                 </div>
-                <!-- Back -->
-                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-blue-900 border border-blue-500 rounded-xl p-5 shadow-lg overflow-y-auto">
-                    <h3 class="font-bold text-xl text-white mb-2 border-b border-blue-700 pb-2">Secret Backstory</h3>
-                    <p class="text-sm text-blue-100 mb-3">You are secretly in talks to sell the company next month. If news of this hack goes public, the $500M deal falls through. <strong>Motivation:</strong> You MUST convince the team to pay the $5M ransom secretly to make this disappear today.</p>
-                    <h4 class="font-bold text-sm text-blue-300 mt-2">Target Language Requirements:</h4>
-                    <ul class="text-xs text-blue-100 list-disc pl-4 mt-1 space-y-1">
-                        <li>Use: <em>"Were this to go public, we would..."</em></li>
-                        <li>Use: <em>"I fundamentally disagree with..."</em></li>
-                        <li>Use: <em>"At the end of the day, our priority is..."</em></li>
-                    </ul>
+            </div>
+
+            <!-- Card 2: Police Chief -->
+            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner transform-style-3d transition-transform">
+                    <div class="card-front bg-slate-800 border border-green-500 backface-hidden">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-xl font-bold text-green-400">Chief of Police</h2>
+                            <i data-lucide="shield" class="w-8 h-8 text-green-500 opacity-50"></i>
+                        </div>
+                        <p class="text-slate-300 flex-grow">You are responsible for physical security. With traffic lights down and panic spreading, riots are imminent if resources aren't deployed immediately.</p>
+                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
+                    </div>
+                    <div class="card-back bg-green-900 border border-green-400 backface-hidden">
+                        <h3 class="font-bold text-green-200 border-b border-green-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
+                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
+                            <li>Your officers are working double shifts; you need $5M for emergency overtime and riot gear.</li>
+                            <li>You believe paying ransomware (IT's likely plan) is funding terrorism.</li>
+                            <li>You are willing to ally with the Mayor, but only if you get your funds.</li>
+                        </ul>
+                        <h3 class="font-bold text-green-200 border-b border-green-700 pb-1 mb-2 text-sm">Target Language</h3>
+                        <ul class="text-xs space-y-1 text-slate-300">
+                            <li>- "It might be in our best interest to focus on physical security."</li>
+                            <li>- "I'm not entirely opposed to IT funding, provided that..."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: IT Director -->
+            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner transform-style-3d transition-transform">
+                    <div class="card-front bg-slate-800 border border-purple-500 backface-hidden">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-xl font-bold text-purple-400">Head of IT</h2>
+                            <i data-lucide="terminal" class="w-8 h-8 text-purple-500 opacity-50"></i>
+                        </div>
+                        <p class="text-slate-300 flex-grow">You are dealing with the core problem: the ransomware. The attackers have encrypted everything and are demanding immediate payment or a system overhaul.</p>
+                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
+                    </div>
+                    <div class="card-back bg-purple-900 border border-purple-400 backface-hidden">
+                        <h3 class="font-bold text-purple-200 border-b border-purple-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
+                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
+                            <li>The attackers want exactly $7M in crypto. If not paid, city data is wiped forever.</li>
+                            <li>You know the Mayor ignored your budget requests last year (use this against them).</li>
+                            <li>You must convince the team that physical security is useless without digital systems.</li>
+                        </ul>
+                        <h3 class="font-bold text-purple-200 border-b border-purple-700 pb-1 mb-2 text-sm">Target Language</h3>
+                        <ul class="text-xs space-y-1 text-slate-300">
+                            <li>- "Had we addressed this vulnerability earlier, we wouldn't be..."</li>
+                            <li>- "While I understand your concerns, the reality is that..."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Hospital Director -->
+            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
+                <div class="card-inner transform-style-3d transition-transform">
+                    <div class="card-front bg-slate-800 border border-red-500 backface-hidden">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-xl font-bold text-red-400">Hospital Director</h2>
+                            <i data-lucide="activity" class="w-8 h-8 text-red-500 opacity-50"></i>
+                        </div>
+                        <p class="text-slate-300 flex-grow">Your systems are down. Backup generators will fail in 2 hours. Life support systems for 50+ ICU patients are critically at risk.</p>
+                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
+                    </div>
+                    <div class="card-back bg-red-900 border border-red-400 backface-hidden">
+                        <h3 class="font-bold text-red-200 border-b border-red-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
+                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
+                            <li>You need an immediate $6M to secure mobile generators and transfer patients out of the city.</li>
+                            <li>You consider the IT and Police concerns secondary to human lives.</li>
+                            <li>You will refuse to sign any plan that doesn't guarantee your funding.</li>
+                        </ul>
+                        <h3 class="font-bold text-red-200 border-b border-red-700 pb-1 mb-2 text-sm">Target Language</h3>
+                        <ul class="text-xs space-y-1 text-slate-300">
+                            <li>- "We are talking about literal life and death here; therefore..."</li>
+                            <li>- "I fail to see how public relations takes precedence over..."</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: CISO -->
-        <div class="perspective-1000 h-96 group cursor-pointer" onclick="flipCard(this)">
-            <div class="relative w-full h-full transform-style-3d transition-transform duration-700" id="card-2">
-                <!-- Front -->
-                <div class="absolute w-full h-full backface-hidden bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center shadow-lg">
-                    <div class="bg-red-900 p-4 rounded-full mb-4"><i data-lucide="shield-alert" class="w-10 h-10 text-red-400"></i></div>
-                    <h2 class="text-2xl font-bold text-white mb-2">The CISO</h2>
-                    <p class="text-slate-400 text-sm mb-6">Head of IT Security. Data integrity is the only priority.</p>
-                    <span class="text-red-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1"><i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Tap to flip card</span>
-                </div>
-                <!-- Back -->
-                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-red-900 border border-red-500 rounded-xl p-5 shadow-lg overflow-y-auto">
-                    <h3 class="font-bold text-xl text-white mb-2 border-b border-red-700 pb-2">Secret Backstory</h3>
-                    <p class="text-sm text-red-100 mb-3">You know the hackers left a backdoor. If you pay them, they will just hack you again next week. <strong>Motivation:</strong> You MUST refuse the ransom. You need 72 hours of complete system shutdown to purge the virus, meaning no revenue for 3 days.</p>
-                    <h4 class="font-bold text-sm text-red-300 mt-2">Target Language Requirements:</h4>
-                    <ul class="text-xs text-red-100 list-disc pl-4 mt-1 space-y-1">
-                        <li>Use: <em>"Under no circumstances should we..."</em></li>
-                        <li>Use: <em>"Had we updated the legacy systems..."</em></li>
-                        <li>Use: <em>"The sheer magnitude of this breach..."</em></li>
-                    </ul>
-                </div>
+        <!-- Deliverable Scratchpad -->
+        <div class="bg-slate-800 rounded-xl border border-slate-700 shadow-lg flex flex-col h-[780px] lg:h-auto">
+            <div class="p-4 border-b border-slate-700 bg-slate-850 rounded-t-xl flex justify-between items-center">
+                <h2 class="font-bold flex items-center gap-2"><i data-lucide="edit-3" class="w-5 h-5 text-amber-500"></i> Group Scratchpad</h2>
+                <span class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">Total Budget: $10,000,000</span>
             </div>
-        </div>
-
-        <!-- Card 3: Head of PR -->
-        <div class="perspective-1000 h-96 group cursor-pointer" onclick="flipCard(this)">
-            <div class="relative w-full h-full transform-style-3d transition-transform duration-700" id="card-3">
-                <!-- Front -->
-                <div class="absolute w-full h-full backface-hidden bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center shadow-lg">
-                    <div class="bg-emerald-900 p-4 rounded-full mb-4"><i data-lucide="megaphone" class="w-10 h-10 text-emerald-400"></i></div>
-                    <h2 class="text-2xl font-bold text-white mb-2">Head of P.R.</h2>
-                    <p class="text-slate-400 text-sm mb-6">Controls the narrative and manages client trust.</p>
-                    <span class="text-emerald-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1"><i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Tap to flip card</span>
-                </div>
-                <!-- Back -->
-                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-emerald-900 border border-emerald-500 rounded-xl p-5 shadow-lg overflow-y-auto">
-                    <h3 class="font-bold text-xl text-white mb-2 border-b border-emerald-700 pb-2">Secret Backstory</h3>
-                    <p class="text-sm text-emerald-100 mb-3">A whistleblower has already leaked rumors of the hack to a major tech blog. It will be published in 2 hours. <strong>Motivation:</strong> You MUST convince the team to release a public statement immediately admitting fault to control the narrative.</p>
-                    <h4 class="font-bold text-sm text-emerald-300 mt-2">Target Language Requirements:</h4>
-                    <ul class="text-xs text-emerald-100 list-disc pl-4 mt-1 space-y-1">
-                        <li>Use: <em>"It is imperative that we..."</em></li>
-                        <li>Use: <em>"Should the press catch wind of this..."</em></li>
-                        <li>Use: <em>"I urge you to consider the optics..."</em></li>
-                    </ul>
-                </div>
+            <div class="p-4 flex-grow flex flex-col gap-2">
+                <p class="text-sm text-slate-400 mb-2">Your team MUST unanimously agree on a 3-point action plan allocating the $10M budget before time expires.</p>
+                <textarea class="w-full flex-grow bg-slate-900 border border-slate-600 rounded p-3 text-slate-200 resize-none focus:outline-none focus:border-amber-500" placeholder="Point 1: Allocate $X to... because...&#10;&#10;Point 2: ...&#10;&#10;Point 3: ..."></textarea>
             </div>
-        </div>
-
-        <!-- Card 4: Legal Counsel -->
-        <div class="perspective-1000 h-96 group cursor-pointer" onclick="flipCard(this)">
-            <div class="relative w-full h-full transform-style-3d transition-transform duration-700" id="card-4">
-                <!-- Front -->
-                <div class="absolute w-full h-full backface-hidden bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center shadow-lg">
-                    <div class="bg-purple-900 p-4 rounded-full mb-4"><i data-lucide="scale" class="w-10 h-10 text-purple-400"></i></div>
-                    <h2 class="text-2xl font-bold text-white mb-2">Legal Counsel</h2>
-                    <p class="text-slate-400 text-sm mb-6">Ensures compliance and minimizes legal liability.</p>
-                    <span class="text-purple-500 text-xs font-bold uppercase tracking-wider flex items-center gap-1"><i data-lucide="mouse-pointer-click" class="w-4 h-4"></i> Tap to flip card</span>
-                </div>
-                <!-- Back -->
-                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-purple-900 border border-purple-500 rounded-xl p-5 shadow-lg overflow-y-auto">
-                    <h3 class="font-bold text-xl text-white mb-2 border-b border-purple-700 pb-2">Secret Backstory</h3>
-                    <p class="text-sm text-purple-100 mb-3">The hacking group is on an international sanctions list. Paying them is a federal crime that could land the executives in prison. <strong>Motivation:</strong> You MUST block the ransom payment, even if it means losing client data and facing lawsuits.</p>
-                    <h4 class="font-bold text-sm text-purple-300 mt-2">Target Language Requirements:</h4>
-                    <ul class="text-xs text-purple-100 list-disc pl-4 mt-1 space-y-1">
-                        <li>Use: <em>"From a legal standpoint, we are bound to..."</em></li>
-                        <li>Use: <em>"Not only would paying be risky, but also..."</em></li>
-                        <li>Use: <em>"We must tread carefully here..."</em></li>
-                    </ul>
-                </div>
+            <div class="p-4 border-t border-slate-700">
+                <button class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded transition-colors" onclick="alert('Deliverable locked in. Time for the final debrief!')">Submit Final Action Plan</button>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Section: Toolkit & Scratchpad -->
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <!-- Scaffolding Toolkit -->
-        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 col-span-1">
-            <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="copy" class="w-5 h-5"></i> C1 Phrase Toolkit</h3>
-            <p class="text-sm text-slate-400 mb-4">Click to copy high-level phrases to your clipboard.</p>
-            <div class="space-y-2">
-                <button onclick="copyText('With all due respect, that approach is fundamentally flawed.')" class="w-full text-left bg-slate-700 hover:bg-slate-600 p-3 rounded text-sm transition font-medium">"With all due respect, that approach is fundamentally flawed."</button>
-                <button onclick="copyText('Are we prepared to accept the long-term ramifications of...?')" class="w-full text-left bg-slate-700 hover:bg-slate-600 p-3 rounded text-sm transition font-medium">"Are we prepared to accept the long-term ramifications of...?"</button>
-                <button onclick="copyText('Let’s look at the bigger picture here.')" class="w-full text-left bg-slate-700 hover:bg-slate-600 p-3 rounded text-sm transition font-medium">"Let’s look at the bigger picture here."</button>
-                <button onclick="copyText('I propose a compromise that mitigates the risk while...')" class="w-full text-left bg-slate-700 hover:bg-slate-600 p-3 rounded text-sm transition font-medium">"I propose a compromise that mitigates the risk while..."</button>
+    <!-- Objectives Modal -->
+    <div id="objectivesModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'objectivesModal')">
+        <div class="bg-slate-800 rounded-xl border border-slate-600 max-w-lg w-full shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+            <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-900">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-indigo-400"></i> Extracted Class Objectives</h3>
+                <i data-lucide="x" class="w-6 h-6 p-1 cursor-pointer hover:text-red-400 transition-colors" onclick="toggleModal('objectivesModal')"></i>
             </div>
-        </div>
-
-        <!-- Group Scratchpad -->
-        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 col-span-1 lg:col-span-2 flex flex-col">
-            <h3 class="text-xl font-bold mb-2 flex items-center gap-2 text-yellow-500"><i data-lucide="edit-3" class="w-5 h-5"></i> Group Scratchpad: Final Deliverable</h3>
-            <p class="text-sm text-slate-400 mb-4">You MUST write a 100% agreed 3-point action plan before 0:00.</p>
-            <textarea class="w-full flex-grow bg-slate-900 border border-slate-600 rounded p-4 text-slate-100 font-mono text-sm focus:outline-none focus:border-yellow-500 resize-none" placeholder="1. Ransom Decision:&#10;2. Public Relations Strategy:&#10;3. Internal Systems Protocol:"></textarea>
-        </div>
-    </div>
-
-    <!-- Syllabus Modal -->
-    <div id="objectivesModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4" onclick="closeModalOnBackdrop(event, 'objectivesModal')">
-        <div class="bg-slate-800 border border-slate-600 rounded-xl p-6 max-w-md w-full relative">
-            <button onclick="toggleModal('objectivesModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            <h2 class="text-2xl font-bold mb-4 text-blue-400">CLASS OBJECTIVES.xlsx</h2>
-            <div class="space-y-4 text-sm text-slate-300">
-                <p><strong>Classes targeted:</strong> 34, 43, 50, 53</p>
+            <div class="p-6 space-y-4 text-sm text-slate-300">
+                <p class="font-semibold text-slate-200">Based on CLASS OBJECTIVES.xlsx (Classes 34, 43, 50, 53):</p>
                 <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>C1 Fluency:</strong> Sustain a 15-minute debate defending a strict agenda without breaking character.</li>
-                    <li><strong>Advanced Conditionals:</strong> Use inverted conditionals to speculate on disastrous scenarios.</li>
-                    <li><strong>Negotiation:</strong> Concede points strategically to formulate a unified action plan under time pressure.</li>
+                    <li><strong>Cl 34:</strong> Advanced negotiation and hedging to soften disagreements.</li>
+                    <li><strong>Cl 43:</strong> Expressing hypotheticals and counterfactuals (Mixed conditionals).</li>
+                    <li><strong>Cl 50:</strong> Persuasion and mitigating conflict in professional, high-stakes settings.</li>
+                    <li><strong>Cl 53:</strong> Synthesizing complex data to formulate a strategic consensus.</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- C1 Toolkit Modal -->
+    <div id="toolkitModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'toolkitModal')">
+        <div class="bg-slate-800 rounded-xl border border-slate-600 max-w-2xl w-full shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+            <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-900">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="message-square" class="w-5 h-5 text-indigo-400"></i> C1 Scaffolding Toolkit</h3>
+                <i data-lucide="x" class="w-6 h-6 p-1 cursor-pointer hover:text-red-400 transition-colors" onclick="toggleModal('toolkitModal')"></i>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div class="space-y-2">
+                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Hedging & Softening</h4>
+                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
+                        <span>"It might be in our best interest to..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
+                        <span>"I'm not entirely opposed to that, but..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Mixed Conditionals</h4>
+                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
+                        <span>"If we had acted sooner, we wouldn't be..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
+                        <span>"Provided that we secure X, I would agree."</span>
+                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-2">
+                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Firm Disagreement</h4>
+                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
+                        <span>"With all due respect, I cannot endorse..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-2">
+                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Reaching Consensus</h4>
+                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
+                        <span>"Let's establish common ground here..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                </div>
+
+            </div>
+            <div id="copyToast" class="text-center text-xs text-green-400 p-2 h-8 opacity-0 transition-opacity">Phrase copied to clipboard!</div>
+        </div>
+    </div>
+
     <script>
-        // Initialize Lucide Icons
+        // Initialize Icons
         lucide.createIcons();
 
-        // 3D Card Flip Logic
-        function flipCard(cardContainer) {
-            const innerCard = cardContainer.querySelector('.transform-style-3d');
-            if (innerCard.style.transform === 'rotateY(180deg)') {
-                innerCard.style.transform = 'rotateY(0deg)';
-            } else {
-                innerCard.style.transform = 'rotateY(180deg)';
-            }
-        }
-
         // Modal Logic
-        function toggleModal(modalId) {
-            const modal = document.getElementById(modalId);
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
             modal.classList.toggle('hidden');
         }
-        function closeModalOnBackdrop(event, modalId) {
-            if (event.target.id === modalId) {
-                toggleModal(modalId);
-            }
+        function closeModalOnBackdrop(e, id) {
+            if(e.target === e.currentTarget) toggleModal(id);
         }
 
         // Copy to Clipboard
-        function copyText(text) {
+        function copyPhrase(btn) {
+            const text = btn.querySelector('span').innerText;
             navigator.clipboard.writeText(text).then(() => {
-                alert("Copied: " + text);
+                const toast = document.getElementById('copyToast');
+                toast.style.opacity = '1';
+                setTimeout(() => toast.style.opacity = '0', 2000);
             });
+        }
+
+        // Audio Context & Beeps
+        let audioCtx;
+        function playBeep(frequency = 440, duration = 0.2, type = 'sine') {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.type = type;
+            oscillator.frequency.value = frequency;
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+            oscillator.stop(audioCtx.currentTime + duration);
         }
 
         // Timer Logic
         let timerInterval;
-        let timeLeft = 900; // 15 minutes in seconds
-        let isRunning = false;
+        let timeLeft = 900; // 15 minutes
+        const display = document.getElementById('timerDisplay');
+        const startBtn = document.getElementById('startTimerBtn');
+        const progressBar = document.getElementById('phaseProgress');
+        const phaseText = document.getElementById('phaseText');
 
         function updateDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            document.getElementById('timerDisplay').innerText = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
-            // Phase styling updates
-            if(timeLeft > 720) { // Phase 1
-                document.getElementById('phase1').classList.replace('text-slate-500', 'text-slate-300');
-                document.getElementById('phase1').classList.replace('border-slate-700', 'border-blue-500');
-            } else if (timeLeft <= 720 && timeLeft > 300) { // Phase 2
-                document.getElementById('phase1').classList.replace('text-slate-300', 'text-slate-500');
-                document.getElementById('phase1').classList.replace('border-blue-500', 'border-slate-700');
-                document.getElementById('phase2').classList.replace('text-slate-500', 'text-yellow-400');
-                document.getElementById('phase2').classList.replace('border-slate-700', 'border-yellow-500');
-                if(timeLeft === 720) playBeep();
-            } else if (timeLeft <= 300) { // Phase 3
-                document.getElementById('phase2').classList.replace('text-yellow-400', 'text-slate-500');
-                document.getElementById('phase2').classList.replace('border-yellow-500', 'border-slate-700');
-                document.getElementById('phase3').classList.replace('text-slate-500', 'text-red-400');
-                document.getElementById('phase3').classList.replace('border-slate-700', 'border-red-500');
-                if(timeLeft === 300) playBeep();
+            // Progress Bar (Percentage elapsed)
+            const percent = ((900 - timeLeft) / 900) * 100;
+            progressBar.style.width = `${percent}%`;
+
+            // Phase Text Logic
+            if (timeLeft > 720) {
+                phaseText.textContent = "Phase 1: Briefing & Initial Demands (Clashing priorities)";
+                progressBar.className = "h-full bg-blue-500 w-0 transition-all duration-1000";
+            } else if (timeLeft > 300) {
+                phaseText.textContent = "Phase 2: Negotiation & Counterfactuals (Use Target Language!)";
+                progressBar.className = "h-full bg-amber-500 transition-all duration-1000";
+            } else if (timeLeft > 0) {
+                phaseText.textContent = "Phase 3: Final Consensus & Drafting (Write Action Plan!)";
+                progressBar.className = "h-full bg-red-600 transition-all duration-1000";
+                if(timeLeft <= 60) display.classList.add('animate-pulse');
+            }
+
+            // Audio Alerts
+            if (timeLeft === 720) playBeep(600, 0.5); // 12 mins left (Phase 2 start)
+            if (timeLeft === 300) playBeep(700, 0.5); // 5 mins left (Phase 3 start)
+            if (timeLeft === 60) playBeep(800, 0.8, 'square'); // 1 min left warning
+            if (timeLeft === 0) {
+                playBeep(400, 1.5, 'sawtooth'); // Time up
+                clearInterval(timerInterval);
+                display.classList.remove('animate-pulse');
+                phaseText.textContent = "TIME IS UP! PENS DOWN.";
             }
         }
 
-        function startTimer() {
-            if (!isRunning && timeLeft > 0) {
-                isRunning = true;
+        startBtn.addEventListener('click', () => {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            if (startBtn.innerText.includes('Start')) {
+                startBtn.innerHTML = `<i data-lucide="pause" class="w-5 h-5"></i> Pause Task`;
+                lucide.createIcons();
                 timerInterval = setInterval(() => {
-                    timeLeft--;
-                    updateDisplay();
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        isRunning = false;
-                        playBeep(3);
+                    if (timeLeft > 0) {
+                        timeLeft--;
+                        updateDisplay();
                     }
                 }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                startBtn.innerHTML = `<i data-lucide="play" class="w-5 h-5"></i> Resume Task`;
+                lucide.createIcons();
             }
-        }
-
-        function pauseTimer() {
-            isRunning = false;
-            clearInterval(timerInterval);
-        }
-
-        function resetTimer() {
-            pauseTimer();
-            timeLeft = 900;
-            updateDisplay();
-            
-            // Reset phase styles
-            document.getElementById('phase1').className = "bg-slate-800 p-3 rounded-lg border-b-4 border-blue-500 text-slate-300";
-            document.getElementById('phase2').className = "bg-slate-800 p-3 rounded-lg border-b-4 border-slate-700 text-slate-500 transition-colors";
-            document.getElementById('phase3').className = "bg-slate-800 p-3 rounded-lg border-b-4 border-slate-700 text-slate-500 transition-colors";
-        }
-
-        // Simple AudioContext Beep
-        function playBeep(times = 1) {
-            let count = 0;
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const interval = setInterval(() => {
-                const osc = ctx.createOscillator();
-                osc.type = "sine";
-                osc.frequency.setValueAtTime(800, ctx.currentTime);
-                osc.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + 0.2);
-                count++;
-                if (count >= times) clearInterval(interval);
-            }, 400);
-        }
+        });
     </script>
 </body>
 </html>
