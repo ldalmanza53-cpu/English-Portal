@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EFL Task: The 10-Year Reunion</title>
+    <title>EFL Task: The Airport Security Check</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -14,53 +14,53 @@
         .flip-card-inner { transition: transform 0.6s; }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 p-4 md:p-8">
-    <div class="max-w-7xl mx-auto space-y-8">
+<body class="bg-gray-50 font-sans text-gray-900 p-4 md:p-8">
+    <div class="max-w-6xl mx-auto space-y-8">
         
         <!-- Standalone Main Task Card -->
         <section class="bg-white rounded-2xl shadow-lg p-6 md:p-10 border-t-8 border-blue-600">
             <div class="flex justify-between items-start mb-6">
                 <div>
-                    <h1 class="text-3xl font-bold text-slate-900 mb-2">The 10-Year High School Reunion</h1>
-                    <p class="text-lg text-slate-600">You are 5 old friends. Today, you meet again after 10 years!</p>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">The Airport Security Check</h1>
+                    <p class="text-lg text-gray-600">You are at the airport. You need to check the IDs of 3 people.</p>
                 </div>
                 <button onclick="openModal()" class="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition cursor-pointer">
                     <i data-lucide="book-open" class="w-5 h-5"></i>
-                    <span class="font-semibold hidden md:inline">Syllabus Objectives</span>
+                    <span class="font-semibold hidden md:inline">Syllabus Goals</span>
                 </button>
             </div>
             
-            <div class="bg-blue-50 rounded-xl p-6 mb-6">
+            <div class="bg-blue-50 rounded-xl p-6 mb-6 border border-blue-200">
                 <h2 class="text-xl font-bold text-blue-900 mb-2 flex items-center gap-2">
-                    <i data-lucide="target" class="w-6 h-6"></i> Concrete Final Deliverable
+                    <i data-lucide="check-circle" class="w-6 h-6"></i> Your Group Mission
                 </h2>
-                <p class="text-blue-800">Work together to write <strong>The Reunion Report</strong> in the Group Scratchpad below. You must agree on:</p>
-                <ul class="list-disc list-inside mt-2 text-blue-800 space-y-1">
-                    <li>The biggest change in someone's life (What did they use to do?).</li>
-                    <li>One good piece of advice for your past selves.</li>
-                    <li>One interesting thing another classmate said today.</li>
+                <p class="text-blue-800 text-lg">Work together. Write the <strong>ID Check Form</strong> in the Group Scratchpad below. You need:</p>
+                <ul class="list-disc list-inside mt-2 text-blue-900 space-y-1 font-medium">
+                    <li>Person 1: Name and Country</li>
+                    <li>Person 2: Name and Job</li>
+                    <li>Person 3: Name and Age</li>
                 </ul>
             </div>
 
             <div class="space-y-4">
-                <h3 class="text-lg font-bold flex items-center gap-2 text-slate-800">
-                    <i data-lucide="map" class="w-5 h-5"></i> Mission Stages Breakdown
+                <h3 class="text-lg font-bold flex items-center gap-2 text-gray-800">
+                    <i data-lucide="list" class="w-5 h-5"></i> Mission Stages
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bg-slate-100 p-4 rounded-lg">
-                        <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Stage 1</span>
-                        <h4 class="font-bold mt-2">Remember the Past</h4>
-                        <p class="text-sm mt-1">Talk about your early life. Discuss what you used to do when you were young.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                        <span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded uppercase">Stage 1</span>
+                        <h4 class="font-bold mt-2 text-lg">Introduce</h4>
+                        <p class="text-sm mt-1">Say hello. Introduce yourself and others using "I am" and "He/She is".</p>
                     </div>
-                    <div class="bg-slate-100 p-4 rounded-lg">
-                        <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Stage 2</span>
-                        <h4 class="font-bold mt-2">Imagine & Advise</h4>
-                        <p class="text-sm mt-1">Talk about imaginary situations, and give your friends advice about their old mistakes.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                        <span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded uppercase">Stage 2</span>
+                        <h4 class="font-bold mt-2 text-lg">Ask & Confirm</h4>
+                        <p class="text-sm mt-1">Ask yes/no questions to confirm information. Use "Are you...?" or "Is he...?"</p>
                     </div>
-                    <div class="bg-slate-100 p-4 rounded-lg">
-                        <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Stage 3</span>
-                        <h4 class="font-bold mt-2">Report & Agree</h4>
-                        <p class="text-sm mt-1">Tell the group what other people said (rumors), and write your final report together.</p>
+                    <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                        <span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded uppercase">Stage 3</span>
+                        <h4 class="font-bold mt-2 text-lg">Write IDs</h4>
+                        <p class="text-sm mt-1">Write the correct information in the Group Scratchpad.</p>
                     </div>
                 </div>
             </div>
@@ -68,232 +68,181 @@
 
         <!-- 3D Flip Role Cards Grid -->
         <section>
-            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-                <i data-lucide="users" class="w-6 h-6"></i> Choose Your Role (Tap to view secret)
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-gray-800">
+                <i data-lucide="users" class="w-6 h-6"></i> Choose Your Role
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <!-- Card 1: The Nostalgic -->
-                <div class="perspective-1000 h-96">
-                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
-                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
-                            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="history" class="w-8 h-8"></i>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">The Nostalgic</h3>
-                            <p class="text-sm text-slate-500 flex-grow">You remember everything about your early life.</p>
-                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
-                                Tap to Flip
-                            </button>
-                        </div>
-                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
-                            <h3 class="font-bold text-lg mb-2 text-red-400">Secret Backstory</h3>
-                            <p class="text-sm mb-4">You miss the past. You want to talk about the simple life you had when you were young.</p>
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
-                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
-                                <li>Use the simple past.</li>
-                                <li>Talk about a childhood memory.</li>
-                                <li>Use "was" and "were".</li>
-                            </ul>
-                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
-                                Flip Back
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2: The Changed One -->
-                <div class="perspective-1000 h-96">
-                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
-                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                
+                <!-- Role 1 (Class 1) -->
+                <div class="perspective-1000 h-[350px]">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl cursor-pointer">
+                        <!-- Front -->
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-gray-200 rounded-xl p-6 flex flex-col items-center text-center">
                             <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="refresh-cw" class="w-8 h-8"></i>
+                                <i data-lucide="user-plus" class="w-8 h-8"></i>
                             </div>
-                            <h3 class="font-bold text-xl mb-2">The Changed One</h3>
-                            <p class="text-sm text-slate-500 flex-grow">Your habits are completely different now.</p>
-                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                            <h3 class="font-bold text-2xl mb-2">The Friend</h3>
+                            <p class="text-gray-600 flex-grow">You know everyone. You like to introduce people.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-gray-800 text-white w-full py-3 rounded-lg font-bold hover:bg-gray-700 transition">
                                 Tap to Flip
                             </button>
                         </div>
-                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
-                            <h3 class="font-bold text-lg mb-2 text-green-400">Secret Backstory</h3>
-                            <p class="text-sm mb-4">You used to be very quiet. Now you are very loud and famous. Compare your old life!</p>
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
-                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
-                                <li>Compare past and current habits.</li>
-                                <li>Use "used to" (e.g., I used to play...).</li>
-                                <li>Use "didn't use to".</li>
+                        <!-- Back -->
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-xl mb-2 text-green-400">Your Information</h3>
+                            <p class="text-sm mb-4">You are <strong>Tom</strong>. You are from Canada. Introduce yourself and the people next to you.</p>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-base space-y-2 flex-grow list-none">
+                                <li>👉 "Hello, I am Tom."</li>
+                                <li>👉 "I am from Canada."</li>
+                                <li>👉 "This is my friend."</li>
                             </ul>
-                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                            <button onclick="flipCard(this)" class="mt-4 border-2 border-gray-500 text-white w-full py-2 rounded-lg text-sm font-bold hover:bg-gray-700 transition">
                                 Flip Back
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: The Dreamer -->
-                <div class="perspective-1000 h-96">
-                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
-                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
-                            <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="cloud" class="w-8 h-8"></i>
+                <!-- Role 2 (Class 2) -->
+                <div class="perspective-1000 h-[350px]">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl cursor-pointer">
+                        <!-- Front -->
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-gray-200 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="help-circle" class="w-8 h-8"></i>
                             </div>
-                            <h3 class="font-bold text-xl mb-2">The Dreamer</h3>
-                            <p class="text-sm text-slate-500 flex-grow">You always think about imaginary events.</p>
-                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                            <h3 class="font-bold text-2xl mb-2">The Officer</h3>
+                            <p class="text-gray-600 flex-grow">You work at the airport. You ask many questions.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-gray-800 text-white w-full py-3 rounded-lg font-bold hover:bg-gray-700 transition">
                                 Tap to Flip
                             </button>
                         </div>
-                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
-                            <h3 class="font-bold text-lg mb-2 text-purple-400">Secret Backstory</h3>
-                            <p class="text-sm mb-4">You wonder how life would be if things were different. You like to dream about the impossible.</p>
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
-                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
-                                <li>Discuss imaginary events.</li>
-                                <li>Use "If I were..." or "If I had...".</li>
-                                <li>Ask others about their dreams.</li>
+                        <!-- Back -->
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-xl mb-2 text-blue-400">Your Information</h3>
+                            <p class="text-sm mb-4">You have a paper with mistakes. You think Tom is from the UK. You think the doctor is a teacher.</p>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-base space-y-2 flex-grow list-none">
+                                <li>👉 "Are you from the UK?"</li>
+                                <li>👉 "Is he a teacher?"</li>
+                                <li>👉 "Are you 25 years old?"</li>
                             </ul>
-                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                            <button onclick="flipCard(this)" class="mt-4 border-2 border-gray-500 text-white w-full py-2 rounded-lg text-sm font-bold hover:bg-gray-700 transition">
                                 Flip Back
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 4: The Advisor -->
-                <div class="perspective-1000 h-96">
-                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
-                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+                <!-- Role 3 (Class 2) -->
+                <div class="perspective-1000 h-[350px]">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl cursor-pointer">
+                        <!-- Front -->
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-gray-200 rounded-xl p-6 flex flex-col items-center text-center">
                             <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="message-square" class="w-8 h-8"></i>
+                                <i data-lucide="x-circle" class="w-8 h-8"></i>
                             </div>
-                            <h3 class="font-bold text-xl mb-2">The Advisor</h3>
-                            <p class="text-sm text-slate-500 flex-grow">You like giving advice on past mistakes.</p>
-                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                            <h3 class="font-bold text-2xl mb-2">The Doctor</h3>
+                            <p class="text-gray-600 flex-grow">You are tired. You only answer yes or no.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-gray-800 text-white w-full py-3 rounded-lg font-bold hover:bg-gray-700 transition">
                                 Tap to Flip
                             </button>
                         </div>
-                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
-                            <h3 class="font-bold text-lg mb-2 text-orange-400">Secret Backstory</h3>
-                            <p class="text-sm mb-4">You think you know best. You always tell people what they did wrong in the past and suggest better ideas.</p>
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
-                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
-                                <li>Give advice about past events.</li>
-                                <li>Use "You should have..." or "It was a bad idea to...".</li>
-                                <li>Ask for advice too.</li>
+                        <!-- Back -->
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-gray-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-xl mb-2 text-orange-400">Your Information</h3>
+                            <p class="text-sm mb-4">You are <strong>Anna</strong>. You are 30 years old. You are a doctor. Correct the Officer's mistakes.</p>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-base space-y-2 flex-grow list-none">
+                                <li>👉 "No, I am not."</li>
+                                <li>👉 "Yes, I am."</li>
+                                <li>👉 "I am a doctor."</li>
                             </ul>
-                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                            <button onclick="flipCard(this)" class="mt-4 border-2 border-gray-500 text-white w-full py-2 rounded-lg text-sm font-bold hover:bg-gray-700 transition">
                                 Flip Back
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 5: The Reporter -->
-                <div class="perspective-1000 h-96">
-                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
-                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
-                            <div class="w-16 h-16 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mb-4">
-                                <i data-lucide="radio" class="w-8 h-8"></i>
-                            </div>
-                            <h3 class="font-bold text-xl mb-2">The Reporter</h3>
-                            <p class="text-sm text-slate-500 flex-grow">You love sharing what others said.</p>
-                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
-                                Tap to Flip
-                            </button>
-                        </div>
-                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
-                            <h3 class="font-bold text-lg mb-2 text-pink-400">Secret Backstory</h3>
-                            <p class="text-sm mb-4">You spoke to other old classmates before the reunion. You want to repeat their statements to the group.</p>
-                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
-                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
-                                <li>Discuss statements other people made.</li>
-                                <li>Use reported speech ("He said that...").</li>
-                                <li>Mention opinions from old teachers.</li>
-                            </ul>
-                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
-                                Flip Back
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
         <!-- Toolkit & Scratchpad -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
             <!-- Scaffolding Toolkit -->
             <section class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-indigo-500">
-                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                    <i data-lucide="wrench" class="w-6 h-6"></i> Phrase Toolkit
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900">
+                    <i data-lucide="message-square" class="w-6 h-6 text-indigo-500"></i> Phrase Help
                 </h2>
-                <p class="text-sm text-slate-500 mb-4">Click any phrase to copy it to your clipboard.</p>
+                <p class="text-sm text-gray-500 mb-4">Click a phrase to copy it.</p>
                 <div class="space-y-3">
-                    <button onclick="copyText('When I was young, I was...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
-                        <span class="font-medium">"When I was young, I was..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    <button onclick="copyText('Hello, my name is...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition font-medium">
+                        <span>"Hello, my name is..."</span>
+                        <i data-lucide="copy" class="w-5 h-5 text-indigo-500"></i>
                     </button>
-                    <button onclick="copyText('I used to play sports, but now I...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
-                        <span class="font-medium">"I used to play sports, but now I..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    <button onclick="copyText('This is my friend.')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition font-medium">
+                        <span>"This is my friend."</span>
+                        <i data-lucide="copy" class="w-5 h-5 text-indigo-500"></i>
                     </button>
-                    <button onclick="copyText('If I could change the past, I would...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
-                        <span class="font-medium">"If I could change the past, I would..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    <button onclick="copyText('Are you a doctor?')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition font-medium">
+                        <span>"Are you a doctor?"</span>
+                        <i data-lucide="copy" class="w-5 h-5 text-indigo-500"></i>
                     </button>
-                    <button onclick="copyText('I think you should have studied more.')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
-                        <span class="font-medium">"I think you should have studied more."</span>
-                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    <button onclick="copyText('Yes, I am. / No, I am not.')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition font-medium">
+                        <span>"Yes, I am. / No, I am not."</span>
+                        <i data-lucide="copy" class="w-5 h-5 text-indigo-500"></i>
                     </button>
-                    <button onclick="copyText('Mary said that she liked the new city.')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
-                        <span class="font-medium">"Mary said that she liked the new city."</span>
-                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    <button onclick="copyText('Is he from Canada?')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition font-medium">
+                        <span>"Is he from Canada?"</span>
+                        <i data-lucide="copy" class="w-5 h-5 text-indigo-500"></i>
                     </button>
                 </div>
             </section>
 
             <!-- Scratchpad -->
             <section class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-yellow-400 flex flex-col">
-                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-                    <i data-lucide="edit-3" class="w-6 h-6"></i> Group Scratchpad
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2 text-gray-900">
+                    <i data-lucide="edit-3" class="w-6 h-6 text-yellow-500"></i> Group Scratchpad
                 </h2>
-                <p class="text-sm text-slate-500 mb-4">Use this space to write the final Reunion Report.</p>
-                <textarea class="w-full flex-grow bg-yellow-50 border border-yellow-200 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none min-h-[250px]" placeholder="1. The biggest change: ...&#10;2. Advice for the past: ...&#10;3. Classmate rumor: ..."></textarea>
+                <p class="text-sm text-gray-500 mb-4">Write the correct IDs here.</p>
+                <textarea class="w-full flex-grow bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 text-gray-800 text-lg focus:outline-none focus:ring-4 focus:ring-yellow-300 resize-none min-h-[250px]" placeholder="Person 1: Tom, Country: ...&#10;Person 2: Anna, Job: ...&#10;Person 3: ..."></textarea>
             </section>
         </div>
     </div>
 
     <!-- Objectives Dossier Modal -->
     <div id="syllabusModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm cursor-pointer" onclick="closeModal()"></div>
-        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl relative z-10 overflow-hidden">
-            <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm cursor-pointer" onclick="closeModal()"></div>
+        <!-- Modal Content -->
+        <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl relative z-10 overflow-hidden">
+            <div class="bg-gray-800 text-white p-4 flex justify-between items-center">
                 <h2 class="text-lg font-bold flex items-center gap-2">
-                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
-                    Extracted Syllabus Objectives
+                    <i data-lucide="file-check" class="w-5 h-5"></i>
+                    Syllabus Goals
                 </h2>
-                <button onclick="closeModal()" class="p-2 hover:bg-slate-700 rounded-full transition cursor-pointer">
+                <button onclick="closeModal()" class="p-2 hover:bg-gray-700 rounded-full transition cursor-pointer">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
             <div class="p-6 space-y-4">
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">CEFR Level A2 - Class 1</span>
-                    <p class="font-medium mt-1">"Recall past experiences in my early life"</p>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wide">CEFR Level A1 - Class 1</span>
+                    <p class="font-medium mt-1 text-gray-800">"Introduce myself and others"</p>
                 </div>
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">CEFR Level A2 - Class 2</span>
-                    <p class="font-medium mt-1">"Compare past and current habits"</p>
-                </div>
-                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
-                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">CEFR Level A2 - Class 72</span>
-                    <p class="font-medium mt-1">"1. Discuss imaginary events 2. Ask for, and give advice and suggestions about past events 3. Discuss statements other people made"</p>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-wide">CEFR Level A1 - Class 2</span>
+                    <p class="font-medium mt-1 text-gray-800">"Confirm and correct information with yes/no questions"</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialize Lucide Icons
+        // Initialize Icons
         lucide.createIcons();
 
         // 3D Flip Card Logic
@@ -315,20 +264,19 @@
             document.getElementById('syllabusModal').classList.add('hidden');
         }
 
-        // Click-to-copy Logic
+        // Copy Toolkit Text Logic
         function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalBtn = event.currentTarget;
-                const icon = originalBtn.querySelector('i');
                 const span = originalBtn.querySelector('span');
-                const originalHTML = originalBtn.innerHTML;
+                const originalText = span.textContent;
                 
                 span.textContent = "Copied!";
-                span.classList.add("text-green-600");
+                span.classList.add("text-green-600", "font-bold");
                 
                 setTimeout(() => {
-                    originalBtn.innerHTML = originalHTML;
-                    lucide.createIcons();
+                    span.textContent = originalText;
+                    span.classList.remove("text-green-600", "font-bold");
                 }, 1500);
             });
         }
