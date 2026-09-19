@@ -1,276 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C1 Crisis Response Task</title>
+    <title>C1 Speaking Task: Eco-Beat Festival</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
+        .flip-card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
         .rotate-y-180 { transform: rotateY(180deg); }
-        .transition-transform { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
-        
-        .role-card { height: 380px; cursor: pointer; }
-        .card-inner { position: relative; width: 100%; height: 100%; }
-        .card-front, .card-back {
-            position: absolute; width: 100%; height: 100%;
-            border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem; display: flex; flex-direction: column;
-        }
-        .card-back { transform: rotateY(180deg); overflow-y: auto; }
-        .flipped .card-inner { transform: rotateY(180deg); }
-        
-        /* Custom Scrollbar for Scratchpad */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col">
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen p-4 md:p-8 flex flex-col gap-6">
 
-    <!-- Header & Controls -->
-    <header class="bg-slate-800 border-b border-slate-700 p-4 sticky top-0 z-20 shadow-md">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-red-400 flex items-center gap-2">
-                    <i data-lucide="alert-triangle" class="w-6 h-6"></i> City Cyber Crisis
-                </h1>
-                <p class="text-sm text-slate-400">C1 Advanced Speaking Task (Classes 34, 43, 50, 53)</p>
-            </div>
-            
-            <div class="flex items-center gap-4 bg-slate-900 p-2 rounded-lg border border-slate-700">
-                <button id="startTimerBtn" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-semibold transition-colors flex items-center gap-2">
-                    <i data-lucide="play" class="w-5 h-5"></i> Start Task
-                </button>
-                <div class="text-3xl font-mono font-bold text-red-500 w-24 text-center" id="timerDisplay">15:00</div>
-            </div>
-            
-            <div class="flex gap-2">
-                <button onclick="toggleModal('objectivesModal')" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded text-sm flex items-center gap-2 transition-colors">
-                    <i data-lucide="target" class="w-5 h-5"></i> Objectives
-                </button>
-                <button onclick="toggleModal('toolkitModal')" class="bg-indigo-600 hover:bg-indigo-700 px-3 py-2 rounded text-sm flex items-center gap-2 transition-colors">
-                    <i data-lucide="message-square" class="w-5 h-5"></i> C1 Toolkit
-                </button>
+    <!-- Header & Timer Section -->
+    <header class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-emerald-700 flex items-center gap-2">
+                <i data-lucide="leaf" class="w-6 h-6"></i> Eco-Beat Festival Board Meeting
+            </h1>
+            <p class="text-slate-500 mt-1">C1 Speaking Task | Objetivos: Clases 34, 43, 50 y 53</p>
+        </div>
+        
+        <div class="flex items-center gap-4">
+            <button onclick="toggleObjectives()" class="text-sm font-medium text-emerald-600 bg-emerald-50 px-4 py-2 rounded-lg hover:bg-emerald-100 transition">
+                Ver Objetivos
+            </button>
+            <div class="text-center bg-slate-900 text-white px-6 py-3 rounded-xl shadow-inner">
+                <div id="timerDisplay" class="text-3xl font-mono font-bold tracking-wider">15:00</div>
+                <button id="timerBtn" onclick="toggleTimer()" class="text-xs uppercase tracking-wider text-slate-300 hover:text-white mt-1">Iniciar</button>
             </div>
         </div>
-        <!-- Timeline -->
-        <div class="max-w-7xl mx-auto mt-4 h-2 bg-slate-700 rounded-full overflow-hidden flex relative">
-            <div id="phaseProgress" class="h-full bg-red-500 w-0 transition-all duration-1000"></div>
-            <div class="absolute inset-0 flex justify-between px-1 text-[10px] text-slate-400 font-mono items-center pointer-events-none">
-                <span>Phase 1: Briefing (3m)</span>
-                <span>Phase 2: Negotiation (7m)</span>
-                <span>Phase 3: Consensus (5m)</span>
-            </div>
-        </div>
-        <div id="phaseText" class="text-center text-xs text-slate-400 mt-2 uppercase tracking-widest font-bold">Awaiting Start...</div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-grow p-4 md:p-6 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Phase Timeline -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+        <div class="flex flex-col sm:flex-row justify-between text-sm font-medium text-slate-500 gap-2">
+            <div id="phase1" class="flex-1 text-center py-2 bg-emerald-50 text-emerald-700 rounded transition-colors duration-300">1. Preparación (3m)</div>
+            <div id="phase2" class="flex-1 text-center py-2 rounded transition-colors duration-300">2. Presentaciones (5m)</div>
+            <div id="phase3" class="flex-1 text-center py-2 rounded transition-colors duration-300">3. Debate (5m)</div>
+            <div id="phase4" class="flex-1 text-center py-2 rounded transition-colors duration-300">4. Consenso (2m)</div>
+        </div>
+    </div>
+
+    <!-- 3D Role Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 perspective-1000">
         
-        <!-- Role Cards Grid -->
-        <div class="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            <!-- Card 1: Mayor -->
-            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
-                <div class="card-inner transform-style-3d transition-transform">
-                    <div class="card-front bg-slate-800 border border-blue-500 backface-hidden">
-                        <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-xl font-bold text-blue-400">The Mayor</h2>
-                            <i data-lucide="building" class="w-8 h-8 text-blue-500 opacity-50"></i>
-                        </div>
-                        <p class="text-slate-300 flex-grow">You are the elected leader of the city. Your primary concern is public order, public relations, and maintaining control during this unprecedented cyber-attack.</p>
-                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
-                    </div>
-                    <div class="card-back bg-blue-900 border border-blue-400 backface-hidden">
-                        <h3 class="font-bold text-blue-200 border-b border-blue-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
-                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
-                            <li>You face re-election in two months. A total blackout will ruin you.</li>
-                            <li>You MUST allocate at least $4M to public relations and police to maintain order.</li>
-                            <li>You secretly doubt the IT Director's competence.</li>
-                        </ul>
-                        <h3 class="font-bold text-blue-200 border-b border-blue-700 pb-1 mb-2 text-sm">Target Language</h3>
-                        <ul class="text-xs space-y-1 text-slate-300">
-                            <li>- "If we had updated the infrastructure, we wouldn't be..." (Mixed)</li>
-                            <li>- "With all due respect, my priority lies with..."</li>
-                        </ul>
-                    </div>
+        <!-- Card 1: Music Director -->
+        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
+                <!-- Front -->
+                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
+                    <div class="bg-blue-100 p-4 rounded-full mb-4"><i data-lucide="music" class="w-8 h-8 text-blue-600"></i></div>
+                    <h2 class="text-xl font-bold text-slate-800">Director Musical</h2>
+                    <p class="text-slate-500 mt-2 text-sm">Tu enfoque es la calidad musical y la contratación de talento orgánico.</p>
+                    <p class="text-xs font-semibold text-blue-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
                 </div>
-            </div>
-
-            <!-- Card 2: Police Chief -->
-            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
-                <div class="card-inner transform-style-3d transition-transform">
-                    <div class="card-front bg-slate-800 border border-green-500 backface-hidden">
-                        <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-xl font-bold text-green-400">Chief of Police</h2>
-                            <i data-lucide="shield" class="w-8 h-8 text-green-500 opacity-50"></i>
-                        </div>
-                        <p class="text-slate-300 flex-grow">You are responsible for physical security. With traffic lights down and panic spreading, riots are imminent if resources aren't deployed immediately.</p>
-                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
-                    </div>
-                    <div class="card-back bg-green-900 border border-green-400 backface-hidden">
-                        <h3 class="font-bold text-green-200 border-b border-green-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
-                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
-                            <li>Your officers are working double shifts; you need $5M for emergency overtime and riot gear.</li>
-                            <li>You believe paying ransomware (IT's likely plan) is funding terrorism.</li>
-                            <li>You are willing to ally with the Mayor, but only if you get your funds.</li>
-                        </ul>
-                        <h3 class="font-bold text-green-200 border-b border-green-700 pb-1 mb-2 text-sm">Target Language</h3>
-                        <ul class="text-xs space-y-1 text-slate-300">
-                            <li>- "It might be in our best interest to focus on physical security."</li>
-                            <li>- "I'm not entirely opposed to IT funding, provided that..."</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3: IT Director -->
-            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
-                <div class="card-inner transform-style-3d transition-transform">
-                    <div class="card-front bg-slate-800 border border-purple-500 backface-hidden">
-                        <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-xl font-bold text-purple-400">Head of IT</h2>
-                            <i data-lucide="terminal" class="w-8 h-8 text-purple-500 opacity-50"></i>
-                        </div>
-                        <p class="text-slate-300 flex-grow">You are dealing with the core problem: the ransomware. The attackers have encrypted everything and are demanding immediate payment or a system overhaul.</p>
-                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
-                    </div>
-                    <div class="card-back bg-purple-900 border border-purple-400 backface-hidden">
-                        <h3 class="font-bold text-purple-200 border-b border-purple-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
-                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
-                            <li>The attackers want exactly $7M in crypto. If not paid, city data is wiped forever.</li>
-                            <li>You know the Mayor ignored your budget requests last year (use this against them).</li>
-                            <li>You must convince the team that physical security is useless without digital systems.</li>
-                        </ul>
-                        <h3 class="font-bold text-purple-200 border-b border-purple-700 pb-1 mb-2 text-sm">Target Language</h3>
-                        <ul class="text-xs space-y-1 text-slate-300">
-                            <li>- "Had we addressed this vulnerability earlier, we wouldn't be..."</li>
-                            <li>- "While I understand your concerns, the reality is that..."</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 4: Hospital Director -->
-            <div class="role-card perspective-1000" onclick="this.classList.toggle('flipped')">
-                <div class="card-inner transform-style-3d transition-transform">
-                    <div class="card-front bg-slate-800 border border-red-500 backface-hidden">
-                        <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-xl font-bold text-red-400">Hospital Director</h2>
-                            <i data-lucide="activity" class="w-8 h-8 text-red-500 opacity-50"></i>
-                        </div>
-                        <p class="text-slate-300 flex-grow">Your systems are down. Backup generators will fail in 2 hours. Life support systems for 50+ ICU patients are critically at risk.</p>
-                        <p class="text-xs text-slate-500 text-center mt-2 italic">Click to flip & reveal secret agenda</p>
-                    </div>
-                    <div class="card-back bg-red-900 border border-red-400 backface-hidden">
-                        <h3 class="font-bold text-red-200 border-b border-red-700 pb-2 mb-2">Secret Constraints & Agenda</h3>
-                        <ul class="text-sm space-y-2 text-slate-200 list-disc pl-4 mb-4">
-                            <li>You need an immediate $6M to secure mobile generators and transfer patients out of the city.</li>
-                            <li>You consider the IT and Police concerns secondary to human lives.</li>
-                            <li>You will refuse to sign any plan that doesn't guarantee your funding.</li>
-                        </ul>
-                        <h3 class="font-bold text-red-200 border-b border-red-700 pb-1 mb-2 text-sm">Target Language</h3>
-                        <ul class="text-xs space-y-1 text-slate-300">
-                            <li>- "We are talking about literal life and death here; therefore..."</li>
-                            <li>- "I fail to see how public relations takes precedence over..."</li>
+                <!-- Back -->
+                <div class="absolute w-full h-full bg-blue-50 backface-hidden rotate-y-180 border-2 border-blue-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
+                    <div>
+                        <h3 class="font-bold text-blue-800 border-b border-blue-200 pb-2 mb-2">Motivo Secreto</h3>
+                        <p class="text-sm text-blue-900 mb-3">Quieres gastar el 70% del presupuesto en bandas con grandes <em>historias de éxito</em>, ignorando los costos de mercancía o problemas logísticos.</p>
+                        <h3 class="font-bold text-blue-800 border-b border-blue-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
+                        <ul class="text-xs text-blue-900 space-y-1 list-disc pl-4">
+                            <li>"Their success story is built on..."</li>
+                            <li>"As a general truth in the industry..."</li>
+                            <li>"They have a habit of..."</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Deliverable Scratchpad -->
-        <div class="bg-slate-800 rounded-xl border border-slate-700 shadow-lg flex flex-col h-[780px] lg:h-auto">
-            <div class="p-4 border-b border-slate-700 bg-slate-850 rounded-t-xl flex justify-between items-center">
-                <h2 class="font-bold flex items-center gap-2"><i data-lucide="edit-3" class="w-5 h-5 text-amber-500"></i> Group Scratchpad</h2>
-                <span class="text-xs bg-slate-700 px-2 py-1 rounded text-slate-300">Total Budget: $10,000,000</span>
-            </div>
-            <div class="p-4 flex-grow flex flex-col gap-2">
-                <p class="text-sm text-slate-400 mb-2">Your team MUST unanimously agree on a 3-point action plan allocating the $10M budget before time expires.</p>
-                <textarea class="w-full flex-grow bg-slate-900 border border-slate-600 rounded p-3 text-slate-200 resize-none focus:outline-none focus:border-amber-500" placeholder="Point 1: Allocate $X to... because...&#10;&#10;Point 2: ...&#10;&#10;Point 3: ..."></textarea>
-            </div>
-            <div class="p-4 border-t border-slate-700">
-                <button class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded transition-colors" onclick="alert('Deliverable locked in. Time for the final debrief!')">Submit Final Action Plan</button>
+        <!-- Card 2: Procurement Manager -->
+        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
+                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
+                    <div class="bg-purple-100 p-4 rounded-full mb-4"><i data-lucide="shopping-bag" class="w-8 h-8 text-purple-600"></i></div>
+                    <h2 class="text-xl font-bold text-slate-800">Gerente de Compras</h2>
+                    <p class="text-slate-500 mt-2 text-sm">Tu prioridad es mantener el festival dentro del presupuesto mediante compras inteligentes.</p>
+                    <p class="text-xs font-semibold text-purple-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
+                </div>
+                <div class="absolute w-full h-full bg-purple-50 backface-hidden rotate-y-180 border-2 border-purple-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
+                    <div>
+                        <h3 class="font-bold text-purple-800 border-b border-purple-200 pb-2 mb-2">Motivo Secreto</h3>
+                        <p class="text-sm text-purple-900 mb-3">Debes convencer a todos de comprar mercancía barata y reducir el gasto musical para equilibrar el evento.</p>
+                        <h3 class="font-bold text-purple-800 border-b border-purple-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
+                        <ul class="text-xs text-purple-900 space-y-1 list-disc pl-4">
+                            <li>"I bought the festival a cheaper option..." (Indirect Obj)</li>
+                            <li>"Bargain hunting is crucial because..."</li>
+                            <li>"Our shopping experience dictates that..."</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
 
-    <!-- Objectives Modal -->
-    <div id="objectivesModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'objectivesModal')">
-        <div class="bg-slate-800 rounded-xl border border-slate-600 max-w-lg w-full shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-            <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-900">
-                <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-indigo-400"></i> Extracted Class Objectives</h3>
-                <i data-lucide="x" class="w-6 h-6 p-1 cursor-pointer hover:text-red-400 transition-colors" onclick="toggleModal('objectivesModal')"></i>
+        <!-- Card 3: Wildlife Liaison -->
+        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
+                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
+                    <div class="bg-orange-100 p-4 rounded-full mb-4"><i data-lucide="bird" class="w-8 h-8 text-orange-600"></i></div>
+                    <h2 class="text-xl font-bold text-slate-800">Enlace de Fauna</h2>
+                    <p class="text-slate-500 mt-2 text-sm">Proteges la fauna local y te aseguras de que el festival no altere sus ecosistemas.</p>
+                    <p class="text-xs font-semibold text-orange-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
+                </div>
+                <div class="absolute w-full h-full bg-orange-50 backface-hidden rotate-y-180 border-2 border-orange-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
+                    <div>
+                        <h3 class="font-bold text-orange-800 border-b border-orange-200 pb-2 mb-2">Motivo Secreto</h3>
+                        <p class="text-sm text-orange-900 mb-3">Exiges que una parte del presupuesto vaya a una caridad animal y prohíbes ciertas áreas ruidosas del bosque.</p>
+                        <h3 class="font-bold text-orange-800 border-b border-orange-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
+                        <ul class="text-xs text-orange-900 space-y-1 list-disc pl-4">
+                            <li>"This specific category of mammals..."</li>
+                            <li>"A prominent feature of this bird is..."</li>
+                            <li>"We must classify these habitats as..."</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="p-6 space-y-4 text-sm text-slate-300">
-                <p class="font-semibold text-slate-200">Based on CLASS OBJECTIVES.xlsx (Classes 34, 43, 50, 53):</p>
-                <ul class="list-disc pl-5 space-y-2">
-                    <li><strong>Cl 34:</strong> Advanced negotiation and hedging to soften disagreements.</li>
-                    <li><strong>Cl 43:</strong> Expressing hypotheticals and counterfactuals (Mixed conditionals).</li>
-                    <li><strong>Cl 50:</strong> Persuasion and mitigating conflict in professional, high-stakes settings.</li>
-                    <li><strong>Cl 53:</strong> Synthesizing complex data to formulate a strategic consensus.</li>
-                </ul>
+        </div>
+
+        <!-- Card 4: Venue Director -->
+        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
+                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
+                    <div class="bg-teal-100 p-4 rounded-full mb-4"><i data-lucide="tent" class="w-8 h-8 text-teal-600"></i></div>
+                    <h2 class="text-xl font-bold text-slate-800">Director del Recinto</h2>
+                    <p class="text-slate-500 mt-2 text-sm">Diseñas la experiencia inmersiva del festival para los asistentes.</p>
+                    <p class="text-xs font-semibold text-teal-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
+                </div>
+                <div class="absolute w-full h-full bg-teal-50 backface-hidden rotate-y-180 border-2 border-teal-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
+                    <div>
+                        <h3 class="font-bold text-teal-800 border-b border-teal-200 pb-2 mb-2">Motivo Secreto</h3>
+                        <p class="text-sm text-teal-900 mb-3">Quieres abrir senderos por todo el bosque para máxima conexión natural, lo cual choca con el Enlace de Fauna.</p>
+                        <h3 class="font-bold text-teal-800 border-b border-teal-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
+                        <ul class="text-xs text-teal-900 space-y-1 list-disc pl-4">
+                            <li>"Being in touch with nature allows us to..."</li>
+                            <li>"The immersion provides attendees with..."</li>
+                            <li>"We need to foster a deeper connection..."</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- C1 Toolkit Modal -->
-    <div id="toolkitModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'toolkitModal')">
-        <div class="bg-slate-800 rounded-xl border border-slate-600 max-w-2xl w-full shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
-            <div class="p-4 border-b border-slate-700 flex justify-between items-center bg-slate-900">
-                <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="message-square" class="w-5 h-5 text-indigo-400"></i> C1 Scaffolding Toolkit</h3>
-                <i data-lucide="x" class="w-6 h-6 p-1 cursor-pointer hover:text-red-400 transition-colors" onclick="toggleModal('toolkitModal')"></i>
+    <!-- Bottom Section: Toolkit & Scratchpad -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Scaffolding Toolkit -->
+        <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-4">
+                <i data-lucide="message-square" class="w-5 h-5 text-emerald-600"></i> C1 Discourse Toolkit
+            </h3>
+            <div class="space-y-2">
+                <button onclick="copyText(this)" class="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-emerald-300 transition group relative text-sm text-slate-700">
+                    "Notwithstanding your valid point, we must consider..."
+                    <i data-lucide="copy" class="w-4 h-4 absolute right-3 top-3 text-slate-400 group-hover:text-emerald-500"></i>
+                </button>
+                <button onclick="copyText(this)" class="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-emerald-300 transition group relative text-sm text-slate-700">
+                    "Granted, bargain shopping is key, yet..."
+                    <i data-lucide="copy" class="w-4 h-4 absolute right-3 top-3 text-slate-400 group-hover:text-emerald-500"></i>
+                </button>
+                <button onclick="copyText(this)" class="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-emerald-300 transition group relative text-sm text-slate-700">
+                    "If we are to align our success story with nature..."
+                    <i data-lucide="copy" class="w-4 h-4 absolute right-3 top-3 text-slate-400 group-hover:text-emerald-500"></i>
+                </button>
             </div>
-            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                
-                <div class="space-y-2">
-                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Hedging & Softening</h4>
-                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
-                        <span>"It might be in our best interest to..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
-                    </button>
-                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
-                        <span>"I'm not entirely opposed to that, but..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
-                    </button>
-                </div>
+            <div id="copyToast" class="hidden mt-3 text-xs text-emerald-600 font-semibold text-center">¡Copiado al portapapeles!</div>
+        </div>
 
-                <div class="space-y-2">
-                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Mixed Conditionals</h4>
-                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
-                        <span>"If we had acted sooner, we wouldn't be..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
-                    </button>
-                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
-                        <span>"Provided that we secure X, I would agree."</span>
-                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
-                    </button>
-                </div>
+        <!-- Group Scratchpad -->
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex flex-col">
+            <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
+                <i data-lucide="pen-tool" class="w-5 h-5 text-emerald-600"></i> Bloc de Notas de Consenso del Grupo
+            </h3>
+            <p class="text-xs text-slate-500 mb-4">Anoten su decisión unánime sobre: Banda Principal, Presupuesto de Compras, Animal a Proteger, y Actividad Natural.</p>
+            <textarea class="flex-1 w-full p-4 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none resize-none" placeholder="Redacten el acuerdo final aquí antes de que el tiempo termine..."></textarea>
+        </div>
+    </div>
 
-                <div class="space-y-2">
-                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Firm Disagreement</h4>
-                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
-                        <span>"With all due respect, I cannot endorse..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
-                    </button>
-                </div>
-                
-                <div class="space-y-2">
-                    <h4 class="font-bold text-indigo-300 border-b border-slate-700 pb-1">Reaching Consensus</h4>
-                    <button class="w-full text-left bg-slate-900 p-2 rounded text-sm hover:bg-indigo-900 transition flex justify-between items-center group" onclick="copyPhrase(this)">
-                        <span>"Let's establish common ground here..."</span>
-                        <i data-lucide="copy" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
-                    </button>
-                </div>
-
+    <!-- Objectives Modal -->
+    <div id="objectivesModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeModalOnBackdrop(event)">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col" onclick="event.stopPropagation()">
+            <div class="bg-emerald-700 p-4 flex justify-between items-center text-white">
+                <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> Objetivos del Syllabus (C1)</h2>
+                <button onclick="toggleObjectives()" class="p-2 hover:bg-emerald-600 rounded-full cursor-pointer transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
             </div>
-            <div id="copyToast" class="text-center text-xs text-green-400 p-2 h-8 opacity-0 transition-opacity">Phrase copied to clipboard!</div>
+            <div class="p-6 space-y-4 text-sm text-slate-700">
+                <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                    <span class="font-bold text-slate-900 block mb-1">CLASE 34</span>
+                    Share your ideas about music success stories, as well as habits and general truths in context.
+                </div>
+                <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                    <span class="font-bold text-slate-900 block mb-1">CLASE 43</span>
+                    Talk about bargain shopping and examine differences in shopping experiences taking into account the placement of direct and indirect objects.
+                </div>
+                <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                    <span class="font-bold text-slate-900 block mb-1">CLASE 50</span>
+                    Talk about categories and features of animals.
+                </div>
+                <div class="bg-slate-50 p-3 rounded border border-slate-200">
+                    <span class="font-bold text-slate-900 block mb-1">CLASE 53</span>
+                    Discuss ways of being in touch with nature.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -279,100 +219,97 @@
         lucide.createIcons();
 
         // Modal Logic
-        function toggleModal(id) {
-            const modal = document.getElementById(id);
+        const modal = document.getElementById('objectivesModal');
+        function toggleObjectives() {
             modal.classList.toggle('hidden');
         }
-        function closeModalOnBackdrop(e, id) {
-            if(e.target === e.currentTarget) toggleModal(id);
+        function closeModalOnBackdrop(e) {
+            if (e.target === modal) toggleObjectives();
         }
 
         // Copy to Clipboard
-        function copyPhrase(btn) {
-            const text = btn.querySelector('span').innerText;
-            navigator.clipboard.writeText(text).then(() => {
+        function copyText(btn) {
+            const textToCopy = btn.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
                 const toast = document.getElementById('copyToast');
-                toast.style.opacity = '1';
-                setTimeout(() => toast.style.opacity = '0', 2000);
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('hidden'), 2000);
             });
         }
 
-        // Audio Context & Beeps
-        let audioCtx;
-        function playBeep(frequency = 440, duration = 0.2, type = 'sine') {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
+        // Master 15-Minute Timer
+        let time = 15 * 60; // 15 minutes
+        let timerInterval = null;
+        let isRunning = false;
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBeep(freq, type, duration) {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
-            oscillator.type = type;
-            oscillator.frequency.value = frequency;
-            oscillator.connect(gainNode);
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gainNode);
             gainNode.connect(audioCtx.destination);
-            oscillator.start();
-            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-            oscillator.stop(audioCtx.currentTime + duration);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
         }
 
-        // Timer Logic
-        let timerInterval;
-        let timeLeft = 900; // 15 minutes
-        const display = document.getElementById('timerDisplay');
-        const startBtn = document.getElementById('startTimerBtn');
-        const progressBar = document.getElementById('phaseProgress');
-        const phaseText = document.getElementById('phaseText');
-
-        function updateDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Progress Bar (Percentage elapsed)
-            const percent = ((900 - timeLeft) / 900) * 100;
-            progressBar.style.width = `${percent}%`;
-
-            // Phase Text Logic
-            if (timeLeft > 720) {
-                phaseText.textContent = "Phase 1: Briefing & Initial Demands (Clashing priorities)";
-                progressBar.className = "h-full bg-blue-500 w-0 transition-all duration-1000";
-            } else if (timeLeft > 300) {
-                phaseText.textContent = "Phase 2: Negotiation & Counterfactuals (Use Target Language!)";
-                progressBar.className = "h-full bg-amber-500 transition-all duration-1000";
-            } else if (timeLeft > 0) {
-                phaseText.textContent = "Phase 3: Final Consensus & Drafting (Write Action Plan!)";
-                progressBar.className = "h-full bg-red-600 transition-all duration-1000";
-                if(timeLeft <= 60) display.classList.add('animate-pulse');
-            }
-
-            // Audio Alerts
-            if (timeLeft === 720) playBeep(600, 0.5); // 12 mins left (Phase 2 start)
-            if (timeLeft === 300) playBeep(700, 0.5); // 5 mins left (Phase 3 start)
-            if (timeLeft === 60) playBeep(800, 0.8, 'square'); // 1 min left warning
-            if (timeLeft === 0) {
-                playBeep(400, 1.5, 'sawtooth'); // Time up
+        function toggleTimer() {
+            const btn = document.getElementById('timerBtn');
+            if (isRunning) {
                 clearInterval(timerInterval);
-                display.classList.remove('animate-pulse');
-                phaseText.textContent = "TIME IS UP! PENS DOWN.";
-            }
-        }
-
-        startBtn.addEventListener('click', () => {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            if (startBtn.innerText.includes('Start')) {
-                startBtn.innerHTML = `<i data-lucide="pause" class="w-5 h-5"></i> Pause Task`;
-                lucide.createIcons();
-                timerInterval = setInterval(() => {
-                    if (timeLeft > 0) {
-                        timeLeft--;
-                        updateDisplay();
-                    }
-                }, 1000);
+                btn.innerText = 'Reanudar';
+                isRunning = false;
             } else {
-                clearInterval(timerInterval);
-                startBtn.innerHTML = `<i data-lucide="play" class="w-5 h-5"></i> Resume Task`;
-                lucide.createIcons();
+                timerInterval = setInterval(updateTimer, 1000);
+                btn.innerText = 'Pausar';
+                isRunning = true;
             }
-        });
+        }
+
+        function updateTimer() {
+            if (time <= 0) {
+                clearInterval(timerInterval);
+                playBeep(440, 'sine', 1);
+                document.getElementById('timerBtn').innerText = 'Finalizado';
+                return;
+            }
+            time--;
+            
+            let m = Math.floor(time / 60);
+            let s = time % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+            // Phase UI Updates
+            updatePhases(time);
+        }
+
+        function updatePhases(t) {
+            const p1 = document.getElementById('phase1');
+            const p2 = document.getElementById('phase2');
+            const p3 = document.getElementById('phase3');
+            const p4 = document.getElementById('phase4');
+            
+            const resetClasses = "flex-1 text-center py-2 rounded transition-colors duration-300 bg-transparent text-slate-500";
+            const activeClasses = "flex-1 text-center py-2 rounded transition-colors duration-300 bg-emerald-50 text-emerald-700 font-bold";
+
+            if(t === 12*60 || t === 7*60 || t === 2*60) playBeep(600, 'square', 0.2); // Milestone beeps
+
+            if (t > 12 * 60) {
+                p1.className = activeClasses; p2.className = resetClasses; p3.className = resetClasses; p4.className = resetClasses;
+            } else if (t > 7 * 60) {
+                p1.className = resetClasses; p2.className = activeClasses; p3.className = resetClasses; p4.className = resetClasses;
+            } else if (t > 2 * 60) {
+                p1.className = resetClasses; p2.className = resetClasses; p3.className = activeClasses; p4.className = resetClasses;
+            } else {
+                p1.className = resetClasses; p2.className = resetClasses; p3.className = resetClasses; p4.className = activeClasses;
+                if(t <= 60) document.getElementById('timerDisplay').classList.add('text-red-400');
+            }
+        }
     </script>
 </body>
 </html>
