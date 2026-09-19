@@ -3,299 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misión A2: La Reunión de Exalumnos</title>
+    <title>EFL Task: The 10-Year Reunion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        .perspective { perspective: 1000px; }
-        .transform-3d { transform-style: preserve-3d; transition: transform 0.6s; }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
-        .flip-card.flipped .transform-3d { transform: rotateY(180deg); }
+        .flip-card-inner { transition: transform 0.6s; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen">
-    
-    <!-- Navbar / Header -->
-    <header class="bg-indigo-600 text-white p-4 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold flex items-center gap-2">
-            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-            Actividad Oral A2
-        </h1>
-        <div class="flex gap-2">
-            <button onclick="document.getElementById('modal-objetivos').classList.remove('hidden')" class="bg-indigo-500 hover:bg-indigo-700 px-4 py-2 rounded text-sm font-semibold transition-colors flex items-center gap-1">
-                <i data-lucide="target" class="w-5 h-5"></i> Objetivos
-            </button>
-            <button onclick="document.getElementById('modal-herramientas').classList.remove('hidden')" class="bg-indigo-500 hover:bg-indigo-700 px-4 py-2 rounded text-sm font-semibold transition-colors flex items-center gap-1">
-                <i data-lucide="message-circle" class="w-5 h-5"></i> Frases Útiles
-            </button>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+<body class="bg-slate-50 font-sans text-slate-800 p-4 md:p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
         
-        <!-- STANDALONE MAIN TASK CARD -->
-        <section class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 md:p-8 relative overflow-hidden">
-            <div class="absolute top-0 right-0 bg-indigo-100 text-indigo-800 px-4 py-1 rounded-bl-xl font-bold text-sm">
-                Escenario Principal
-            </div>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-indigo-900 mb-4 flex items-center gap-2">
-                <i data-lucide="map" class="w-8 h-8 text-indigo-600"></i>
-                Misión: La Gran Reunión a los 10 Años
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 space-y-4 text-lg">
-                    <p>Ustedes son cinco viejos amigos de la escuela secundaria. Han pasado 10 años desde la graduación y hoy se reencuentran. ¡Todos han cambiado muchísimo!</p>
-                    <p><strong>El problema:</strong> Durante la escuela, sucedió un evento vergonzoso que afectó al grupo. Ahora, mirando hacia atrás, tienen la oportunidad de hablar sobre ello y confesar sus secretos.</p>
-                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
-                        <h3 class="font-bold text-indigo-800 mb-2">Entregable Final del Grupo:</h3>
-                        <p class="text-indigo-900">Deben llegar a un consenso sobre <strong>1 decisión importante</strong> del pasado que todos cambiarían si pudieran, y anotar por qué en el Bloc de Notas del Grupo ubicado en la parte inferior.</p>
-                    </div>
+        <!-- Standalone Main Task Card -->
+        <section class="bg-white rounded-2xl shadow-lg p-6 md:p-10 border-t-8 border-blue-600">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-900 mb-2">The 10-Year High School Reunion</h1>
+                    <p class="text-lg text-slate-600">You are 5 old friends. Today, you meet again after 10 years!</p>
                 </div>
-                <div class="bg-slate-100 p-4 rounded-lg">
-                    <h3 class="font-bold text-slate-700 mb-3 border-b border-slate-300 pb-2">Etapas de la Misión</h3>
-                    <ol class="list-decimal list-inside space-y-2 text-slate-600">
-                        <li>Elijan un personaje de las tarjetas abajo.</li>
-                        <li>Toquen la tarjeta para descubrir su pasado secreto.</li>
-                        <li>Hablen sobre cómo <strong>solían ser</strong> en la escuela.</li>
-                        <li>Den sugerencias sobre lo que <strong>deberían haber hecho</strong>.</li>
-                        <li>Anoten su decisión grupal final.</li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3D FLIP ROLE CARDS GRID -->
-        <section>
-            <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <i data-lucide="users" class="w-6 h-6 text-indigo-600"></i>
-                Elige tu Rol (Toca para voltear)
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                
-                <!-- Role 1 -->
-                <div class="flip-card perspective h-80 cursor-pointer" onclick="toggleFlip(this)">
-                    <div class="transform-3d relative w-full h-full shadow-md rounded-xl">
-                        <!-- Front -->
-                        <div class="backface-hidden absolute w-full h-full bg-white border-2 border-slate-200 rounded-xl p-5 flex flex-col items-center justify-center text-center">
-                            <i data-lucide="briefcase" class="w-12 h-12 text-blue-500 mb-3"></i>
-                            <h4 class="font-bold text-lg text-slate-800">El Ejecutivo</h4>
-                            <p class="text-sm text-slate-500 mt-2">Ahora eres el dueño de una gran empresa y siempre estás serio.</p>
-                            <span class="mt-4 text-xs font-bold text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full">Tocar para ver secreto</span>
-                        </div>
-                        <!-- Back -->
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-blue-50 border-2 border-blue-400 rounded-xl p-5 overflow-y-auto">
-                            <h4 class="font-bold text-blue-800 border-b border-blue-200 pb-2 mb-2">Pasado Secreto</h4>
-                            <p class="text-sm text-slate-700 mb-2">Eras el payaso de la clase. <strong>Solías hacer bromas</strong> (used to make jokes) todo el tiempo.</p>
-                            <h5 class="text-xs font-bold text-slate-500 uppercase mt-2">Tu Meta Lingüística:</h5>
-                            <ul class="text-sm list-disc pl-4 mt-1 text-slate-700">
-                                <li>Cuenta una experiencia de tu juventud (Simple Past).</li>
-                                <li>Pregunta a otro qué haría en un evento imaginario.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Role 2 -->
-                <div class="flip-card perspective h-80 cursor-pointer" onclick="toggleFlip(this)">
-                    <div class="transform-3d relative w-full h-full shadow-md rounded-xl">
-                        <!-- Front -->
-                        <div class="backface-hidden absolute w-full h-full bg-white border-2 border-slate-200 rounded-xl p-5 flex flex-col items-center justify-center text-center">
-                            <i data-lucide="plane" class="w-12 h-12 text-emerald-500 mb-3"></i>
-                            <h4 class="font-bold text-lg text-slate-800">El Viajero</h4>
-                            <p class="text-sm text-slate-500 mt-2">Viajas por el mundo como fotógrafo profesional.</p>
-                            <span class="mt-4 text-xs font-bold text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full">Tocar para ver secreto</span>
-                        </div>
-                        <!-- Back -->
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-emerald-50 border-2 border-emerald-400 rounded-xl p-5 overflow-y-auto">
-                            <h4 class="font-bold text-emerald-800 border-b border-emerald-200 pb-2 mb-2">Pasado Secreto</h4>
-                            <p class="text-sm text-slate-700 mb-2">Eras muy tímido. <strong>Solías quedarte en casa</strong> (used to stay home) y nunca hablabas con nadie.</p>
-                            <h5 class="text-xs font-bold text-slate-500 uppercase mt-2">Tu Meta Lingüística:</h5>
-                            <ul class="text-sm list-disc pl-4 mt-1 text-slate-700">
-                                <li>Compara tus hábitos pasados y actuales.</li>
-                                <li>Da un consejo a alguien sobre el pasado (You should have...).</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Role 3 -->
-                <div class="flip-card perspective h-80 cursor-pointer" onclick="toggleFlip(this)">
-                    <div class="transform-3d relative w-full h-full shadow-md rounded-xl">
-                        <!-- Front -->
-                        <div class="backface-hidden absolute w-full h-full bg-white border-2 border-slate-200 rounded-xl p-5 flex flex-col items-center justify-center text-center">
-                            <i data-lucide="activity" class="w-12 h-12 text-orange-500 mb-3"></i>
-                            <h4 class="font-bold text-lg text-slate-800">El Atleta</h4>
-                            <p class="text-sm text-slate-500 mt-2">Eres un deportista olímpico famoso, súper saludable.</p>
-                            <span class="mt-4 text-xs font-bold text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full">Tocar para ver secreto</span>
-                        </div>
-                        <!-- Back -->
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-orange-50 border-2 border-orange-400 rounded-xl p-5 overflow-y-auto">
-                            <h4 class="font-bold text-orange-800 border-b border-orange-200 pb-2 mb-2">Pasado Secreto</h4>
-                            <p class="text-sm text-slate-700 mb-2">Odiabas el ejercicio. <strong>Solías comer comida rápida</strong> todos los días y jugar videojuegos.</p>
-                            <h5 class="text-xs font-bold text-slate-500 uppercase mt-2">Tu Meta Lingüística:</h5>
-                            <ul class="text-sm list-disc pl-4 mt-1 text-slate-700">
-                                <li>Habla de lo que dijo un profesor sobre ti en el pasado (Reported speech simple).</li>
-                                <li>Discute un evento imaginario con el grupo.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Role 4 -->
-                <div class="flip-card perspective h-80 cursor-pointer" onclick="toggleFlip(this)">
-                    <div class="transform-3d relative w-full h-full shadow-md rounded-xl">
-                        <!-- Front -->
-                        <div class="backface-hidden absolute w-full h-full bg-white border-2 border-slate-200 rounded-xl p-5 flex flex-col items-center justify-center text-center">
-                            <i data-lucide="palette" class="w-12 h-12 text-purple-500 mb-3"></i>
-                            <h4 class="font-bold text-lg text-slate-800">El Artista</h4>
-                            <p class="text-sm text-slate-500 mt-2">Eres un pintor bohemio y relajado que vive en París.</p>
-                            <span class="mt-4 text-xs font-bold text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full">Tocar para ver secreto</span>
-                        </div>
-                        <!-- Back -->
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-purple-50 border-2 border-purple-400 rounded-xl p-5 overflow-y-auto">
-                            <h4 class="font-bold text-purple-800 border-b border-purple-200 pb-2 mb-2">Pasado Secreto</h4>
-                            <p class="text-sm text-slate-700 mb-2">Eras el mejor estudiante de ciencias. <strong>Solías estudiar todo el tiempo</strong> y nunca ibas a fiestas.</p>
-                            <h5 class="text-xs font-bold text-slate-500 uppercase mt-2">Tu Meta Lingüística:</h5>
-                            <ul class="text-sm list-disc pl-4 mt-1 text-slate-700">
-                                <li>Recuerda tu primer día de escuela (Simple Past).</li>
-                                <li>Pide sugerencias al grupo sobre una mala decisión del pasado.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Role 5 -->
-                <div class="flip-card perspective h-80 cursor-pointer" onclick="toggleFlip(this)">
-                    <div class="transform-3d relative w-full h-full shadow-md rounded-xl">
-                        <!-- Front -->
-                        <div class="backface-hidden absolute w-full h-full bg-white border-2 border-slate-200 rounded-xl p-5 flex flex-col items-center justify-center text-center">
-                            <i data-lucide="music" class="w-12 h-12 text-rose-500 mb-3"></i>
-                            <h4 class="font-bold text-lg text-slate-800">El Músico</h4>
-                            <p class="text-sm text-slate-500 mt-2">Eres una estrella de rock ruidosa y extrovertida.</p>
-                            <span class="mt-4 text-xs font-bold text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full">Tocar para ver secreto</span>
-                        </div>
-                        <!-- Back -->
-                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-rose-50 border-2 border-rose-400 rounded-xl p-5 overflow-y-auto">
-                            <h4 class="font-bold text-rose-800 border-b border-rose-200 pb-2 mb-2">Pasado Secreto</h4>
-                            <p class="text-sm text-slate-700 mb-2">No tenías talento musical. <strong>Solías cantar terrible</strong> en el coro de la escuela.</p>
-                            <h5 class="text-xs font-bold text-slate-500 uppercase mt-2">Tu Meta Lingüística:</h5>
-                            <ul class="text-sm list-disc pl-4 mt-1 text-slate-700">
-                                <li>Explica lo que alguien te dijo una vez sobre tu voz (Reported speech).</li>
-                                <li>Compara tu hábito de práctica pasado con el actual.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- GROUP SCRATCHPAD -->
-        <section class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 md:p-8 mt-8">
-            <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
-                <i data-lucide="pen-tool" class="w-6 h-6 text-indigo-600"></i>
-                Bloc de Notas del Grupo
-            </h3>
-            <p class="text-sm text-slate-600 mb-4">Escriban su consenso aquí. ¿Qué evento del pasado de la escuela les gustaría cambiar a todos juntos y qué habrían hecho de manera diferente?</p>
-            <textarea class="w-full h-32 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Escriban su decisión grupal aquí..."></textarea>
-        </section>
-
-    </main>
-
-    <!-- Modal: Herramientas (Scaffolding Toolkit) -->
-    <div id="modal-herramientas" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="closeModalOnBackdrop(event, 'modal-herramientas')">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="bg-indigo-600 p-4 text-white flex justify-between items-center">
-                <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="message-square" class="w-5 h-5"></i> Frases Útiles</h3>
-                <button onclick="document.getElementById('modal-herramientas').classList.add('hidden')" class="hover:bg-indigo-700 p-2 rounded cursor-pointer">
-                    <i data-lucide="x" class="w-6 h-6"></i>
+                <button onclick="openModal()" class="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 transition cursor-pointer">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    <span class="font-semibold hidden md:inline">Syllabus Objectives</span>
                 </button>
             </div>
-            <div class="p-6 overflow-y-auto space-y-4">
-                <p class="text-sm text-slate-500 mb-4">Haz clic en el botón de copiar junto a cualquier frase para guardarla.</p>
-                
-                <div>
-                    <h4 class="font-bold text-indigo-800 border-b pb-1 mb-2">Clase 1: Pasado Simple</h4>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded border mb-2">
-                        <span class="text-slate-700 font-mono text-sm">When I was younger, I was...</span>
-                        <button onclick="copyToClipboard('When I was younger, I was...')" class="text-indigo-500 hover:text-indigo-700 cursor-pointer"><i data-lucide="copy" class="w-5 h-5"></i></button>
-                    </div>
-                </div>
+            
+            <div class="bg-blue-50 rounded-xl p-6 mb-6">
+                <h2 class="text-xl font-bold text-blue-900 mb-2 flex items-center gap-2">
+                    <i data-lucide="target" class="w-6 h-6"></i> Concrete Final Deliverable
+                </h2>
+                <p class="text-blue-800">Work together to write <strong>The Reunion Report</strong> in the Group Scratchpad below. You must agree on:</p>
+                <ul class="list-disc list-inside mt-2 text-blue-800 space-y-1">
+                    <li>The biggest change in someone's life (What did they use to do?).</li>
+                    <li>One good piece of advice for your past selves.</li>
+                    <li>One interesting thing another classmate said today.</li>
+                </ul>
+            </div>
 
-                <div>
-                    <h4 class="font-bold text-indigo-800 border-b pb-1 mb-2">Clase 2: Used To (Hábitos Pasados)</h4>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded border mb-2">
-                        <span class="text-slate-700 font-mono text-sm">I used to play soccer, but now I don't.</span>
-                        <button onclick="copyToClipboard('I used to play soccer, but now I don\'t.')" class="text-indigo-500 hover:text-indigo-700 cursor-pointer"><i data-lucide="copy" class="w-5 h-5"></i></button>
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold flex items-center gap-2 text-slate-800">
+                    <i data-lucide="map" class="w-5 h-5"></i> Mission Stages Breakdown
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-100 p-4 rounded-lg">
+                        <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Stage 1</span>
+                        <h4 class="font-bold mt-2">Remember the Past</h4>
+                        <p class="text-sm mt-1">Talk about your early life. Discuss what you used to do when you were young.</p>
                     </div>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-indigo-800 border-b pb-1 mb-2">Clase 72: Consejos y Eventos Imaginarios</h4>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded border mb-2">
-                        <span class="text-slate-700 font-mono text-sm">You should have studied more.</span>
-                        <button onclick="copyToClipboard('You should have studied more.')" class="text-indigo-500 hover:text-indigo-700 cursor-pointer"><i data-lucide="copy" class="w-5 h-5"></i></button>
+                    <div class="bg-slate-100 p-4 rounded-lg">
+                        <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Stage 2</span>
+                        <h4 class="font-bold mt-2">Imagine & Advise</h4>
+                        <p class="text-sm mt-1">Talk about imaginary situations, and give your friends advice about their old mistakes.</p>
                     </div>
-                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded border mb-2">
-                        <span class="text-slate-700 font-mono text-sm">If I were you, I would have...</span>
-                        <button onclick="copyToClipboard('If I were you, I would have...')" class="text-indigo-500 hover:text-indigo-700 cursor-pointer"><i data-lucide="copy" class="w-5 h-5"></i></button>
+                    <div class="bg-slate-100 p-4 rounded-lg">
+                        <span class="bg-slate-800 text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Stage 3</span>
+                        <h4 class="font-bold mt-2">Report & Agree</h4>
+                        <p class="text-sm mt-1">Tell the group what other people said (rumors), and write your final report together.</p>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- 3D Flip Role Cards Grid -->
+        <section>
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+                <i data-lucide="users" class="w-6 h-6"></i> Choose Your Role (Tap to view secret)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Card 1: The Nostalgic -->
+                <div class="perspective-1000 h-96">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="history" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">The Nostalgic</h3>
+                            <p class="text-sm text-slate-500 flex-grow">You remember everything about your early life.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                                Tap to Flip
+                            </button>
+                        </div>
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-lg mb-2 text-red-400">Secret Backstory</h3>
+                            <p class="text-sm mb-4">You miss the past. You want to talk about the simple life you had when you were young.</p>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
+                                <li>Use the simple past.</li>
+                                <li>Talk about a childhood memory.</li>
+                                <li>Use "was" and "were".</li>
+                            </ul>
+                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                                Flip Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: The Changed One -->
+                <div class="perspective-1000 h-96">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="refresh-cw" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">The Changed One</h3>
+                            <p class="text-sm text-slate-500 flex-grow">Your habits are completely different now.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                                Tap to Flip
+                            </button>
+                        </div>
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-lg mb-2 text-green-400">Secret Backstory</h3>
+                            <p class="text-sm mb-4">You used to be very quiet. Now you are very loud and famous. Compare your old life!</p>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
+                                <li>Compare past and current habits.</li>
+                                <li>Use "used to" (e.g., I used to play...).</li>
+                                <li>Use "didn't use to".</li>
+                            </ul>
+                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                                Flip Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: The Dreamer -->
+                <div class="perspective-1000 h-96">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="cloud" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">The Dreamer</h3>
+                            <p class="text-sm text-slate-500 flex-grow">You always think about imaginary events.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                                Tap to Flip
+                            </button>
+                        </div>
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-lg mb-2 text-purple-400">Secret Backstory</h3>
+                            <p class="text-sm mb-4">You wonder how life would be if things were different. You like to dream about the impossible.</p>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
+                                <li>Discuss imaginary events.</li>
+                                <li>Use "If I were..." or "If I had...".</li>
+                                <li>Ask others about their dreams.</li>
+                            </ul>
+                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                                Flip Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: The Advisor -->
+                <div class="perspective-1000 h-96">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="message-square" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">The Advisor</h3>
+                            <p class="text-sm text-slate-500 flex-grow">You like giving advice on past mistakes.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                                Tap to Flip
+                            </button>
+                        </div>
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-lg mb-2 text-orange-400">Secret Backstory</h3>
+                            <p class="text-sm mb-4">You think you know best. You always tell people what they did wrong in the past and suggest better ideas.</p>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
+                                <li>Give advice about past events.</li>
+                                <li>Use "You should have..." or "It was a bad idea to...".</li>
+                                <li>Ask for advice too.</li>
+                            </ul>
+                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                                Flip Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: The Reporter -->
+                <div class="perspective-1000 h-96">
+                    <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-md rounded-xl">
+                        <div class="absolute w-full h-full backface-hidden bg-white border-2 border-slate-200 rounded-xl p-6 flex flex-col items-center text-center">
+                            <div class="w-16 h-16 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mb-4">
+                                <i data-lucide="radio" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2">The Reporter</h3>
+                            <p class="text-sm text-slate-500 flex-grow">You love sharing what others said.</p>
+                            <button onclick="flipCard(this)" class="mt-4 bg-slate-800 text-white w-full py-2 rounded-lg font-semibold hover:bg-slate-700 transition cursor-pointer">
+                                Tap to Flip
+                            </button>
+                        </div>
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-slate-800 text-white rounded-xl p-6 flex flex-col">
+                            <h3 class="font-bold text-lg mb-2 text-pink-400">Secret Backstory</h3>
+                            <p class="text-sm mb-4">You spoke to other old classmates before the reunion. You want to repeat their statements to the group.</p>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Target Language:</h4>
+                            <ul class="text-sm space-y-2 flex-grow list-disc pl-4">
+                                <li>Discuss statements other people made.</li>
+                                <li>Use reported speech ("He said that...").</li>
+                                <li>Mention opinions from old teachers.</li>
+                            </ul>
+                            <button onclick="flipCard(this)" class="mt-4 border border-slate-600 text-white w-full py-2 rounded-lg text-sm hover:bg-slate-700 transition cursor-pointer">
+                                Flip Back
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toolkit & Scratchpad -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Scaffolding Toolkit -->
+            <section class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-indigo-500">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i data-lucide="wrench" class="w-6 h-6"></i> Phrase Toolkit
+                </h2>
+                <p class="text-sm text-slate-500 mb-4">Click any phrase to copy it to your clipboard.</p>
+                <div class="space-y-3">
+                    <button onclick="copyText('When I was young, I was...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
+                        <span class="font-medium">"When I was young, I was..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    </button>
+                    <button onclick="copyText('I used to play sports, but now I...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
+                        <span class="font-medium">"I used to play sports, but now I..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    </button>
+                    <button onclick="copyText('If I could change the past, I would...')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
+                        <span class="font-medium">"If I could change the past, I would..."</span>
+                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    </button>
+                    <button onclick="copyText('I think you should have studied more.')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
+                        <span class="font-medium">"I think you should have studied more."</span>
+                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    </button>
+                    <button onclick="copyText('Mary said that she liked the new city.')" class="w-full text-left bg-indigo-50 hover:bg-indigo-100 text-indigo-900 p-3 rounded-lg flex justify-between items-center transition cursor-pointer">
+                        <span class="font-medium">"Mary said that she liked the new city."</span>
+                        <i data-lucide="copy" class="w-4 h-4 text-indigo-500"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Scratchpad -->
+            <section class="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-yellow-400 flex flex-col">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i data-lucide="edit-3" class="w-6 h-6"></i> Group Scratchpad
+                </h2>
+                <p class="text-sm text-slate-500 mb-4">Use this space to write the final Reunion Report.</p>
+                <textarea class="w-full flex-grow bg-yellow-50 border border-yellow-200 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none min-h-[250px]" placeholder="1. The biggest change: ...&#10;2. Advice for the past: ...&#10;3. Classmate rumor: ..."></textarea>
+            </section>
         </div>
     </div>
 
-    <!-- Modal: Objetivos -->
-    <div id="modal-objetivos" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 z-50 flex items-center justify-center p-4" onclick="closeModalOnBackdrop(event, 'modal-objetivos')">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col">
-            <div class="bg-slate-800 p-4 text-white flex justify-between items-center">
-                <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="check-circle" class="w-5 h-5"></i> Objetivos del Syllabus</h3>
-                <button onclick="document.getElementById('modal-objetivos').classList.add('hidden')" class="hover:bg-slate-700 p-2 rounded cursor-pointer">
+    <!-- Objectives Dossier Modal -->
+    <div id="syllabusModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm cursor-pointer" onclick="closeModal()"></div>
+        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl relative z-10 overflow-hidden">
+            <div class="bg-slate-800 text-white p-4 flex justify-between items-center">
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    Extracted Syllabus Objectives
+                </h2>
+                <button onclick="closeModal()" class="p-2 hover:bg-slate-700 rounded-full transition cursor-pointer">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <div class="p-6">
-                <ul class="space-y-3 text-slate-700">
-                    <li class="flex items-start gap-2">
-                        <i data-lucide="chevron-right" class="w-5 h-5 text-indigo-500 mt-0.5"></i>
-                        <span><strong>Clase 1:</strong> Recall past experiences in my early life (Simple Past / Verb "to be")</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i data-lucide="chevron-right" class="w-5 h-5 text-indigo-500 mt-0.5"></i>
-                        <span><strong>Clase 2:</strong> Compare past and current habits (Used To)</span>
-                    </li>
-                    <li class="flex items-start gap-2">
-                        <i data-lucide="chevron-right" class="w-5 h-5 text-indigo-500 mt-0.5"></i>
-                        <span><strong>Clase 72:</strong> Discuss imaginary events; Ask for, and give advice and suggestions about past events; Discuss statements other people made.</span>
-                    </li>
-                </ul>
+            <div class="p-6 space-y-4">
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">CEFR Level A2 - Class 1</span>
+                    <p class="font-medium mt-1">"Recall past experiences in my early life"</p>
+                </div>
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">CEFR Level A2 - Class 2</span>
+                    <p class="font-medium mt-1">"Compare past and current habits"</p>
+                </div>
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg">
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">CEFR Level A2 - Class 72</span>
+                    <p class="font-medium mt-1">"1. Discuss imaginary events 2. Ask for, and give advice and suggestions about past events 3. Discuss statements other people made"</p>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Inicializar Iconos Lucide
+        // Initialize Lucide Icons
         lucide.createIcons();
 
-        // Lógica de tarjetas 3D Flip
-        function toggleFlip(element) {
-            element.classList.toggle('flipped');
-        }
-
-        // Lógica para cerrar modales al hacer clic en el fondo
-        function closeModalOnBackdrop(event, modalId) {
-            if (event.target.id === modalId) {
-                document.getElementById(modalId).classList.add('hidden');
+        // 3D Flip Card Logic
+        function flipCard(btn) {
+            const inner = btn.closest('.flip-card-inner');
+            if (inner.style.transform === 'rotateY(180deg)') {
+                inner.style.transform = 'rotateY(0deg)';
+            } else {
+                inner.style.transform = 'rotateY(180deg)';
             }
         }
 
-        // Función para copiar al portapapeles
-        function copyToClipboard(text) {
+        // Modal Logic
+        function openModal() {
+            document.getElementById('syllabusModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('syllabusModal').classList.add('hidden');
+        }
+
+        // Click-to-copy Logic
+        function copyText(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('Frase copiada: ' + text);
-            }).catch(err => {
-                console.error('Error al copiar: ', err);
+                const originalBtn = event.currentTarget;
+                const icon = originalBtn.querySelector('i');
+                const span = originalBtn.querySelector('span');
+                const originalHTML = originalBtn.innerHTML;
+                
+                span.textContent = "Copied!";
+                span.classList.add("text-green-600");
+                
+                setTimeout(() => {
+                    originalBtn.innerHTML = originalHTML;
+                    lucide.createIcons();
+                }, 1500);
             });
         }
     </script>
