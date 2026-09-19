@@ -1,216 +1,296 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C1 Speaking Task: Eco-Beat Festival</title>
+    <title>C1 Speaking Task: Eco-Harmony Festival</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
+        .preserve-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
-        .flip-card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
-        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
         .rotate-y-180 { transform: rotateY(180deg); }
+        .flip-inner { transition: transform 0.6s; }
+        .flipped .flip-inner { transform: rotateY(180deg); }
+        
+        /* Custom scrollbar for scratchpad */
+        textarea::-webkit-scrollbar { width: 8px; }
+        textarea::-webkit-scrollbar-track { background: #f1f1f1; }
+        textarea::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        textarea::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen p-4 md:p-8 flex flex-col gap-6">
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- Header & Timer Section -->
-    <header class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div>
-            <h1 class="text-2xl font-bold text-emerald-700 flex items-center gap-2">
-                <i data-lucide="leaf" class="w-6 h-6"></i> Eco-Beat Festival Board Meeting
-            </h1>
-            <p class="text-slate-500 mt-1">C1 Speaking Task | Objetivos: Clases 34, 43, 50 y 53</p>
-        </div>
-        
-        <div class="flex items-center gap-4">
-            <button onclick="toggleObjectives()" class="text-sm font-medium text-emerald-600 bg-emerald-50 px-4 py-2 rounded-lg hover:bg-emerald-100 transition">
-                Ver Objetivos
-            </button>
-            <div class="text-center bg-slate-900 text-white px-6 py-3 rounded-xl shadow-inner">
-                <div id="timerDisplay" class="text-3xl font-mono font-bold tracking-wider">15:00</div>
-                <button id="timerBtn" onclick="toggleTimer()" class="text-xs uppercase tracking-wider text-slate-300 hover:text-white mt-1">Iniciar</button>
+    <!-- Header & Controls -->
+    <header class="bg-emerald-800 text-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <i data-lucide="leaf" class="w-6 h-6 text-emerald-300"></i>
+                <h1 class="text-xl font-bold tracking-wide">Eco-Harmony Festival Committee</h1>
+            </div>
+            
+            <div class="flex items-center gap-4 bg-emerald-900 px-4 py-2 rounded-lg border border-emerald-700">
+                <i data-lucide="clock" class="w-5 h-5 text-emerald-400"></i>
+                <span id="timer-display" class="text-2xl font-mono font-bold w-16 text-center">15:00</span>
+                <button id="timer-btn" onclick="toggleTimer()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded text-sm transition-colors">Start</button>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="openModal('objectives-modal')" class="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded transition-colors text-sm">
+                    <i data-lucide="target" class="w-5 h-5"></i> Objectives
+                </button>
+                <button onclick="openModal('scaffolding-modal')" class="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded transition-colors text-sm">
+                    <i data-lucide="message-square-plus" class="w-5 h-5"></i> Phrases
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Phase Timeline -->
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-        <div class="flex flex-col sm:flex-row justify-between text-sm font-medium text-slate-500 gap-2">
-            <div id="phase1" class="flex-1 text-center py-2 bg-emerald-50 text-emerald-700 rounded transition-colors duration-300">1. Preparación (3m)</div>
-            <div id="phase2" class="flex-1 text-center py-2 rounded transition-colors duration-300">2. Presentaciones (5m)</div>
-            <div id="phase3" class="flex-1 text-center py-2 rounded transition-colors duration-300">3. Debate (5m)</div>
-            <div id="phase4" class="flex-1 text-center py-2 rounded transition-colors duration-300">4. Consenso (2m)</div>
-        </div>
-    </div>
-
-    <!-- 3D Role Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 perspective-1000">
+    <main class="container mx-auto px-4 py-6 flex-grow flex flex-col gap-8">
         
-        <!-- Card 1: Music Director -->
-        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
-                <!-- Front -->
-                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
-                    <div class="bg-blue-100 p-4 rounded-full mb-4"><i data-lucide="music" class="w-8 h-8 text-blue-600"></i></div>
-                    <h2 class="text-xl font-bold text-slate-800">Director Musical</h2>
-                    <p class="text-slate-500 mt-2 text-sm">Tu enfoque es la calidad musical y la contratación de talento orgánico.</p>
-                    <p class="text-xs font-semibold text-blue-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
-                </div>
-                <!-- Back -->
-                <div class="absolute w-full h-full bg-blue-50 backface-hidden rotate-y-180 border-2 border-blue-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="font-bold text-blue-800 border-b border-blue-200 pb-2 mb-2">Motivo Secreto</h3>
-                        <p class="text-sm text-blue-900 mb-3">Quieres gastar el 70% del presupuesto en bandas con grandes <em>historias de éxito</em>, ignorando los costos de mercancía o problemas logísticos.</p>
-                        <h3 class="font-bold text-blue-800 border-b border-blue-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
-                        <ul class="text-xs text-blue-900 space-y-1 list-disc pl-4">
-                            <li>"Their success story is built on..."</li>
-                            <li>"As a general truth in the industry..."</li>
-                            <li>"They have a habit of..."</li>
+        <!-- STANDALONE MAIN TASK CARD -->
+        <section class="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
+            <div class="bg-slate-800 text-white px-6 py-4 flex items-center gap-3">
+                <i data-lucide="clipboard-list" class="w-6 h-6 text-blue-400"></i>
+                <h2 class="text-2xl font-bold">Main Task & Scenario Overview</h2>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-lg text-slate-700 mb-2 border-b pb-2">The Scenario</h3>
+                    <p class="text-slate-600 leading-relaxed mb-4">
+                        Your team is finalizing the plans for the largest outdoor environmental event of the year: The Eco-Harmony Festival. You must successfully combine a headline musical performance, a bustling bargain-shopping eco-market, and an interactive wildlife sanctuary—all while ensuring attendees feel a deep, genuine connection to nature. Your conflicting departmental interests threaten to derail the event.
+                    </p>
+                    <h3 class="font-bold text-lg text-slate-700 mb-2 border-b pb-2">Concrete Deliverable</h3>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                        <p class="font-semibold text-blue-900">You must reach a 100% consensus on a 3-point action plan recorded in the Group Scratchpad before 0:00:</p>
+                        <ul class="list-decimal ml-5 mt-2 text-sm text-blue-800 space-y-1">
+                            <li>The exact musical act to book and how to handle their habits.</li>
+                            <li>The organizational strategy for the bargain market to ensure vendor profits.</li>
+                            <li>The specific animal categories to feature in the wildlife sanctuary.</li>
                         </ul>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Card 2: Procurement Manager -->
-        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
-                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
-                    <div class="bg-purple-100 p-4 rounded-full mb-4"><i data-lucide="shopping-bag" class="w-8 h-8 text-purple-600"></i></div>
-                    <h2 class="text-xl font-bold text-slate-800">Gerente de Compras</h2>
-                    <p class="text-slate-500 mt-2 text-sm">Tu prioridad es mantener el festival dentro del presupuesto mediante compras inteligentes.</p>
-                    <p class="text-xs font-semibold text-purple-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-700 mb-2 border-b pb-2">15-Minute Timeline</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1 rounded mt-0.5">15:00</span>
+                            <p class="text-sm text-slate-600"><strong class="text-slate-800">Phase 1: Initial Pitches.</strong> Each role presents their non-negotiable demands.</p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1 rounded mt-0.5">10:00</span>
+                            <p class="text-sm text-slate-600"><strong class="text-slate-800">Phase 2: Deep Negotiation.</strong> Argue and compromise over space, budget, and festival vibes.</p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="bg-slate-200 text-slate-700 text-xs font-bold px-2 py-1 rounded mt-0.5">05:00</span>
+                            <p class="text-sm text-slate-600"><strong class="text-slate-800">Phase 3: Final Drafting.</strong> Type your agreed 3-point plan into the scratchpad below.</p>
+                        </li>
+                    </ul>
                 </div>
-                <div class="absolute w-full h-full bg-purple-50 backface-hidden rotate-y-180 border-2 border-purple-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="font-bold text-purple-800 border-b border-purple-200 pb-2 mb-2">Motivo Secreto</h3>
-                        <p class="text-sm text-purple-900 mb-3">Debes convencer a todos de comprar mercancía barata y reducir el gasto musical para equilibrar el evento.</p>
-                        <h3 class="font-bold text-purple-800 border-b border-purple-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
-                        <ul class="text-xs text-purple-900 space-y-1 list-disc pl-4">
-                            <li>"I bought the festival a cheaper option..." (Indirect Obj)</li>
-                            <li>"Bargain hunting is crucial because..."</li>
-                            <li>"Our shopping experience dictates that..."</li>
-                        </ul>
+            </div>
+        </section>
+
+        <!-- 3D FLIP ROLE CARDS GRID -->
+        <section>
+            <div class="flex items-center gap-2 mb-4 px-2">
+                <i data-lucide="users" class="w-6 h-6 text-slate-600"></i>
+                <h2 class="text-xl font-bold text-slate-800">Committee Roles (Tap/Click to reveal secrets)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Role 1 -->
+                <div class="perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-inner w-full h-full preserve-3d relative">
+                        <!-- Front -->
+                        <div class="backface-hidden absolute w-full h-full bg-white border border-slate-200 rounded-xl shadow-md p-6 flex flex-col items-center justify-center text-center">
+                            <div class="bg-purple-100 p-4 rounded-full mb-4">
+                                <i data-lucide="mic-2" class="w-8 h-8 text-purple-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">The Booking Agent</h3>
+                            <p class="text-sm text-slate-500 mb-6">In charge of securing a music success story to headline the festival.</p>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-2 rounded-full flex items-center gap-2">
+                                <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-purple-900 text-white rounded-xl shadow-lg p-5 flex flex-col text-sm border-2 border-purple-400 overflow-y-auto">
+                            <h3 class="text-lg font-bold border-b border-purple-500 pb-2 mb-2 text-purple-200">Secret Backstory</h3>
+                            <p class="mb-3">You owe a massive favor to an eccentric rock band. You must convince the committee to book them over a peaceful acoustic artist.</p>
+                            <h3 class="font-bold text-purple-200">Conflicting Motive</h3>
+                            <p class="mb-3">The rock band is completely anti-nature. They demand high energy and loud volume.</p>
+                            <h3 class="font-bold text-purple-200">Target Language Checklist</h3>
+                            <ul class="list-disc pl-4 space-y-1 text-purple-100">
+                                <li>Use <strong>will</strong> for habits: "The lead singer <em>will</em> always demand plastic water bottles..."</li>
+                                <li>Use <strong>would</strong> for past truths: "In the past, they <em>would</em> refuse to play outdoors."</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 2 -->
+                <div class="perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-inner w-full h-full preserve-3d relative">
+                        <!-- Front -->
+                        <div class="backface-hidden absolute w-full h-full bg-white border border-slate-200 rounded-xl shadow-md p-6 flex flex-col items-center justify-center text-center">
+                            <div class="bg-blue-100 p-4 rounded-full mb-4">
+                                <i data-lucide="shopping-bag" class="w-8 h-8 text-blue-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">Market Director</h3>
+                            <p class="text-sm text-slate-500 mb-6">Manages the vendors, stalls, and overall shopping experience.</p>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-2 rounded-full flex items-center gap-2">
+                                <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-blue-900 text-white rounded-xl shadow-lg p-5 flex flex-col text-sm border-2 border-blue-400 overflow-y-auto">
+                            <h3 class="text-lg font-bold border-b border-blue-500 pb-2 mb-2 text-blue-200">Secret Backstory</h3>
+                            <p class="mb-3">You promised major corporate sponsors the best spots for aggressive bargain shopping. You care about profit, not trees.</p>
+                            <h3 class="font-bold text-blue-200">Conflicting Motive</h3>
+                            <p class="mb-3">You need the animals and the music moved to the edges so the shopping stalls are center-stage.</p>
+                            <h3 class="font-bold text-blue-200">Target Language Checklist</h3>
+                            <ul class="list-disc pl-4 space-y-1 text-blue-100">
+                                <li>Use Direct/Indirect Objects (Pattern 1): "We must give <em>the sponsors</em> <strong>a discount</strong>."</li>
+                                <li>Use Direct/Indirect Objects (Pattern 2): "I sent <strong>the contract</strong> to <em>the vendors</em>."</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 3 -->
+                <div class="perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-inner w-full h-full preserve-3d relative">
+                        <!-- Front -->
+                        <div class="backface-hidden absolute w-full h-full bg-white border border-slate-200 rounded-xl shadow-md p-6 flex flex-col items-center justify-center text-center">
+                            <div class="bg-orange-100 p-4 rounded-full mb-4">
+                                <i data-lucide="bird" class="w-8 h-8 text-orange-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">Wildlife Coordinator</h3>
+                            <p class="text-sm text-slate-500 mb-6">Designs the animal sanctuary exhibit and educational displays.</p>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-2 rounded-full flex items-center gap-2">
+                                <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-orange-900 text-white rounded-xl shadow-lg p-5 flex flex-col text-sm border-2 border-orange-400 overflow-y-auto">
+                            <h3 class="text-lg font-bold border-b border-orange-500 pb-2 mb-2 text-orange-200">Secret Backstory</h3>
+                            <p class="mb-3">You are obsessed with endangered reptiles and amphibians. You refuse to feature popular mammals (like monkeys or tigers).</p>
+                            <h3 class="font-bold text-orange-200">Conflicting Motive</h3>
+                            <p class="mb-3">The market noise will stress the amphibians. You want the market downsized to protect their habitat.</p>
+                            <h3 class="font-bold text-orange-200">Target Language Checklist</h3>
+                            <ul class="list-disc pl-4 space-y-1 text-orange-100">
+                                <li>Use classification language: "This species falls under the category of..."</li>
+                                <li>Describe features: "Amphibians are characterized by their porous skin, whereas mammals..."</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role 4 -->
+                <div class="perspective-1000 h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-inner w-full h-full preserve-3d relative">
+                        <!-- Front -->
+                        <div class="backface-hidden absolute w-full h-full bg-white border border-slate-200 rounded-xl shadow-md p-6 flex flex-col items-center justify-center text-center">
+                            <div class="bg-emerald-100 p-4 rounded-full mb-4">
+                                <i data-lucide="flower-2" class="w-8 h-8 text-emerald-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">Environmental Liaison</h3>
+                            <p class="text-sm text-slate-500 mb-6">Guarantees the entire festival remains deeply connected to nature.</p>
+                            <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-2 rounded-full flex items-center gap-2">
+                                <i data-lucide="rotate-cw" class="w-4 h-4"></i> Tap to Flip
+                            </span>
+                        </div>
+                        <!-- Back -->
+                        <div class="backface-hidden rotate-y-180 absolute w-full h-full bg-emerald-900 text-white rounded-xl shadow-lg p-5 flex flex-col text-sm border-2 border-emerald-400 overflow-y-auto">
+                            <h3 class="text-lg font-bold border-b border-emerald-500 pb-2 mb-2 text-emerald-200">Secret Backstory</h3>
+                            <p class="mb-3">You despise commercialism, loud rock music, and captive animals. You want a silent, trade-only rustic retreat.</p>
+                            <h3 class="font-bold text-emerald-200">Conflicting Motive</h3>
+                            <p class="mb-3">You have the legal power to shut down any vendor or band that isn't 100% "off-the-grid".</p>
+                            <h3 class="font-bold text-emerald-200">Target Language Checklist</h3>
+                            <ul class="list-disc pl-4 space-y-1 text-emerald-100">
+                                <li>Use connection expressions: "We need to be at one with nature..."</li>
+                                <li>"This market severs our ties to the natural world." / "We must immerse ourselves in the wilderness."</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Card 3: Wildlife Liaison -->
-        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
-                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
-                    <div class="bg-orange-100 p-4 rounded-full mb-4"><i data-lucide="bird" class="w-8 h-8 text-orange-600"></i></div>
-                    <h2 class="text-xl font-bold text-slate-800">Enlace de Fauna</h2>
-                    <p class="text-slate-500 mt-2 text-sm">Proteges la fauna local y te aseguras de que el festival no altere sus ecosistemas.</p>
-                    <p class="text-xs font-semibold text-orange-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
-                </div>
-                <div class="absolute w-full h-full bg-orange-50 backface-hidden rotate-y-180 border-2 border-orange-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="font-bold text-orange-800 border-b border-orange-200 pb-2 mb-2">Motivo Secreto</h3>
-                        <p class="text-sm text-orange-900 mb-3">Exiges que una parte del presupuesto vaya a una caridad animal y prohíbes ciertas áreas ruidosas del bosque.</p>
-                        <h3 class="font-bold text-orange-800 border-b border-orange-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
-                        <ul class="text-xs text-orange-900 space-y-1 list-disc pl-4">
-                            <li>"This specific category of mammals..."</li>
-                            <li>"A prominent feature of this bird is..."</li>
-                            <li>"We must classify these habitats as..."</li>
-                        </ul>
-                    </div>
-                </div>
+        <!-- GROUP SCRATCHPAD -->
+        <section class="bg-white rounded-xl shadow p-6 border border-slate-200">
+            <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="edit-3" class="w-6 h-6 text-slate-600"></i>
+                <h2 class="text-xl font-bold text-slate-800">Group Scratchpad: Final Consensus</h2>
             </div>
-        </div>
+            <textarea class="w-full h-40 p-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none resize-none" placeholder="Type your 3-point action plan here before the timer ends.&#10;1. Music Act: ...&#10;2. Market Strategy: ...&#10;3. Animal Exhibit: ..."></textarea>
+        </section>
+    </main>
 
-        <!-- Card 4: Venue Director -->
-        <div class="flip-card h-96 cursor-pointer" onclick="this.classList.toggle('flipped')">
-            <div class="flip-card-inner relative w-full h-full shadow-md rounded-xl">
-                <div class="absolute w-full h-full bg-white backface-hidden border-2 border-slate-200 rounded-xl flex flex-col items-center justify-center p-6 text-center">
-                    <div class="bg-teal-100 p-4 rounded-full mb-4"><i data-lucide="tent" class="w-8 h-8 text-teal-600"></i></div>
-                    <h2 class="text-xl font-bold text-slate-800">Director del Recinto</h2>
-                    <p class="text-slate-500 mt-2 text-sm">Diseñas la experiencia inmersiva del festival para los asistentes.</p>
-                    <p class="text-xs font-semibold text-teal-600 mt-6 uppercase tracking-wide">Clic para ver tu rol secreto</p>
-                </div>
-                <div class="absolute w-full h-full bg-teal-50 backface-hidden rotate-y-180 border-2 border-teal-300 rounded-xl p-5 flex flex-col justify-between overflow-y-auto">
-                    <div>
-                        <h3 class="font-bold text-teal-800 border-b border-teal-200 pb-2 mb-2">Motivo Secreto</h3>
-                        <p class="text-sm text-teal-900 mb-3">Quieres abrir senderos por todo el bosque para máxima conexión natural, lo cual choca con el Enlace de Fauna.</p>
-                        <h3 class="font-bold text-teal-800 border-b border-teal-200 pb-2 mb-2">Checklist de Lenguaje (C1)</h3>
-                        <ul class="text-xs text-teal-900 space-y-1 list-disc pl-4">
-                            <li>"Being in touch with nature allows us to..."</li>
-                            <li>"The immersion provides attendees with..."</li>
-                            <li>"We need to foster a deeper connection..."</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Section: Toolkit & Scratchpad -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Scaffolding Toolkit -->
-        <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-            <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-4">
-                <i data-lucide="message-square" class="w-5 h-5 text-emerald-600"></i> C1 Discourse Toolkit
-            </h3>
-            <div class="space-y-2">
-                <button onclick="copyText(this)" class="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-emerald-300 transition group relative text-sm text-slate-700">
-                    "Notwithstanding your valid point, we must consider..."
-                    <i data-lucide="copy" class="w-4 h-4 absolute right-3 top-3 text-slate-400 group-hover:text-emerald-500"></i>
-                </button>
-                <button onclick="copyText(this)" class="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-emerald-300 transition group relative text-sm text-slate-700">
-                    "Granted, bargain shopping is key, yet..."
-                    <i data-lucide="copy" class="w-4 h-4 absolute right-3 top-3 text-slate-400 group-hover:text-emerald-500"></i>
-                </button>
-                <button onclick="copyText(this)" class="w-full text-left p-3 rounded-lg border border-slate-200 hover:bg-slate-50 hover:border-emerald-300 transition group relative text-sm text-slate-700">
-                    "If we are to align our success story with nature..."
-                    <i data-lucide="copy" class="w-4 h-4 absolute right-3 top-3 text-slate-400 group-hover:text-emerald-500"></i>
-                </button>
-            </div>
-            <div id="copyToast" class="hidden mt-3 text-xs text-emerald-600 font-semibold text-center">¡Copiado al portapapeles!</div>
-        </div>
-
-        <!-- Group Scratchpad -->
-        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex flex-col">
-            <h3 class="font-bold text-slate-800 flex items-center gap-2 mb-2">
-                <i data-lucide="pen-tool" class="w-5 h-5 text-emerald-600"></i> Bloc de Notas de Consenso del Grupo
-            </h3>
-            <p class="text-xs text-slate-500 mb-4">Anoten su decisión unánime sobre: Banda Principal, Presupuesto de Compras, Animal a Proteger, y Actividad Natural.</p>
-            <textarea class="flex-1 w-full p-4 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none resize-none" placeholder="Redacten el acuerdo final aquí antes de que el tiempo termine..."></textarea>
-        </div>
-    </div>
-
-    <!-- Objectives Modal -->
-    <div id="objectivesModal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="closeModalOnBackdrop(event)">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col" onclick="event.stopPropagation()">
-            <div class="bg-emerald-700 p-4 flex justify-between items-center text-white">
-                <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> Objetivos del Syllabus (C1)</h2>
-                <button onclick="toggleObjectives()" class="p-2 hover:bg-emerald-600 rounded-full cursor-pointer transition">
+    <!-- OBJECTIVES DOSSIER MODAL -->
+    <div id="objectives-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'objectives-modal')">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="bg-slate-800 px-6 py-4 flex justify-between items-center text-white">
+                <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="target" class="w-5 h-5"></i> C1 Syllabus Objectives</h2>
+                <button onclick="closeModal('objectives-modal')" class="p-2 cursor-pointer hover:bg-slate-700 rounded-full transition-colors">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <div class="p-6 space-y-4 text-sm text-slate-700">
-                <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                    <span class="font-bold text-slate-900 block mb-1">CLASE 34</span>
-                    Share your ideas about music success stories, as well as habits and general truths in context.
+            <div class="p-6 overflow-y-auto space-y-4 text-sm text-slate-700">
+                <div class="p-3 bg-slate-50 border rounded">
+                    <span class="font-bold text-purple-700">Class 34:</span> Share your ideas about music success stories, as well as habits and general truths in context. (Will/would for habits).
                 </div>
-                <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                    <span class="font-bold text-slate-900 block mb-1">CLASE 43</span>
-                    Talk about bargain shopping and examine differences in shopping experiences taking into account the placement of direct and indirect objects.
+                <div class="p-3 bg-slate-50 border rounded">
+                    <span class="font-bold text-blue-700">Class 43:</span> Talk about bargain shopping and examine differences taking into account the placement of direct and indirect objects.
                 </div>
-                <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                    <span class="font-bold text-slate-900 block mb-1">CLASE 50</span>
-                    Talk about categories and features of animals.
+                <div class="p-3 bg-slate-50 border rounded">
+                    <span class="font-bold text-orange-700">Class 50:</span> Talk about categories and features of animals & write a classification essay.
                 </div>
-                <div class="bg-slate-50 p-3 rounded border border-slate-200">
-                    <span class="font-bold text-slate-900 block mb-1">CLASE 53</span>
-                    Discuss ways of being in touch with nature.
+                <div class="p-3 bg-slate-50 border rounded">
+                    <span class="font-bold text-emerald-700">Class 53:</span> Discuss ways of being in touch with nature.
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- SCAFFOLDING TOOLKIT MODAL -->
+    <div id="scaffolding-modal" class="fixed inset-0 bg-slate-900/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModalOnBackdrop(event, 'scaffolding-modal')">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="bg-slate-800 px-6 py-4 flex justify-between items-center text-white">
+                <h2 class="font-bold text-lg flex items-center gap-2"><i data-lucide="message-square-plus" class="w-5 h-5"></i> C1 Phrase Toolkit (Click to Copy)</h2>
+                <button onclick="closeModal('scaffolding-modal')" class="p-2 cursor-pointer hover:bg-slate-700 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div class="border rounded-lg p-4">
+                    <h4 class="font-bold text-purple-800 mb-2 border-b pb-1 text-sm">Habits (Will/Would)</h4>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded mb-2 border border-transparent hover:border-slate-300">"They will constantly demand..."</button>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded border border-transparent hover:border-slate-300">"In the past, he would always..."</button>
+                </div>
+                
+                <div class="border rounded-lg p-4">
+                    <h4 class="font-bold text-blue-800 mb-2 border-b pb-1 text-sm">Direct/Indirect Objects</h4>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded mb-2 border border-transparent hover:border-slate-300">"We need to offer the buyers a better price."</button>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded border border-transparent hover:border-slate-300">"I will send the proposal to the management."</button>
+                </div>
+
+                <div class="border rounded-lg p-4">
+                    <h4 class="font-bold text-orange-800 mb-2 border-b pb-1 text-sm">Animal Classification</h4>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded mb-2 border border-transparent hover:border-slate-300">"This subgroup is characterized by..."</button>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded border border-transparent hover:border-slate-300">"We must categorize them based on their habitat."</button>
+                </div>
+
+                <div class="border rounded-lg p-4">
+                    <h4 class="font-bold text-emerald-800 mb-2 border-b pb-1 text-sm">Nature Connection</h4>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded mb-2 border border-transparent hover:border-slate-300">"It fosters a profound bond with the environment."</button>
+                    <button onclick="copyPhrase(this)" class="w-full text-left p-2 text-xs bg-slate-50 hover:bg-slate-100 rounded border border-transparent hover:border-slate-300">"This activity immerses visitors in the wilderness."</button>
+                </div>
+
+            </div>
+            <div id="copy-toast" class="bg-green-100 text-green-800 text-center py-2 text-sm font-bold opacity-0 transition-opacity">Phrase copied to clipboard!</div>
         </div>
     </div>
 
@@ -219,96 +299,89 @@
         lucide.createIcons();
 
         // Modal Logic
-        const modal = document.getElementById('objectivesModal');
-        function toggleObjectives() {
-            modal.classList.toggle('hidden');
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
         }
-        function closeModalOnBackdrop(e) {
-            if (e.target === modal) toggleObjectives();
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+        function closeModalOnBackdrop(e, id) {
+            if (e.target.id === id) closeModal(id);
         }
 
-        // Copy to Clipboard
-        function copyText(btn) {
-            const textToCopy = btn.innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const toast = document.getElementById('copyToast');
-                toast.classList.remove('hidden');
-                setTimeout(() => toast.classList.add('hidden'), 2000);
+        // Copy to Clipboard Logic
+        function copyPhrase(btnElement) {
+            const text = btnElement.innerText.replace(/"/g, '');
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('copy-toast');
+                toast.classList.remove('opacity-0');
+                setTimeout(() => toast.classList.add('opacity-0'), 2000);
             });
         }
 
-        // Master 15-Minute Timer
-        let time = 15 * 60; // 15 minutes
-        let timerInterval = null;
-        let isRunning = false;
+        // Timer & Web Audio API Logic
+        let timerInterval;
+        let timeRemaining = 15 * 60;
+        let timerRunning = false;
         
+        // Web Audio API setup (must be resumed on user interaction)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playBeep(freq, type, duration) {
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
+
+        function playBeep(frequency, duration) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const oscillator = audioCtx.createOscillator();
             const gainNode = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-            osc.connect(gainNode);
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+            
+            oscillator.connect(gainNode);
             gainNode.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + duration);
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+            oscillator.stop(audioCtx.currentTime + duration);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer-display').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
         function toggleTimer() {
-            const btn = document.getElementById('timerBtn');
-            if (isRunning) {
+            const btn = document.getElementById('timer-btn');
+            if (timerRunning) {
                 clearInterval(timerInterval);
-                btn.innerText = 'Reanudar';
-                isRunning = false;
+                btn.innerText = 'Resume';
+                btn.classList.replace('bg-red-600', 'bg-emerald-600');
+                btn.classList.replace('hover:bg-red-500', 'hover:bg-emerald-500');
             } else {
-                timerInterval = setInterval(updateTimer, 1000);
-                btn.innerText = 'Pausar';
-                isRunning = true;
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                btn.innerText = 'Pause';
+                btn.classList.replace('bg-emerald-600', 'bg-red-600');
+                btn.classList.replace('hover:bg-emerald-500', 'hover:bg-red-500');
+                
+                timerInterval = setInterval(() => {
+                    if (timeRemaining > 0) {
+                        timeRemaining--;
+                        updateTimerDisplay();
+                        
+                        // Phase Beeps
+                        if (timeRemaining === 10 * 60) playBeep(440, 0.5); // Phase 2 start
+                        if (timeRemaining === 5 * 60) playBeep(660, 0.5);  // Phase 3 start
+                        if (timeRemaining === 0) {
+                            playBeep(880, 1.5); // Time UP
+                            clearInterval(timerInterval);
+                            btn.innerText = 'Done';
+                            btn.disabled = true;
+                            btn.classList.add('opacity-50', 'cursor-not-allowed');
+                        }
+                    }
+                }, 1000);
             }
-        }
-
-        function updateTimer() {
-            if (time <= 0) {
-                clearInterval(timerInterval);
-                playBeep(440, 'sine', 1);
-                document.getElementById('timerBtn').innerText = 'Finalizado';
-                return;
-            }
-            time--;
-            
-            let m = Math.floor(time / 60);
-            let s = time % 60;
-            document.getElementById('timerDisplay').innerText = 
-                `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-
-            // Phase UI Updates
-            updatePhases(time);
-        }
-
-        function updatePhases(t) {
-            const p1 = document.getElementById('phase1');
-            const p2 = document.getElementById('phase2');
-            const p3 = document.getElementById('phase3');
-            const p4 = document.getElementById('phase4');
-            
-            const resetClasses = "flex-1 text-center py-2 rounded transition-colors duration-300 bg-transparent text-slate-500";
-            const activeClasses = "flex-1 text-center py-2 rounded transition-colors duration-300 bg-emerald-50 text-emerald-700 font-bold";
-
-            if(t === 12*60 || t === 7*60 || t === 2*60) playBeep(600, 'square', 0.2); // Milestone beeps
-
-            if (t > 12 * 60) {
-                p1.className = activeClasses; p2.className = resetClasses; p3.className = resetClasses; p4.className = resetClasses;
-            } else if (t > 7 * 60) {
-                p1.className = resetClasses; p2.className = activeClasses; p3.className = resetClasses; p4.className = resetClasses;
-            } else if (t > 2 * 60) {
-                p1.className = resetClasses; p2.className = resetClasses; p3.className = activeClasses; p4.className = resetClasses;
-            } else {
-                p1.className = resetClasses; p2.className = resetClasses; p3.className = resetClasses; p4.className = activeClasses;
-                if(t <= 60) document.getElementById('timerDisplay').classList.add('text-red-400');
-            }
+            timerRunning = !timerRunning;
         }
     </script>
 </body>
